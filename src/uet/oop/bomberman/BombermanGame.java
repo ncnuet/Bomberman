@@ -17,10 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BombermanGame extends Application {
-    
+
     public static final int WIDTH = 20;
     public static final int HEIGHT = 15;
-    
+
     private GraphicsContext gc;
     private Canvas canvas;
     private List<Entity> entities = new ArrayList<>();
@@ -29,6 +29,7 @@ public class BombermanGame extends Application {
 
     /**
      * Entry point.
+     *
      * @param args input arguments
      */
     public static void main(String[] args) {
@@ -37,6 +38,7 @@ public class BombermanGame extends Application {
 
     /**
      * Start render.
+     *
      * @param stage stage
      */
     @Override
@@ -73,7 +75,6 @@ public class BombermanGame extends Application {
 
     /**
      * Create game's frame.
-     *
      */
     public void createMap() {
         for (int i = 0; i < WIDTH; i++) {
@@ -81,8 +82,7 @@ public class BombermanGame extends Application {
                 Entity object;
                 if (j == 0 || j == HEIGHT - 1 || i == 0 || i == WIDTH - 1) {
                     object = new Wall(i, j, Sprite.wall.getFxImage());
-                }
-                else {
+                } else {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                 }
                 stillObjects.add(object);
