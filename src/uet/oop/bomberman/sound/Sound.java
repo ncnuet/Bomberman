@@ -3,8 +3,10 @@ package uet.oop.bomberman.sound;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.untility.Convert;
 
 import java.util.Objects;
 
@@ -18,6 +20,7 @@ public class Sound extends Thread {
     private Clip clip;
     private AudioInputStream audioInputStream;
     private boolean isContinuous;
+    private int volume = 100;
 
     public boolean isContinuous() {
         return isContinuous;
@@ -25,6 +28,24 @@ public class Sound extends Thread {
 
     public void setContinuous(boolean continuous) {
         isContinuous = continuous;
+    }
+
+    public int getVolume() {
+        return this.volume;
+    }
+
+    public void setVolume(int volume) throws Exception {
+        if (volume >= 0 && volume <= 100) {
+            try {
+                FloatControl control =
+                        (FloatControl) this.clip.getControl(FloatControl.Type.MASTER_GAIN);
+                control.setValue(Convert.LinearToDecibel(volume));
+            } catch (Exception e) {
+                throw new Exception("Unable to set volume now");
+            }
+        } else {
+            throw new IllegalArgumentException("Volume not valid: " + volume);
+        }
     }
 
     /**
@@ -74,6 +95,11 @@ public class Sound extends Thread {
             if (this.isContinuous()) {
                 this.clip.loop(Clip.LOOP_CONTINUOUSLY);
             }
+
+            // Set volume
+            FloatControl control =
+                    (FloatControl) this.clip.getControl(FloatControl.Type.MASTER_GAIN);
+            this.volume = Convert.DecibelToLinear(control.getValue());
 
         } catch (Exception e) {
             e.printStackTrace();
