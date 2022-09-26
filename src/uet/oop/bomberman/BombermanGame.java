@@ -44,7 +44,7 @@ public class BombermanGame extends Application {
      */
     @Override
     public void start(Stage stage) {
-
+        Sound.bg_sound.start();
         // Create Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
