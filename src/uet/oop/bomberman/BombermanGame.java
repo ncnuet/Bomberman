@@ -27,24 +27,32 @@ public class BombermanGame extends Application {
     private List<Entity> stillObjects = new ArrayList<>();
 
 
+    /**
+     * Entry point.
+     * @param args input arguments
+     */
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
 
+    /**
+     * Start render.
+     * @param stage stage
+     */
     @Override
     public void start(Stage stage) {
-        // Tao Canvas
+        // Create Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
-        // Tao root container
+        // Create root container
         Group root = new Group();
         root.getChildren().add(canvas);
 
-        // Tao scene
+        // Create scene
         Scene scene = new Scene(root);
 
-        // Them scene vao stage
+        // Add scene into stage
         stage.setScene(scene);
         stage.show();
 
@@ -63,6 +71,10 @@ public class BombermanGame extends Application {
         entities.add(bomberman);
     }
 
+    /**
+     * Create game's frame.
+     *
+     */
     public void createMap() {
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
