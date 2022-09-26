@@ -7,7 +7,7 @@ import java.util.Arrays;
 /**
  * Lưu trữ thông tin các pixel của 1 sprite (hình ảnh game)
  */
-public class Sprite {
+public final class Sprite {
     // Constant class value
     public static final int DEFAULT_SIZE = 16;
     public static final int SCALED_SIZE = DEFAULT_SIZE * 2;
