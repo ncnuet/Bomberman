@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
@@ -13,11 +14,15 @@ import uet.oop.bomberman.entities.Grass;
 import uet.oop.bomberman.entities.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
+import uet.oop.bomberman.untility.PathFile;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BombermanGame extends Application {
+    private static final String Title = "Bomberman Game made by group 22";
+    private static final String IconPath = "/icons/icon.png";
 
     public static final int WIDTH = 20;
     public static final int HEIGHT = 15;
@@ -61,15 +66,38 @@ public class BombermanGame extends Application {
         stage.setScene(scene);
         stage.show();
 
+        // Set stage
+        stage.setTitle(BombermanGame.Title);
+        stage.setResizable(false);
+        stage.setMinWidth(canvas.getWidth());
+        stage.setMinHeight(canvas.getHeight());
+
+        InputStream stream = PathFile.getPath(BombermanGame.IconPath);
+        if (stream != null) {
+            stage.getIcons().add(new Image(stream));
+        }
+
+        // Set timer action
         AnimationTimer timer = new AnimationTimer() {
+            private static long lastTime = System.nanoTime();
+            private static long updateTimes = 0;
+
             @Override
-            public void handle(long l) {
+            public void handle(long now) {
+                if (now - lastTime > 500000000) { // Calc fps after half of second. 500,000,000 ns
+                    stage.setTitle(BombermanGame.Title + " | " + updateTimes * 2 + " fps");
+                    lastTime = System.nanoTime();
+                    updateTimes = 0;
+                }
+
                 render();
                 update();
+                updateTimes++;
             }
         };
         timer.start();
 
+        // Load map
         createMap();
 
         Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());

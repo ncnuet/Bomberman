@@ -5,10 +5,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 
-import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.untility.Convert;
-
-import java.util.Objects;
+import uet.oop.bomberman.untility.PathFile;
 
 public class Sound extends Thread {
     public static final String BG_SOUND = "bg_sound";
@@ -78,9 +76,7 @@ public class Sound extends Thread {
         try {
             String relativePath = "/sound/" + sound_name + ".wav";
             this.clip = AudioSystem.getClip();
-            this.audioInputStream = AudioSystem.getAudioInputStream(
-                    Objects.requireNonNull(BombermanGame.class.getResourceAsStream(relativePath)));
-
+            this.audioInputStream = AudioSystem.getAudioInputStream(PathFile.getPath(relativePath));
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getMessage());
