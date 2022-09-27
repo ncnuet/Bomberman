@@ -25,7 +25,10 @@ public class BombermanGame extends Application {
     private static final String IconPath = "/icons/icon.png";
 
     public static final int WIDTH = 20;
-    public static final int HEIGHT = 15;
+    public static final int HEIGHT = 20;
+
+    public static final int SCREEN_WIDTH = 31;
+    public static final int SCREEN_HEIGHT = 21;
 
     private GraphicsContext gc;
     private Canvas canvas;
@@ -69,8 +72,8 @@ public class BombermanGame extends Application {
         // Set stage
         stage.setTitle(BombermanGame.Title);
         stage.setResizable(false);
-        stage.setMinWidth(canvas.getWidth());
-        stage.setMinHeight(canvas.getHeight());
+        stage.setMaxWidth(Sprite.SCALED_SIZE * SCREEN_WIDTH);
+        stage.setMaxHeight(Sprite.SCALED_SIZE * SCREEN_HEIGHT);
 
         InputStream stream = PathFile.getPath(BombermanGame.IconPath);
         if (stream != null) {
