@@ -62,4 +62,6 @@ public abstract class Entity {
      * Update.
      */
     public abstract void update();
+
+    protected abstract boolean collide(Entity entity);
 }

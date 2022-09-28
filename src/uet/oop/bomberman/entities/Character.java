@@ -1,10 +1,7 @@
 package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.graphics.Sprite;
-
-import java.util.ArrayList;
-import java.util.List;
+import uet.oop.bomberman.untility.Distance;
 
 public abstract class Character extends Entity {
     public enum Direction {LEFT, RIGHT, UP, DOWN}
@@ -42,8 +39,16 @@ public abstract class Character extends Entity {
         return frameCount;
     }
 
-    Character(int x, int y, Image spriteImg) {
-        super(x, y, spriteImg);
+    /**
+     * Constructor.
+     * Create new Entity with position and it's image
+     *
+     * @param xUnit     position in predefined
+     * @param yUnit     position in predefined
+     * @param spriteImg image
+     */
+    Character(int xUnit, int yUnit, Image spriteImg) {
+        super(xUnit, yUnit, spriteImg);
         this.setDirection(Direction.RIGHT);
         this.frameCount = new FrameCount();
     }
@@ -53,6 +58,13 @@ public abstract class Character extends Entity {
      */
     @Override
     public void update() {
+    }
+
+    /**
+     * Collide.
+     */
+    @Override
+    public void collide() {
     }
 
     /**

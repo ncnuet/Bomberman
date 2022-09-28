@@ -1,4 +1,4 @@
-package uet.oop.bomberman;
+package uet.oop.bomberman.Keyboard;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;

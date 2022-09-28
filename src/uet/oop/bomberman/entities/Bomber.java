@@ -2,8 +2,9 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.Keyboard;
+import uet.oop.bomberman.Keyboard.Keyboard;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.untility.Distance;
 
 public final class Bomber extends Character {
     private static final Image player_img_up = Sprite.player_up.getFxImage();

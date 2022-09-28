@@ -1,7 +1,7 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.untility;
 
 
-public class Distance {
+public final class Distance {
     private int x;
     private int y;
 
