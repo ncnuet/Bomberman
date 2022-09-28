@@ -10,7 +10,7 @@ import java.util.Objects;
  * Tất cả sprite (hình ảnh game) được lưu trữ vào một ảnh duy nhất
  * Class này giúp lấy ra các sprite riêng từ 1 ảnh chung duy nhất đó
  */
-public class SpriteSheet {
+public final class SpriteSheet {
     // Constant class value
     public static final String PATH = "/textures/classic.png";
     public static final int SIZE = 256;
