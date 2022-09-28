@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class BombermanGame extends Application {
     private static final String Title = "Bomberman Game made by group 22";
     private static final String IconPath = "/icons/icon.png";
@@ -30,11 +31,18 @@ public class BombermanGame extends Application {
     public static final int SCREEN_WIDTH = 31;
     public static final int SCREEN_HEIGHT = 21;
 
+    public static int BomberSpeed = 1;
+
     private GraphicsContext gc;
     private Canvas canvas;
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
 
+    public void t() {
+
+    }
+
+    Keyboard keyboard;
 
     /**
      * Entry point.
@@ -52,6 +60,7 @@ public class BombermanGame extends Application {
      */
     @Override
     public void start(Stage stage) {
+        //Start background sound
         Sound.bg_sound.start();
 
         // Create Canvas
@@ -64,6 +73,9 @@ public class BombermanGame extends Application {
 
         // Create scene
         Scene scene = new Scene(root);
+
+        //Create keyboard
+        this.keyboard = new Keyboard(scene);
 
         // Add scene into stage
         stage.setScene(scene);
@@ -103,7 +115,7 @@ public class BombermanGame extends Application {
         // Load map
         createMap();
 
-        Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+        Entity bomberman = new Bomber(1, 1, keyboard);
         entities.add(bomberman);
     }
 
@@ -115,9 +127,9 @@ public class BombermanGame extends Application {
             for (int j = 0; j < HEIGHT; j++) {
                 Entity object;
                 if (j == 0 || j == HEIGHT - 1 || i == 0 || i == WIDTH - 1) {
-                    object = new Wall(i, j, Sprite.wall.getFxImage());
+                    object = new Wall(i, j);
                 } else {
-                    object = new Grass(i, j, Sprite.grass.getFxImage());
+                    object = new Grass(i, j);
                 }
                 stillObjects.add(object);
             }
@@ -129,6 +141,7 @@ public class BombermanGame extends Application {
      */
     public void update() {
         entities.forEach(Entity::update);
+        keyboard.update();
     }
 
     /**
