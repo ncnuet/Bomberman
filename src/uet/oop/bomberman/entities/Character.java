@@ -42,8 +42,8 @@ public abstract class Character extends Entity {
         return frameCount;
     }
 
-    Character(int x, int y, Sprite sprite) {
-        super(x, y, sprite.getFxImage());
+    Character(int x, int y, Image spriteImg) {
+        super(x, y, spriteImg);
         this.setDirection(Direction.RIGHT);
         this.frameCount = new FrameCount();
     }

@@ -23,7 +23,7 @@ public final class Bomber extends Character {
 
 
     public Bomber(int x, int y, Keyboard keyboard) {
-        super(x, y, Sprite.player_right);
+        super(x, y, Sprite.player_right.getFxImage());
         this.keyboard = keyboard;
     }
 
@@ -40,10 +40,10 @@ public final class Bomber extends Character {
         int y = (this.keyboard.up ? -1 : 0) + (this.keyboard.down ? 1 : 0);
 
         this.setMoving(x != 0 || y != 0);
-        if (x != 0 || y != 0) {
-            this.setDirection(x < 0 ? Direction.LEFT : Direction.RIGHT);
-            this.setDirection(y < 0 ? Direction.UP : Direction.DOWN);
-        }
+        if (x < 0) setDirection(Direction.LEFT);
+        if (x > 0) setDirection(Direction.RIGHT);
+        if (y < 0) setDirection(Direction.UP);
+        if (y > 0) setDirection(Direction.DOWN);
 
         return new Distance(
                 x * BombermanGame.BomberSpeed,
@@ -74,24 +74,24 @@ public final class Bomber extends Character {
     }
 
     /**
-     *
+     * Select which sprite will display.
      */
     @Override
     protected void selectSprite() {
         switch (this.getDirection()) {
-            case UP -> this.setSpriteImg(this.isMoving()
+            case UP -> this.setSpriteImg(!this.isMoving()
                     ? player_img_up
                     : Sprite.selectSprite(player_img_up_1, player_img_up_2,
                     this.getFrameCount().getFrame(), 20));
-            case DOWN -> this.setSpriteImg(this.isMoving()
+            case DOWN -> this.setSpriteImg(!this.isMoving()
                     ? player_img_down
                     : Sprite.selectSprite(player_img_down_1, player_img_down_2,
                     this.getFrameCount().getFrame(), 20));
-            case LEFT -> this.setSpriteImg(this.isMoving()
+            case LEFT -> this.setSpriteImg(!this.isMoving()
                     ? player_img_left
                     : Sprite.selectSprite(player_img_left_1, player_img_left_2,
                     this.getFrameCount().getFrame(), 20));
-            case RIGHT -> this.setSpriteImg(this.isMoving()
+            case RIGHT -> this.setSpriteImg(!this.isMoving()
                     ? player_img_right
                     : Sprite.selectSprite(player_img_right_1, player_img_right_2,
                     this.getFrameCount().getFrame(), 20));

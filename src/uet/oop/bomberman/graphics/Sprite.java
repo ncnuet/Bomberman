@@ -341,8 +341,8 @@ public final class Sprite {
     }
 
     public static <T> T selectSprite(T sprite1, T sprite2, int frameCount,
-                                     int frameForSprite) {
-        int half = frameForSprite / 2;
-        return ((frameCount++) % frameCount > half) ? sprite1 : sprite2;
+                                     int framesForSprite) {
+        int half = framesForSprite / 2;
+        return (frameCount % framesForSprite > half) ? sprite1 : sprite2;
     }
 }

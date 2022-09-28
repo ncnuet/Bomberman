@@ -9,7 +9,7 @@ public class FrameCount {
     }
 
     public void update() {
-        if (this.frame++ > 1200) {
+        if (this.frame++ > this.MAX_COUNT) {
             this.frame = 0;
         }
     }
