@@ -88,7 +88,7 @@ public class BombermanGame extends Application {
         stage.setMaxWidth(Sprite.SCALED_SIZE * SCREEN_WIDTH);
         stage.setMaxHeight(Sprite.SCALED_SIZE * SCREEN_HEIGHT);
 
-        InputStream stream = PathFile.getPath(BombermanGame.IconPath);
+        InputStream stream = PathFile.getStream(BombermanGame.IconPath);
         if (stream != null) {
             stage.getIcons().add(new Image(stream));
         }

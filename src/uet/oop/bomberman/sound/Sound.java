@@ -76,7 +76,7 @@ public class Sound extends Thread {
         try {
             String relativePath = "/sound/" + sound_name + ".wav";
             this.clip = AudioSystem.getClip();
-            this.audioInputStream = AudioSystem.getAudioInputStream(PathFile.getPath(relativePath));
+            this.audioInputStream = AudioSystem.getAudioInputStream(PathFile.getStream(relativePath));
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getMessage());
