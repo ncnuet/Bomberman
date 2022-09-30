@@ -61,13 +61,6 @@ public abstract class Character extends Entity {
     }
 
     /**
-     * Collide.
-     */
-    @Override
-    public void collide() {
-    }
-
-    /**
      * Check if character can move to direction.
      *
      * @return boolean

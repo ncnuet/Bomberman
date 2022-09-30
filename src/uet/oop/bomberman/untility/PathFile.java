@@ -16,11 +16,6 @@ public class PathFile {
     }
 
     public static String getPath(String path) {
-        try {
-            return "res\\" + path;
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return null;
-        }
+        return "res\\" + path;
     }
 }

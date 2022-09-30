@@ -36,6 +36,11 @@ public final class Bomber extends Character {
         this.getFrameCount().update();
     }
 
+    @Override
+    protected boolean collide(Entity entity) {
+        return false;
+    }
+
     protected Distance listenMoving() {
         int x = (this.keyboard.left ? -1 : 0) + (this.keyboard.right ? 1 : 0);
         int y = (this.keyboard.up ? -1 : 0) + (this.keyboard.down ? 1 : 0);
