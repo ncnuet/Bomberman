@@ -12,6 +12,7 @@ import uet.oop.bomberman.entities.tile.Tile;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.FileMapLoader;
 import uet.oop.bomberman.map.MapLoader;
+import uet.oop.bomberman.untility.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +26,11 @@ public class Playground {
 
     private GraphicsContext graphicsContext;
     private Canvas canvas;
+
     private Scene scene;
 
     public Scene getScene() {
-        return scene;
+        return this.scene;
     }
 
     public Playground() {
@@ -48,7 +50,7 @@ public class Playground {
 
             this.scene = new Scene(root);
             this.keyboard = new Keyboard(scene);
-            this.characters.add(new Bomber(1, 1, keyboard));
+            this.characters.add(new Bomber(1, 1, keyboard, this));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,6 +59,16 @@ public class Playground {
 
     public void addEntity(Entity entity) {
         this.entities.add(entity);
+    }
+
+    public Entity getTile(int index) {
+        return this.entities.get(index);
+    }
+
+    public Entity getEntity(Point point) {
+        int width = this.map.getWidth();
+        Entity tileEntity = getTile(point.y * width + point.x);
+        return tileEntity;
     }
 
     /**
@@ -69,9 +81,6 @@ public class Playground {
         keyboard.update();
     }
 
-    /**
-     * Render.
-     */
     public void render() {
         graphicsContext.clearRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
         entities.forEach(entity -> entity.render(graphicsContext));

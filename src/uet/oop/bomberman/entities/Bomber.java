@@ -3,8 +3,15 @@ package uet.oop.bomberman.entities;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Keyboard.Keyboard;
+import uet.oop.bomberman.Playground;
+import uet.oop.bomberman.entities.tile.Brick;
+import uet.oop.bomberman.entities.tile.EntityType;
+import uet.oop.bomberman.entities.tile.Grass;
+import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.untility.Convert;
 import uet.oop.bomberman.untility.Distance;
+import uet.oop.bomberman.untility.Point;
 
 public final class Bomber extends Character {
     private static final Image player_img_up = Sprite.player_up.getFxImage();
@@ -21,11 +28,13 @@ public final class Bomber extends Character {
     private static final Image player_img_right_2 = Sprite.player_right_2.getFxImage();
 
     private final Keyboard keyboard;
+    private final Playground playground;
 
 
-    public Bomber(int x, int y, Keyboard keyboard) {
+    public Bomber(int x, int y, Keyboard keyboard, Playground playground) {
         super(x, y, Sprite.player_right.getFxImage());
         this.keyboard = keyboard;
+        this.playground = playground;
     }
 
     @Override
@@ -56,14 +65,23 @@ public final class Bomber extends Character {
                 y * BombermanGame.BomberSpeed);
     }
 
-    /**
-     * Check if character can move with set direction.
-     *
-     * @return boolean
-     */
-    @Override
-    protected boolean canMove(Distance distance) {
-        return true;
+    private EntityType detectEntity(Distance distance) {
+        final int size = Sprite.SCALED_SIZE-1;
+
+        Entity entity = null;
+
+        // Xét tọa độ mới từ 4 đỉnh
+        for (int i = 0; i < 4; i++) {
+            int x = this.getX() + distance.getX() + (i % 2) * size + (i % 2 == 0 ? 4 : -10);
+            int y = this.getY() + distance.getY() + (i / 2) * size + (i / 2 == 0 ? 5 : -5);
+
+            entity = this.playground.getEntity(
+                    Convert.pixelToTile(new Point(x, y))
+            );
+
+            if (!(entity instanceof Grass)) return EntityType.TILE;
+        }
+        return EntityType.GRASS;
     }
 
     /**
@@ -73,9 +91,18 @@ public final class Bomber extends Character {
      */
     @Override
     protected void move(Distance distance) {
-        if (canMove(distance)) {
-            this.setX(this.getX() + distance.getX());
-            this.setY(this.getY() + distance.getY());
+        EntityType entityType = detectEntity(distance);
+
+        switch (entityType) {
+            case TILE:
+                break;
+            case ENERMY:
+                // TODO: kill
+                break;
+            default: // Grass can move through
+                this.setX(this.getX() + distance.getX());
+                this.setY(this.getY() + distance.getY());
+
         }
     }
 

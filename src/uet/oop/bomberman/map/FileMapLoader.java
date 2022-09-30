@@ -25,7 +25,7 @@ public class FileMapLoader extends MapLoader {
 
     public FileMapLoader(String mapID, Playground playground) throws LoadMapException {
         super(mapID);
-        loadMap(mapID, true);
+        loadMap(mapID);
         this.generateMap(playground);
     }
 

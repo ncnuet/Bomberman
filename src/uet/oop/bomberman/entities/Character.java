@@ -61,13 +61,6 @@ public abstract class Character extends Entity {
     }
 
     /**
-     * Check if character can move to direction.
-     *
-     * @return boolean
-     */
-    protected abstract boolean canMove(Distance distance);
-
-    /**
      * Move.
      */
     protected abstract void move(Distance distance);
