@@ -340,9 +340,10 @@ public final class Sprite {
         return output;
     }
 
-    public static <T> T selectSprite(T sprite1, T sprite2, int frameCount,
-                                     int framesForSprite) {
-        int half = framesForSprite / 2;
-        return (frameCount % framesForSprite > half) ? sprite1 : sprite2;
+    @SafeVarargs
+    public static <T> T selectSprite(int frameCount, int framesForSprite, T... sprites) {
+        int numObject = sprites.length;
+        int session = framesForSprite / numObject;
+        return sprites[framesForSprite / frameCount];
     }
 }

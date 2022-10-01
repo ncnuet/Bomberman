@@ -4,10 +4,8 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Keyboard.Keyboard;
 import uet.oop.bomberman.Playground;
-import uet.oop.bomberman.entities.tile.Brick;
 import uet.oop.bomberman.entities.tile.EntityType;
 import uet.oop.bomberman.entities.tile.Grass;
-import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.untility.Convert;
 import uet.oop.bomberman.untility.Distance;
@@ -32,14 +30,14 @@ public final class Bomber extends Character {
 
 
     public Bomber(int x, int y, Keyboard keyboard, Playground playground) {
-        super(x, y, Sprite.player_right.getFxImage());
+        super(x, y, player_img_right);
         this.keyboard = keyboard;
         this.playground = playground;
     }
 
     @Override
     public void update() {
-        Distance distance = listenMoving();
+        Distance distance = listenEvent();
         move(distance);
         selectSprite();
         this.getFrameCount().update();
@@ -50,7 +48,7 @@ public final class Bomber extends Character {
         return false;
     }
 
-    protected Distance listenMoving() {
+    protected Distance listenEvent() {
         int x = (this.keyboard.left ? -1 : 0) + (this.keyboard.right ? 1 : 0);
         int y = (this.keyboard.up ? -1 : 0) + (this.keyboard.down ? 1 : 0);
 
@@ -66,7 +64,7 @@ public final class Bomber extends Character {
     }
 
     private EntityType detectEntity(Distance distance) {
-        final int size = Sprite.SCALED_SIZE-1;
+        final int size = Sprite.SCALED_SIZE - 1;
 
         Entity entity = null;
 
@@ -114,20 +112,24 @@ public final class Bomber extends Character {
         switch (this.getDirection()) {
             case UP -> this.setSpriteImg(!this.isMoving()
                     ? player_img_up
-                    : Sprite.selectSprite(player_img_up_1, player_img_up_2,
-                    this.getFrameCount().getFrame(), 20));
+                    : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
+                    player_img_up_1, player_img_up_2
+            ));
             case DOWN -> this.setSpriteImg(!this.isMoving()
                     ? player_img_down
-                    : Sprite.selectSprite(player_img_down_1, player_img_down_2,
-                    this.getFrameCount().getFrame(), 20));
+                    : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
+                    player_img_down_1, player_img_down_2
+            ));
             case LEFT -> this.setSpriteImg(!this.isMoving()
                     ? player_img_left
-                    : Sprite.selectSprite(player_img_left_1, player_img_left_2,
-                    this.getFrameCount().getFrame(), 20));
+                    : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
+                    player_img_left_1, player_img_left_2
+            ));
             case RIGHT -> this.setSpriteImg(!this.isMoving()
                     ? player_img_right
-                    : Sprite.selectSprite(player_img_right_1, player_img_right_2,
-                    this.getFrameCount().getFrame(), 20));
+                    : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
+                    player_img_right_1, player_img_right_2
+            ));
         }
     }
 }

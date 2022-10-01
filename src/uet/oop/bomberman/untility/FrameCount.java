@@ -1,4 +1,4 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.untility;
 
 public class FrameCount {
     private final int MAX_COUNT = 1200;
