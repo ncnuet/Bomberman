@@ -59,7 +59,7 @@ public class Bomb extends Character {
     private void explode() {
         if (this.getFrameCount().getFrame() > TIME_EXPLODE) {
             this.setExploded(true);
-            this.playground.addFlame(new Flame(this.coordinate.x, this.coordinate.y));
+            this.playground.addFlame(new Flame(this.coordinate.x, this.coordinate.y, this.playground));
             Sound.bom_explode.start();
         }
     }

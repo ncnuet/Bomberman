@@ -3,33 +3,42 @@ package uet.oop.bomberman.sound;
 import uet.oop.bomberman.untility.Convert;
 
 public class Sound {
+    /**
+     * Define audio file name.
+     */
     private static final String BG_SOUND = "bg_sound";
     private static final String BOM_EXPLODE = "bom_explode";
     private static final String BOM_SET = "bom_set";
 
+    /**
+     * Define Audio object which ready to play.
+     */
     public static final Sound bg_sound = new Sound(Sound.BG_SOUND, true);
     public static final Sound bom_explode = new Sound((Sound.BOM_EXPLODE));
     public static final Sound bom_set = new Sound(Sound.BOM_SET);
 
-    private String relativePath;
-    private boolean continuous;
+    /**
+     * Internal property.
+     */
+    private final String relativePath;
+    private final boolean continuous;
     private int volume = 100;
-
-    public boolean isContinuous() {
-        return continuous;
-    }
-
-    public void setContinuous(boolean continuous) {
-        this.continuous = continuous;
-    }
+    private PlaySound playSound;
 
     public int getVolume() {
         return this.volume;
     }
 
+    /**
+     * Convert volume from linear scale to logarithmic scale.
+     * Pass it as parameter.
+     *
+     * @param volume value in linear scale (0-100)
+     * @throws Exception exception.
+     */
     public void setVolume(int volume) throws Exception {
         if (volume >= 0 && volume <= 100) {
-            float volumeInDb = Convert.LinearToDecibel(volume);
+            this.playSound.setVolume(Convert.LinearToDecibel(volume));
         } else {
             throw new IllegalArgumentException("Volume not valid: " + volume);
         }
@@ -38,42 +47,37 @@ public class Sound {
     /**
      * Constructor.
      *
-     * @param sound_name   name of sound
+     * @param sound_name name of sound
      * @param continuous is loop
      */
     public Sound(String sound_name, boolean continuous) {
-        this.setContinuous(continuous);
-        this.initial(sound_name);
+        this.relativePath = "/sound/" + sound_name + ".wav";
+        this.continuous = continuous;
     }
 
     /**
      * Constructor.
+     * Default: Not loop
      *
      * @param sound_name name of sound
      */
     public Sound(String sound_name) {
-        this.setContinuous(false);
-        this.initial(sound_name);
+        this.relativePath = "/sound/" + sound_name + ".wav";
+        this.continuous = false;
     }
 
     /**
-     * Initial.
-     *
-     * @param sound_name name of sound
+     * Start to play audio in a new Thread.
+     * Auto close after finishing and terminate Thread.
      */
-    private void initial(String sound_name) {
-        try {
-            this.relativePath = "/sound/" + sound_name + ".wav";
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getMessage());
-        }
-    }
-
     public void start() {
-        PlaySound playSound = new PlaySound(relativePath);
-        playSound.setContinuous(this.isContinuous());
-        playSound.start();
+        try {
+            this.playSound = new PlaySound(relativePath, this.continuous);
+            this.setVolume(50);
+            playSound.start();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }

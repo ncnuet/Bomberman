@@ -7,12 +7,7 @@ import java.util.Objects;
 
 public class PathFile {
     public static InputStream getStream(String path) {
-        try {
-            return Objects.requireNonNull(BombermanGame.class.getResourceAsStream(path));
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return null;
-        }
+        return Objects.requireNonNull(BombermanGame.class.getResourceAsStream(path));
     }
 
     public static String getPath(String path) {
