@@ -27,7 +27,7 @@ public class Bomb extends Character {
     }
 
     @Override
-    protected Distance listenEvent() {
+    protected Distance listenMoving() {
         return null;
     }
 

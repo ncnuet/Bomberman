@@ -66,12 +66,5 @@ public abstract class Character extends Entity {
      */
     protected abstract void move(Distance distance);
 
-    /**
-     * return expected distance if button pressed
-     *
-     * @return expected distance
-     */
-    protected abstract Distance listenEvent();
-
     protected abstract void selectSprite();
 }

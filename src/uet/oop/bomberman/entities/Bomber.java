@@ -37,8 +37,14 @@ public final class Bomber extends Character {
 
     @Override
     public void update() {
-        Distance distance = listenEvent();
+        // Determine entity and move
+        Distance distance = listenMoving();
         move(distance);
+
+        // Listen press space key to set bomb
+        listenSetBomb();
+
+        // Display
         selectSprite();
         this.getFrameCount().update();
     }
@@ -48,7 +54,7 @@ public final class Bomber extends Character {
         return false;
     }
 
-    protected Distance listenEvent() {
+    private Distance listenMoving() {
         int x = (this.keyboard.left ? -1 : 0) + (this.keyboard.right ? 1 : 0);
         int y = (this.keyboard.up ? -1 : 0) + (this.keyboard.down ? 1 : 0);
 
@@ -61,6 +67,10 @@ public final class Bomber extends Character {
         return new Distance(
                 x * BombermanGame.BomberSpeed,
                 y * BombermanGame.BomberSpeed);
+    }
+
+    private void listenSetBomb(){
+        boolean keyPressed = this.keyboard.space;
     }
 
     private EntityType detectEntity(Distance distance) {
