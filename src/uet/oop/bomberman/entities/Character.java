@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.untility.Distance;
+import uet.oop.bomberman.untility.FrameCount;
 
 public abstract class Character extends Entity {
     public enum Direction {LEFT, RIGHT, UP, DOWN}
@@ -47,7 +48,7 @@ public abstract class Character extends Entity {
      * @param yUnit     position in predefined
      * @param spriteImg image
      */
-    Character(int xUnit, int yUnit, Image spriteImg) {
+    public Character(int xUnit, int yUnit, Image spriteImg) {
         super(xUnit, yUnit, spriteImg);
         this.setDirection(Direction.RIGHT);
         this.frameCount = new FrameCount();
@@ -70,7 +71,7 @@ public abstract class Character extends Entity {
      *
      * @return expected distance
      */
-    protected abstract Distance listenMoving();
+    protected abstract Distance listenEvent();
 
     protected abstract void selectSprite();
 }
