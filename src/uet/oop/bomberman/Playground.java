@@ -8,11 +8,13 @@ import uet.oop.bomberman.Keyboard.Keyboard;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Character;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.EntityGroup;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.tile.Tile;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.FileMapLoader;
 import uet.oop.bomberman.map.MapLoader;
+import uet.oop.bomberman.untility.Convert;
 import uet.oop.bomberman.untility.Point;
 
 import java.util.ArrayList;
@@ -68,14 +70,33 @@ public class Playground {
         this.bombs.add(bomb);
     }
 
+    public void removeBomb(Bomb bomb) {
+        this.bombs.remove(bomb);
+    }
+
     public Entity getTile(int index) {
-        return this.entities.get(index);
+        Entity entity = this.entities.get(index);
+        if (entity instanceof EntityGroup) return ((EntityGroup) entity).getTopEntity();
+        return entity;
+    }
+
+    public Entity getBomb(int x, int y) {
+        for (Bomb bomb : this.bombs) {
+            Point coordinate = bomb.getCoordinate();
+            if (coordinate.x == x && coordinate.y == y) {
+                return bomb;
+            }
+        }
+        return null;
     }
 
     public Entity getEntity(Point point) {
         int width = this.map.getWidth();
-        Entity tileEntity = getTile(point.y * width + point.x);
-        return tileEntity;
+
+        Entity tile = getTile(point.y * width + point.x);
+        Entity bomb = getBomb(point.x, point.y);
+
+        return (bomb == null) ? tile : bomb;
     }
 
     /**
@@ -85,6 +106,7 @@ public class Playground {
         this.entities.forEach(Entity::update);
         this.characters.forEach(Entity::update);
         this.bombs.forEach(Entity::update);
+        this.bombs.removeIf(Bomb::isExploded);
 
         keyboard.update();
     }

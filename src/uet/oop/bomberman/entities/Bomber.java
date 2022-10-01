@@ -30,7 +30,8 @@ public final class Bomber extends Character {
     private final Keyboard keyboard;
     private final Playground playground;
     private int timeBetweenPutBomb; // by frame unit
-
+    private Bomb myLatestBomb; // last set bomb
+    private static final int MIN_TIME_BETWEEN_PUT_BOMB = 20;
 
     public Bomber(int x, int y, Keyboard keyboard, Playground playground) {
         super(x, y, player_img_right);
@@ -58,7 +59,6 @@ public final class Bomber extends Character {
         return false;
     }
 
-
     //-----------------
     // Bombing handler
     // ----------------
@@ -75,17 +75,16 @@ public final class Bomber extends Character {
         ));
         Entity entity = this.playground.getEntity(position);
 
-        int minTimeBetweenPutBomb = 60;
-        if (entity instanceof Grass && this.timeBetweenPutBomb > minTimeBetweenPutBomb) {
+        if (entity instanceof Grass && this.timeBetweenPutBomb > MIN_TIME_BETWEEN_PUT_BOMB) {
             placeBomb(position);
             this.timeBetweenPutBomb = 0;
         }
     }
 
     private void placeBomb(Point position) {
-        Bomb bomb = new Bomb(position.x, position.y, this.playground);
+        Bomb bomb = new Bomb(position.x, position.y);
         this.playground.addBomb(bomb);
-//        System.out.println(bomb.getX()+" "+bomb.getY());
+        this.myLatestBomb = bomb;
         Sound.bom_set.start();
     }
 
@@ -110,7 +109,7 @@ public final class Bomber extends Character {
 
     private EntityType detectEntity(Distance distance) {
         final int size = Sprite.SCALED_SIZE - 1;
-
+        boolean bombFlag = false;
         Entity entity = null;
 
         // Xét tọa độ mới từ 4 đỉnh
@@ -122,8 +121,16 @@ public final class Bomber extends Character {
                     Convert.pixelToTile(new Point(x, y))
             );
 
+            if (entity instanceof Bomb) {
+                bombFlag = true;
+                if (entity == myLatestBomb) continue;
+                return EntityType.BOMB;
+            }
             if (!(entity instanceof Grass)) return EntityType.TILE;
         }
+
+        // entity in this line = Grass | Bomb already set
+        if (entity instanceof Grass && !bombFlag) this.myLatestBomb = null;
         return EntityType.GRASS;
     }
 
@@ -140,6 +147,9 @@ public final class Bomber extends Character {
             case TILE:
                 break;
             case ENERMY:
+                // TODO: kill
+                break;
+            case BOMB:
                 // TODO: kill
                 break;
             default: // Grass can move through

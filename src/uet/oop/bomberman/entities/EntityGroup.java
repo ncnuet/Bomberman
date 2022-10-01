@@ -4,11 +4,15 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Stack;
 
-public class EntityGroup extends Entity{
+public class EntityGroup extends Entity {
     private Stack<Entity> entities = new Stack<>();
 
-    public EntityGroup(int x, int y, Entity ... entities){
-        super(x,y,entities[entities.length-1].getSpriteImg());
+    public Entity getTopEntity() {
+        return this.entities.get(this.entities.size() - 1);
+    }
+
+    public EntityGroup(int x, int y, Entity... entities) {
+        super(x, y, entities[entities.length - 1].getSpriteImg());
         this.entities.addAll(Arrays.stream(entities).toList());
     }
 

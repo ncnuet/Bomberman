@@ -1,23 +1,21 @@
 package uet.oop.bomberman.sound;
 
-import uet.oop.bomberman.untility.Convert;
 import uet.oop.bomberman.untility.PathFile;
 
 import javax.sound.sampled.*;
-import java.util.Objects;
 
 public class PlaySound extends Thread {
     private Clip clip;
     private String path;
-    private boolean isContinuous;
+    private boolean Continuous;
     private float volume;
 
     public boolean isContinuous() {
-        return isContinuous;
+        return Continuous;
     }
 
     public void setContinuous(boolean continuous) {
-        isContinuous = continuous;
+        Continuous = continuous;
     }
 
     public float getVolume() {
