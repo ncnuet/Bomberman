@@ -17,9 +17,9 @@ public final class Sprite {
     private final int size;
     private int x, y;
     public int[] pixels;
-    protected int realWidth ;
-    protected int realHeight ;
-    private SpriteSheet sheet ;
+    protected int realWidth;
+    protected int realHeight;
+    private SpriteSheet sheet;
 
     /*
     |--------------------------------------------------------------------------
@@ -344,6 +344,6 @@ public final class Sprite {
     public static <T> T selectSprite(int frameCount, int framesForSprite, T... sprites) {
         int numObject = sprites.length;
         int session = framesForSprite / numObject;
-        return sprites[framesForSprite / frameCount];
+        return sprites[(frameCount % framesForSprite) / session];
     }
 }

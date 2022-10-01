@@ -23,19 +23,13 @@ public class Bomb extends Character {
 
     @Override
     protected void move(Distance distance) {
-
-    }
-
-    @Override
-    protected Distance listenMoving() {
-        return null;
     }
 
     @Override
     protected void selectSprite() {
         this.setSpriteImg(Sprite.selectSprite(
                 this.getFrameCount().getFrame(), 60,
-                bomb_img, bomb_img_1, bomb_img_2));
+                bomb_img_2, bomb_img_1, bomb_img));
     }
 
     @Override
@@ -44,7 +38,7 @@ public class Bomb extends Character {
     }
 
     public Bomb(int x, int y, Playground playground) {
-        super(x, y, bomb_img);
+        super(x, y, bomb_img_2);
         this.playground = playground;
     }
 }

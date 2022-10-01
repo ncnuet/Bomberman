@@ -17,8 +17,8 @@ import java.io.InputStream;
 public class BombermanGame extends Application {
     private static final String TITLE = "Bomberman Game made by group 22";
     private static final String ICON_PATH = "/icons/icon.png";
-    public static final int SCREEN_WIDTH = 30;
-    public static final int SCREEN_HEIGHT = 12;
+    public static final int SCREEN_WIDTH = 31;
+    public static final int SCREEN_HEIGHT = 14;
 
     public static final int OFFSET = Sprite.SCALED_SIZE / 2;
 
@@ -54,11 +54,7 @@ public class BombermanGame extends Application {
 
         // Set stage
         stage.setTitle(BombermanGame.TITLE);
-
         stage.setResizable(false);
-
-
-
         stage.setMaxWidth(Sprite.SCALED_SIZE * SCREEN_WIDTH + OFFSET);
         stage.setMaxHeight(Sprite.SCALED_SIZE * SCREEN_HEIGHT + OFFSET/2);
 

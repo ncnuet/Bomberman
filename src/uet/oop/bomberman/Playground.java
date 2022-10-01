@@ -8,6 +8,7 @@ import uet.oop.bomberman.Keyboard.Keyboard;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Character;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.tile.Tile;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.FileMapLoader;
@@ -23,6 +24,7 @@ public class Playground {
 
     private List<Entity> entities;
     private List<Character> characters;
+    private List<Bomb> bombs;
 
     private GraphicsContext graphicsContext;
     private Canvas canvas;
@@ -37,6 +39,7 @@ public class Playground {
         try {
             this.entities = new ArrayList<>();
             this.characters = new ArrayList<>();
+            this.bombs = new ArrayList<>();
 
             this.map = new FileMapLoader("Level1", this);
             this.canvas = new Canvas(
@@ -61,6 +64,10 @@ public class Playground {
         this.entities.add(entity);
     }
 
+    public void addBomb(Bomb bomb) {
+        this.bombs.add(bomb);
+    }
+
     public Entity getTile(int index) {
         return this.entities.get(index);
     }
@@ -77,6 +84,7 @@ public class Playground {
     public void update() {
         this.entities.forEach(Entity::update);
         this.characters.forEach(Entity::update);
+        this.bombs.forEach(Entity::update);
 
         keyboard.update();
     }
@@ -85,6 +93,7 @@ public class Playground {
         graphicsContext.clearRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
         entities.forEach(entity -> entity.render(graphicsContext));
         characters.forEach(entity -> entity.render(graphicsContext));
+        bombs.forEach(entity -> entity.render(graphicsContext));
     }
 
 }

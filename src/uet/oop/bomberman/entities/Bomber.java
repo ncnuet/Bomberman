@@ -4,9 +4,11 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Keyboard.Keyboard;
 import uet.oop.bomberman.Playground;
+import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.tile.EntityType;
 import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.untility.Convert;
 import uet.oop.bomberman.untility.Distance;
 import uet.oop.bomberman.untility.Point;
@@ -27,6 +29,7 @@ public final class Bomber extends Character {
 
     private final Keyboard keyboard;
     private final Playground playground;
+    private int timeBetweenPutBomb; // by frame unit
 
 
     public Bomber(int x, int y, Keyboard keyboard, Playground playground) {
@@ -43,6 +46,7 @@ public final class Bomber extends Character {
 
         // Listen press space key to set bomb
         listenSetBomb();
+        this.timeBetweenPutBomb++;
 
         // Display
         selectSprite();
@@ -53,6 +57,41 @@ public final class Bomber extends Character {
     protected boolean collide(Entity entity) {
         return false;
     }
+
+
+    //-----------------
+    // Bombing handler
+    // ----------------
+    private void listenSetBomb() {
+        if (this.keyboard.space) {
+            setBomb();
+        }
+    }
+
+    private void setBomb() {
+        Point position = Convert.pixelToTile(new Point(
+                this.getX() + Sprite.SCALED_SIZE / 2,
+                this.getY() + Sprite.SCALED_SIZE / 2
+        ));
+        Entity entity = this.playground.getEntity(position);
+
+        int minTimeBetweenPutBomb = 60;
+        if (entity instanceof Grass && this.timeBetweenPutBomb > minTimeBetweenPutBomb) {
+            placeBomb(position);
+            this.timeBetweenPutBomb = 0;
+        }
+    }
+
+    private void placeBomb(Point position) {
+        Bomb bomb = new Bomb(position.x, position.y, this.playground);
+        this.playground.addBomb(bomb);
+//        System.out.println(bomb.getX()+" "+bomb.getY());
+        Sound.bom_set.start();
+    }
+
+    //-----------------
+    // Moving handler
+    // ----------------
 
     private Distance listenMoving() {
         int x = (this.keyboard.left ? -1 : 0) + (this.keyboard.right ? 1 : 0);
@@ -67,10 +106,6 @@ public final class Bomber extends Character {
         return new Distance(
                 x * BombermanGame.BomberSpeed,
                 y * BombermanGame.BomberSpeed);
-    }
-
-    private void listenSetBomb(){
-        boolean keyPressed = this.keyboard.space;
     }
 
     private EntityType detectEntity(Distance distance) {
