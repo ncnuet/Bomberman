@@ -2,8 +2,10 @@ package uet.oop.bomberman;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
@@ -52,9 +54,22 @@ public class BombermanGame extends Application {
 
         // Set stage
         stage.setTitle(BombermanGame.TITLE);
+
         stage.setResizable(false);
+
+
+
         stage.setMaxWidth(Sprite.SCALED_SIZE * SCREEN_WIDTH + OFFSET);
+
         stage.setMaxHeight(Sprite.SCALED_SIZE * SCREEN_HEIGHT + OFFSET/2);
+
+
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+
+        stage.setX(200);
+        stage.setY(200);
+
+        System.out.println("Height: " + screenBounds.getHeight() + " Width: " + screenBounds.getWidth());
 
         InputStream stream = PathFile.getStream(BombermanGame.ICON_PATH);
         if (stream != null) {
@@ -63,8 +78,8 @@ public class BombermanGame extends Application {
 
         // Set timer action
         AnimationTimer timer = new AnimationTimer() {
-            private static long lastTime = System.nanoTime();
-            private static long updateTimes = 0;
+            private static long lastTime = System.nanoTime() ;
+            private static long updateTimes = 0 ;
 
             @Override
             public void handle(long now) {
