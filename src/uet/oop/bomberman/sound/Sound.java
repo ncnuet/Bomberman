@@ -1,22 +1,20 @@
 package uet.oop.bomberman.sound;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.*;
 
 import uet.oop.bomberman.untility.Convert;
 import uet.oop.bomberman.untility.PathFile;
 
-public class Sound extends Thread {
+public class Sound {
     public static final String BG_SOUND = "bg_sound";
     public static final String BOM_EXPLODE = "bom_explode";
+    public static final String BOM_SET = "bom_set";
 
     public static final Sound bg_sound = new Sound(Sound.BG_SOUND, true);
     public static final Sound bom_explode = new Sound((Sound.BOM_EXPLODE));
+    public static final Sound bom_set = new Sound(Sound.BOM_SET);
 
-    private Clip clip;
-    private AudioInputStream audioInputStream;
+    private String relativePath;
     private boolean isContinuous;
     private int volume = 100;
 
@@ -34,13 +32,7 @@ public class Sound extends Thread {
 
     public void setVolume(int volume) throws Exception {
         if (volume >= 0 && volume <= 100) {
-            try {
-                FloatControl control =
-                        (FloatControl) this.clip.getControl(FloatControl.Type.MASTER_GAIN);
-                control.setValue(Convert.LinearToDecibel(volume));
-            } catch (Exception e) {
-                throw new Exception("Unable to set volume now");
-            }
+            float volumeInDb = Convert.LinearToDecibel(volume);
         } else {
             throw new IllegalArgumentException("Volume not valid: " + volume);
         }
@@ -74,42 +66,17 @@ public class Sound extends Thread {
      */
     private void initial(String sound_name) {
         try {
-            String relativePath = "/sound/" + sound_name + ".wav";
-            this.clip = AudioSystem.getClip();
-            this.audioInputStream = AudioSystem.getAudioInputStream(PathFile.getPath(relativePath));
+            this.relativePath = "/sound/" + sound_name + ".wav";
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getMessage());
         }
     }
 
-    @Override
-    public void run() {
-        try {
-            this.clip.open(this.audioInputStream);
-            this.clip.start();
-            if (this.isContinuous()) {
-                this.clip.loop(Clip.LOOP_CONTINUOUSLY);
-            }
-
-            // Set volume
-            FloatControl control =
-                    (FloatControl) this.clip.getControl(FloatControl.Type.MASTER_GAIN);
-            this.volume = Convert.DecibelToLinear(control.getValue());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getMessage());
-        }
+    public void start() {
+        PlaySound playSound = new PlaySound(relativePath);
+        playSound.setContinuous(this.isContinuous());
+        playSound.start();
     }
 
-    @Override
-    public void interrupt() {
-        try {
-            this.clip.stop();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getMessage());
-        }
-    }
 }

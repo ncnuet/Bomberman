@@ -36,20 +36,20 @@ public final class Sprite {
     | Bomber Sprites
     |--------------------------------------------------------------------------
      */
-    public static final Sprite player_up = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.tiles, 12, 16);
-    public static final Sprite player_down = new Sprite(DEFAULT_SIZE, 2, 0, SpriteSheet.tiles, 12, 15);
-    public static final Sprite player_left = new Sprite(DEFAULT_SIZE, 3, 0, SpriteSheet.tiles, 10, 15);
-    public static final Sprite player_right = new Sprite(DEFAULT_SIZE, 1, 0, SpriteSheet.tiles, 10, 16);
 
+    public static final Sprite player_up = new Sprite(DEFAULT_SIZE, 0, 0, SpriteSheet.tiles, 12, 16);
     public static final Sprite player_up_1 = new Sprite(DEFAULT_SIZE, 0, 1, SpriteSheet.tiles, 12, 16);
     public static final Sprite player_up_2 = new Sprite(DEFAULT_SIZE, 0, 2, SpriteSheet.tiles, 12, 15);
 
+    public static final Sprite player_down = new Sprite(DEFAULT_SIZE, 2, 0, SpriteSheet.tiles, 12, 15);
     public static final Sprite player_down_1 = new Sprite(DEFAULT_SIZE, 2, 1, SpriteSheet.tiles, 12, 15);
     public static final Sprite player_down_2 = new Sprite(DEFAULT_SIZE, 2, 2, SpriteSheet.tiles, 12, 16);
 
+    public static final Sprite player_left = new Sprite(DEFAULT_SIZE, 3, 0, SpriteSheet.tiles, 10, 15);
     public static final Sprite player_left_1 = new Sprite(DEFAULT_SIZE, 3, 1, SpriteSheet.tiles, 11, 16);
     public static final Sprite player_left_2 = new Sprite(DEFAULT_SIZE, 3, 2, SpriteSheet.tiles, 12, 16);
 
+    public static final Sprite player_right = new Sprite(DEFAULT_SIZE, 1, 0, SpriteSheet.tiles, 10, 16);
     public static final Sprite player_right_1 = new Sprite(DEFAULT_SIZE, 1, 1, SpriteSheet.tiles, 11, 16);
     public static final Sprite player_right_2 = new Sprite(DEFAULT_SIZE, 1, 2, SpriteSheet.tiles, 12, 16);
 
@@ -282,6 +282,7 @@ public final class Sprite {
 
     /**
      * Copy Image.
+     *
      * @return Image Node
      */
     public Image getFxImage() {
@@ -308,18 +309,18 @@ public final class Sprite {
 
     /**
      * Resize.
-     * @param input input image
+     *
+     * @param input       input image
      * @param scaleFactor scale
      * @return Image Node
      */
     private Image resize(Image input, int scaleFactor) {
         final int W = (int) input.getWidth();
         final int H = (int) input.getHeight();
-        final int S = scaleFactor;
 
         WritableImage output = new WritableImage(
-                W * S,
-                H * S
+                W * scaleFactor,
+                H * scaleFactor
         );
 
         PixelReader reader = input.getPixelReader();
@@ -328,14 +329,21 @@ public final class Sprite {
         for (int y = 0; y < H; y++) {
             for (int x = 0; x < W; x++) {
                 final int argb = reader.getArgb(x, y);
-                for (int dy = 0; dy < S; dy++) {
-                    for (int dx = 0; dx < S; dx++) {
-                        writer.setArgb(x * S + dx, y * S + dy, argb);
+                for (int dy = 0; dy < scaleFactor; dy++) {
+                    for (int dx = 0; dx < scaleFactor; dx++) {
+                        writer.setArgb(x * scaleFactor + dx, y * scaleFactor + dy, argb);
                     }
                 }
             }
         }
 
         return output;
+    }
+
+    @SafeVarargs
+    public static <T> T selectSprite(int frameCount, int framesForSprite, T... sprites) {
+        int numObject = sprites.length;
+        int session = framesForSprite / numObject;
+        return sprites[(frameCount % framesForSprite) / session];
     }
 }
