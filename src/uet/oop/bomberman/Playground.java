@@ -10,6 +10,7 @@ import uet.oop.bomberman.entities.Character;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.EntityGroup;
 import uet.oop.bomberman.entities.bomb.Bomb;
+import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.tile.Tile;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.FileMapLoader;
@@ -27,6 +28,7 @@ public class Playground {
     private List<Entity> entities;
     private List<Character> characters;
     private List<Bomb> bombs;
+    private List<Flame> flames;
 
     private GraphicsContext graphicsContext;
     private Canvas canvas;
@@ -42,6 +44,7 @@ public class Playground {
             this.entities = new ArrayList<>();
             this.characters = new ArrayList<>();
             this.bombs = new ArrayList<>();
+            this.flames = new ArrayList<>();
 
             this.map = new FileMapLoader("Level1", this);
             this.canvas = new Canvas(
@@ -70,8 +73,8 @@ public class Playground {
         this.bombs.add(bomb);
     }
 
-    public void removeBomb(Bomb bomb) {
-        this.bombs.remove(bomb);
+    public void addFlame(Flame flame){
+        this.flames.add(flame);
     }
 
     public Entity getTile(int index) {
@@ -103,10 +106,15 @@ public class Playground {
      * Update all entities.
      */
     public void update() {
+        // Update entities
         this.entities.forEach(Entity::update);
         this.characters.forEach(Entity::update);
         this.bombs.forEach(Entity::update);
+        this.flames.forEach(Entity::update);
+
+        // Remove out date entities
         this.bombs.removeIf(Bomb::isExploded);
+        this.flames.removeIf(Flame::isExploded);
 
         keyboard.update();
     }
@@ -116,6 +124,7 @@ public class Playground {
         entities.forEach(entity -> entity.render(graphicsContext));
         characters.forEach(entity -> entity.render(graphicsContext));
         bombs.forEach(entity -> entity.render(graphicsContext));
+        flames.forEach(entity -> entity.render(graphicsContext));
     }
 
 }

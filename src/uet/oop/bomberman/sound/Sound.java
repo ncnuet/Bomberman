@@ -1,29 +1,26 @@
 package uet.oop.bomberman.sound;
 
-import javax.sound.sampled.*;
-
 import uet.oop.bomberman.untility.Convert;
-import uet.oop.bomberman.untility.PathFile;
 
 public class Sound {
-    public static final String BG_SOUND = "bg_sound";
-    public static final String BOM_EXPLODE = "bom_explode";
-    public static final String BOM_SET = "bom_set";
+    private static final String BG_SOUND = "bg_sound";
+    private static final String BOM_EXPLODE = "bom_explode";
+    private static final String BOM_SET = "bom_set";
 
     public static final Sound bg_sound = new Sound(Sound.BG_SOUND, true);
     public static final Sound bom_explode = new Sound((Sound.BOM_EXPLODE));
     public static final Sound bom_set = new Sound(Sound.BOM_SET);
 
     private String relativePath;
-    private boolean isContinuous;
+    private boolean continuous;
     private int volume = 100;
 
     public boolean isContinuous() {
-        return isContinuous;
+        return continuous;
     }
 
     public void setContinuous(boolean continuous) {
-        isContinuous = continuous;
+        this.continuous = continuous;
     }
 
     public int getVolume() {
@@ -42,10 +39,10 @@ public class Sound {
      * Constructor.
      *
      * @param sound_name   name of sound
-     * @param isContinuous is loop
+     * @param continuous is loop
      */
-    public Sound(String sound_name, boolean isContinuous) {
-        this.setContinuous(isContinuous);
+    public Sound(String sound_name, boolean continuous) {
+        this.setContinuous(continuous);
         this.initial(sound_name);
     }
 

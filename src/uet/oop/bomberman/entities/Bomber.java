@@ -82,7 +82,7 @@ public final class Bomber extends Character {
     }
 
     private void placeBomb(Point position) {
-        Bomb bomb = new Bomb(position.x, position.y);
+        Bomb bomb = new Bomb(position.x, position.y, this.playground);
         this.playground.addBomb(bomb);
         this.myLatestBomb = bomb;
         Sound.bom_set.start();

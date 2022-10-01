@@ -1,9 +1,11 @@
 package uet.oop.bomberman.entities.bomb;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.Character;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.untility.Convert;
 import uet.oop.bomberman.untility.Distance;
 import uet.oop.bomberman.untility.Point;
@@ -17,6 +19,7 @@ public class Bomb extends Character {
 
     private final Point coordinate;
     private boolean exploded;
+    private Playground playground;
 
     public boolean isExploded() {
         return exploded;
@@ -56,12 +59,15 @@ public class Bomb extends Character {
     private void explode() {
         if (this.getFrameCount().getFrame() > TIME_EXPLODE) {
             this.setExploded(true);
+            this.playground.addFlame(new Flame(this.coordinate.x, this.coordinate.y));
+            Sound.bom_explode.start();
         }
     }
 
-    public Bomb(int x, int y) {
+    public Bomb(int x, int y, Playground playground) {
         super(x, y, bomb_img_2);
         this.coordinate = Convert.pixelToTile(new Point(this.getX(), this.getY()));
         this.setExploded(false);
+        this.playground = playground;
     }
 }
