@@ -17,9 +17,9 @@ public final class Sprite {
     private final int size;
     private int x, y;
     public int[] pixels;
-    protected int realWidth;
-    protected int realHeight;
-    private SpriteSheet sheet;
+    protected int realWidth ;
+    protected int realHeight ;
+    private SpriteSheet sheet ;
 
     /*
     |--------------------------------------------------------------------------
