@@ -2,30 +2,31 @@ package uet.oop.bomberman;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
-import uet.oop.bomberman.entities.Bomber;
-import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.Grass;
-import uet.oop.bomberman.entities.Wall;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sound.Sound;
+import uet.oop.bomberman.untility.PathFile;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.InputStream;
+
 
 public class BombermanGame extends Application {
+    private static final String TITLE = "Bomberman Game made by group 22";
+    private static final String ICON_PATH = "/icons/icon.png";
+    public static final int SCREEN_WIDTH = 31;
+    public static final int SCREEN_HEIGHT = 14;
 
-    public static final int WIDTH = 20;
-    public static final int HEIGHT = 15;
+    public static final int OFFSET = Sprite.SCALED_SIZE / 2;
 
-    private GraphicsContext gc;
+    public static int BomberSpeed = 2;
+    public static int FlameSegmentLength = 1;
+
+
     private Canvas canvas;
-    private List<Entity> entities = new ArrayList<>();
-    private List<Entity> stillObjects = new ArrayList<>();
-
 
     /**
      * Entry point.
@@ -43,60 +44,51 @@ public class BombermanGame extends Application {
      */
     @Override
     public void start(Stage stage) {
-        // Create Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
-        gc = canvas.getGraphicsContext2D();
+        //Start background sound
+        Sound.bg_sound.start();
 
-        // Create root container
-        Group root = new Group();
-        root.getChildren().add(canvas);
-
-        // Create scene
-        Scene scene = new Scene(root);
+        Playground playground = new Playground();
 
         // Add scene into stage
-        stage.setScene(scene);
+        stage.setScene(playground.getScene());
         stage.show();
 
+        // Set stage
+        stage.setTitle(BombermanGame.TITLE);
+        stage.setResizable(false);
+        stage.setMaxWidth(Sprite.SCALED_SIZE * SCREEN_WIDTH + OFFSET);
+        stage.setMaxHeight(Sprite.SCALED_SIZE * SCREEN_HEIGHT + OFFSET / 2);
+
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+
+        stage.setX(200);
+        stage.setY(200);
+
+        System.out.println("Height: " + screenBounds.getHeight() + " Width: " + screenBounds.getWidth());
+
+        InputStream stream = PathFile.getStream(BombermanGame.ICON_PATH);
+        if (stream != null) {
+            stage.getIcons().add(new Image(stream));
+        }
+
+        // Set timer action
         AnimationTimer timer = new AnimationTimer() {
+            private static long lastTime = System.nanoTime();
+            private static long updateTimes = 0;
+
             @Override
-            public void handle(long l) {
-                render();
-                update();
+            public void handle(long now) {
+                if (now - lastTime > 500000000) { // Calc fps after half of second. 500,000,000 ns
+                    stage.setTitle(BombermanGame.TITLE + " | " + updateTimes * 2 + " fps");
+                    lastTime = System.nanoTime();
+                    updateTimes = 0;
+                }
+
+                playground.render();
+                playground.update();
+                updateTimes++;
             }
         };
         timer.start();
-
-        createMap();
-
-        Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
-        entities.add(bomberman);
-    }
-
-    /**
-     * Create game's frame.
-     */
-    public void createMap() {
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < HEIGHT; j++) {
-                Entity object;
-                if (j == 0 || j == HEIGHT - 1 || i == 0 || i == WIDTH - 1) {
-                    object = new Wall(i, j, Sprite.wall.getFxImage());
-                } else {
-                    object = new Grass(i, j, Sprite.grass.getFxImage());
-                }
-                stillObjects.add(object);
-            }
-        }
-    }
-
-    public void update() {
-        entities.forEach(Entity::update);
-    }
-
-    public void render() {
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        stillObjects.forEach(g -> g.render(gc));
-        entities.forEach(g -> g.render(gc));
     }
 }

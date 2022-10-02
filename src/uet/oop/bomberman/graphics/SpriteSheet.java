@@ -1,5 +1,7 @@
 package uet.oop.bomberman.graphics;
 
+import uet.oop.bomberman.untility.PathFile;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -7,10 +9,9 @@ import java.net.URL;
 import java.util.Objects;
 
 /**
- * Tất cả sprite (hình ảnh game) được lưu trữ vào một ảnh duy nhất
- * Class này giúp lấy ra các sprite riêng từ 1 ảnh chung duy nhất đó
+ * Save only one sprite sheet that can get a special sprite from there
  */
-public class SpriteSheet {
+public final class SpriteSheet {
     // Constant class value
     public static final String PATH = "/textures/classic.png";
     public static final int SIZE = 256;
@@ -20,10 +21,6 @@ public class SpriteSheet {
     private final String path;
     private final int size;
     public int[] pixels;
-
-	public String getPath() {
-        return path;
-    }
 
     public int getSize() {
         return size;
@@ -48,8 +45,8 @@ public class SpriteSheet {
      */
     private void load() {
         try {
-            URL url = SpriteSheet.class.getResource(this.getPath());
-			BufferedImage image = ImageIO.read(Objects.requireNonNull(url));
+            URL url = PathFile.getURL(this.path);
+            BufferedImage image = ImageIO.read(Objects.requireNonNull(url));
 
             int w = image.getWidth();
             int h = image.getHeight();

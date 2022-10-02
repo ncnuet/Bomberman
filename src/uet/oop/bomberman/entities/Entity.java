@@ -1,30 +1,77 @@
 package uet.oop.bomberman.entities;
 
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.untility.Convert;
+import uet.oop.bomberman.untility.Point;
 
 public abstract class Entity {
-    //Tọa độ X tính từ góc trái trên trong Canvas
-    protected int x;
+    private int x; // in pixel
+    private int y; // in pixel
+    private Point coordinate; // in tile
+    private Image spriteImg;
 
-    //Tọa độ Y tính từ góc trái trên trong Canvas
-    protected int y;
-
-    protected Image img;
-
-    //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
-    public Entity( int xUnit, int yUnit, Image img) {
-        this.x = xUnit * Sprite.SCALED_SIZE;
-        this.y = yUnit * Sprite.SCALED_SIZE;
-        this.img = img;
+    public Point getCoordinate() {
+        return coordinate;
     }
 
+    public void setCoordinate(Point coordinate) {
+        this.coordinate = coordinate;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+        this.setCoordinate(Convert.pixelToTile(new Point(this.x, this.y)));
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+        this.setCoordinate(Convert.pixelToTile(new Point(this.x, this.y)));
+    }
+
+    public Image getSpriteImg() {
+        return spriteImg;
+    }
+
+    public void setSpriteImg(Image spriteImg) {
+        this.spriteImg = spriteImg;
+    }
+
+    /**
+     * Constructor.
+     * Create new Entity with position and it's image
+     *
+     * @param crdX      in tile
+     * @param crdY      in tile
+     * @param spriteImg image
+     */
+    public Entity(int crdX, int crdY, Image spriteImg) {
+        this.setX(crdX * Sprite.SCALED_SIZE);
+        this.setY(crdY * Sprite.SCALED_SIZE);
+
+        this.setSpriteImg(spriteImg);
+    }
+
+    /**
+     * Draw into graphic context.
+     *
+     * @param gc graphic context.
+     */
     public void render(GraphicsContext gc) {
-        gc.drawImage(img, x, y);
+        gc.drawImage(spriteImg, x, y);
     }
+
+    /**
+     * Update.
+     */
     public abstract void update();
 }
