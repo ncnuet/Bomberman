@@ -3,7 +3,7 @@
 Sinh viên thực hiện
 
 - Đỗ Tuấn Nghĩa : 21020365
-- Lê Hải Lâm : --------
+- Lê Hải Lâm : 21020346
 
 <center>
    <img src="res/demo.png" alt="drawing" width="400"/>
