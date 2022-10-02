@@ -1,6 +1,7 @@
-package uet.oop.bomberman.entities.character;
+package uet.oop.bomberman.entities.character.unmoving;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.untility.Distance;
 
 public abstract class StaticCharacter extends Character {

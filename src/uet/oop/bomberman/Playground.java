@@ -4,13 +4,15 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import uet.oop.bomberman.entities.character.moving.MovingCharacter;
+import uet.oop.bomberman.entities.character.unmoving.Explosion;
+import uet.oop.bomberman.entities.character.unmoving.brick.Brick;
 import uet.oop.bomberman.keyboard.Keyboard;
-import uet.oop.bomberman.entities.character.Bomber;
+import uet.oop.bomberman.entities.character.moving.Bomber;
 import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.EntityGroup;
-import uet.oop.bomberman.entities.character.bomb.Bomb;
-import uet.oop.bomberman.entities.character.bomb.Flame;
+import uet.oop.bomberman.entities.character.unmoving.bomb.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.FileMapLoader;
 import uet.oop.bomberman.map.MapLoader;
@@ -24,9 +26,9 @@ public class Playground {
     private Keyboard keyboard;
 
     private List<Entity> entities;
-    private List<Character> characters;
+    private List<MovingCharacter> characters;
     private List<Bomb> bombs;
-    private List<Flame> flames;
+    private List<Explosion> flames;
 
     private GraphicsContext graphicsContext;
     private Canvas canvas;
@@ -71,8 +73,8 @@ public class Playground {
         this.bombs.add(bomb);
     }
 
-    public void addFlame(Flame flame){
-        this.flames.add(flame);
+    public void addFlame(Explosion explosion) {
+        this.flames.add(explosion);
     }
 
     public Entity getTile(int index) {
@@ -91,13 +93,26 @@ public class Playground {
         return null;
     }
 
+    public Entity getFlame(int x, int y) {
+        for (Explosion flame : this.flames) {
+            Point coordinate = flame.getCoordinate();
+            if (coordinate.x == x && coordinate.y == y) {
+                return flame;
+            }
+        }
+        return null;
+    }
+
     public Entity getEntity(Point point) {
         int width = this.map.getWidth();
 
         Entity tile = getTile(point.y * width + point.x);
         Entity bomb = getBomb(point.x, point.y);
+        Entity flame = getFlame(point.x, point.y);
 
-        return (bomb == null) ? tile : bomb;
+        if (flame == null) {
+            return (bomb == null) ? tile : bomb;
+        } else return flame;
     }
 
     /**
@@ -112,7 +127,8 @@ public class Playground {
 
         // Remove out date entities
         this.bombs.removeIf(Bomb::isExploded);
-        this.flames.removeIf(Flame::isExploded);
+        this.flames.removeIf(Explosion::isExploded);
+        this.characters.removeIf(MovingCharacter::isExploded);
 
         keyboard.update();
     }

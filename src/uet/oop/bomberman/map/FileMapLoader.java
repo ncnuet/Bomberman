@@ -2,7 +2,7 @@ package uet.oop.bomberman.map;
 
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.EntityGroup;
-import uet.oop.bomberman.entities.character.brick.Brick;
+import uet.oop.bomberman.entities.character.unmoving.brick.Brick;
 import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.exceptions.LoadMapException;

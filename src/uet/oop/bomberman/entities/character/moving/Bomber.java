@@ -1,16 +1,21 @@
-package uet.oop.bomberman.entities.character;
+package uet.oop.bomberman.entities.character.moving;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.character.unmoving.Explosion;
+import uet.oop.bomberman.entities.character.unmoving.bomb.Flame;
+import uet.oop.bomberman.entities.character.unmoving.bomb.FrameSegment;
+import uet.oop.bomberman.entities.character.unmoving.brick.Brick;
 import uet.oop.bomberman.keyboard.Keyboard;
 import uet.oop.bomberman.Playground;
-import uet.oop.bomberman.entities.character.bomb.Bomb;
+import uet.oop.bomberman.entities.character.unmoving.bomb.Bomb;
 import uet.oop.bomberman.entities.tile.EntityType;
 import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.untility.Convert;
+import uet.oop.bomberman.untility.Direction;
 import uet.oop.bomberman.untility.Distance;
 import uet.oop.bomberman.untility.Point;
 
@@ -31,6 +36,9 @@ public final class Bomber extends MovingCharacter {
     private static final Image player_img_right = Sprite.player_right.getFxImage();
     private static final Image player_img_right_1 = Sprite.player_right_1.getFxImage();
     private static final Image player_img_right_2 = Sprite.player_right_2.getFxImage();
+    private static final Image player_dead = Sprite.player_dead1.getFxImage();
+    private static final Image player_dead_1 = Sprite.player_dead2.getFxImage();
+    private static final Image player_dead_2 = Sprite.player_dead3.getFxImage();
 
     /**
      * Main Class
@@ -50,8 +58,12 @@ public final class Bomber extends MovingCharacter {
     @Override
     public void update() {
         // Determine entity and move
-        Distance distance = listenMoving();
-        move(distance);
+        if (this.isAlive()) {
+            Distance distance = listenMoving();
+            move(distance);
+        } else {
+            explode();
+        }
 
         // Listen press space key to set bomb
         listenSetBomb();
@@ -60,6 +72,12 @@ public final class Bomber extends MovingCharacter {
         // Display
         selectSprite();
         super.update();
+    }
+
+    @Override
+    protected void kill() {
+        this.setAlive(false);
+        Sound.end_game.start();
     }
 
     //-----------------
@@ -129,6 +147,9 @@ public final class Bomber extends MovingCharacter {
                 if (entity == myLatestBomb) continue;
                 return EntityType.BOMB;
             }
+
+            if (entity instanceof Explosion && !(entity instanceof Brick)) return EntityType.BOMB;
+
             if (!(entity instanceof Grass)) return EntityType.TILE;
         }
 
@@ -153,7 +174,7 @@ public final class Bomber extends MovingCharacter {
                 // TODO: kill
                 break;
             case BOMB:
-                // TODO: kill
+                kill();
                 break;
             default: // Grass can move through
                 this.setX(this.getX() + distance.getX());
@@ -167,27 +188,36 @@ public final class Bomber extends MovingCharacter {
      */
     @Override
     protected void selectSprite() {
-        switch (this.getDirection()) {
-            case UP -> this.setSpriteImg(!this.isMoving()
-                    ? player_img_up
-                    : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
-                    player_img_up_1, player_img_up_2
-            ));
-            case DOWN -> this.setSpriteImg(!this.isMoving()
-                    ? player_img_down
-                    : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
-                    player_img_down_1, player_img_down_2
-            ));
-            case LEFT -> this.setSpriteImg(!this.isMoving()
-                    ? player_img_left
-                    : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
-                    player_img_left_1, player_img_left_2
-            ));
-            case RIGHT -> this.setSpriteImg(!this.isMoving()
-                    ? player_img_right
-                    : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
-                    player_img_right_1, player_img_right_2
+        if (this.isAlive()) {
+            switch (this.getDirection()) {
+                case UP -> this.setSpriteImg(!this.isMoving()
+                        ? player_img_up
+                        : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
+                        player_img_up_1, player_img_up_2
+                ));
+                case DOWN -> this.setSpriteImg(!this.isMoving()
+                        ? player_img_down
+                        : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
+                        player_img_down_1, player_img_down_2
+                ));
+                case LEFT -> this.setSpriteImg(!this.isMoving()
+                        ? player_img_left
+                        : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
+                        player_img_left_1, player_img_left_2
+                ));
+                case RIGHT -> this.setSpriteImg(!this.isMoving()
+                        ? player_img_right
+                        : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
+                        player_img_right_1, player_img_right_2
+                ));
+            }
+        } else {
+            this.setSpriteImg(Sprite.selectSprite(
+                    this.getFrameCount().getFrame(),
+                    60,
+                    player_dead, player_dead_1, player_dead_2
             ));
         }
+
     }
 }

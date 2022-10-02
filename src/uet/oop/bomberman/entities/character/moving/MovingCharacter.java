@@ -1,13 +1,34 @@
-package uet.oop.bomberman.entities.character;
+package uet.oop.bomberman.entities.character.moving;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.entities.character.Character;
+import uet.oop.bomberman.untility.Direction;
 import uet.oop.bomberman.untility.Distance;
 
 public abstract class MovingCharacter extends Character {
-    public enum Direction {LEFT, RIGHT, UP, DOWN}
 
+    private static final int timeToExplode = 60;
+    private boolean alive;
     private Direction direction;
     private boolean moving;
+    private boolean exploded;
+
+    public boolean isExploded() {
+        return exploded;
+    }
+
+    public void setExploded(boolean exploded) {
+        this.exploded = exploded;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+        this.getFrameCount().reset();
+    }
 
     public void setMoving(boolean moving) {
         this.moving = moving;
@@ -36,6 +57,8 @@ public abstract class MovingCharacter extends Character {
     public MovingCharacter(int crdX, int crdY, Image spriteImg) {
         super(crdX, crdY, spriteImg);
         this.setDirection(Direction.RIGHT);
+        this.setAlive(true);
+        this.setExploded(false);
         this.setMoving(false);
     }
 
@@ -48,8 +71,16 @@ public abstract class MovingCharacter extends Character {
     protected void selectSprite() {
     }
 
+    protected void explode() {
+        if (this.getFrameCount().getFrame() > timeToExplode) {
+            this.setExploded(true);
+        }
+    }
+
     /**
      * Move.
      */
     protected abstract void move(Distance distance);
+
+    protected abstract void kill();
 }

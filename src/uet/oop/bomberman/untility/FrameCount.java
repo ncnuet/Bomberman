@@ -13,4 +13,8 @@ public class FrameCount {
             this.frame = 0;
         }
     }
+
+    public void reset() {
+        this.frame = 0;
+    }
 }

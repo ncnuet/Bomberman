@@ -6,16 +6,8 @@ import uet.oop.bomberman.untility.Distance;
 import uet.oop.bomberman.untility.FrameCount;
 
 public abstract class Character extends Entity {
-    private boolean alive;
+
     private final FrameCount frameCount;
-
-    public boolean isAlive() {
-        return alive;
-    }
-
-    public void setAlive(boolean alive) {
-        this.alive = alive;
-    }
 
     public FrameCount getFrameCount() {
         return frameCount;
