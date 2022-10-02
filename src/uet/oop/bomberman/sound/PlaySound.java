@@ -1,62 +1,91 @@
 package uet.oop.bomberman.sound;
 
-import uet.oop.bomberman.untility.Convert;
+import uet.oop.bomberman.exceptions.AudioNotReadyException;
 import uet.oop.bomberman.untility.PathFile;
 
 import javax.sound.sampled.*;
-import java.util.Objects;
 
-public class PlaySound extends Thread {
+/**
+ * PlaySound class play a sound read from stream.
+ */
+public class PlaySound extends Thread implements AudioControl<Float> {
     private Clip clip;
-    private String path;
-    private boolean isContinuous;
+    private final boolean continuous;
     private float volume;
 
-    public boolean isContinuous() {
-        return isContinuous;
-    }
-
-    public void setContinuous(boolean continuous) {
-        isContinuous = continuous;
-    }
-
-    public float getVolume() {
+    /**
+     * Get current logarithm scale value.
+     *
+     * @return logarithm scale value (dB)
+     */
+    @Override
+    public Float getVolume() {
         return volume;
     }
 
-    public void setVolume(float volume) throws Exception {
+    /**
+     * Set current volume value.
+     * If clip being started, apply this change. (Thread State = RUNNABLE)
+     *
+     * @param volume volume by decibel
+     */
+    @Override
+    public void setVolume(Float volume) {
+        this.volume = volume;
         try {
-            FloatControl control =
-                    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            control.setValue(volume);
-        } catch (Exception e) {
-            throw new Exception("Unable to set volume now");
+            if (this.getState().equals(State.RUNNABLE)) this.applyVolume();
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
         }
     }
 
-    public PlaySound(String path) {
-        this.path = path;
+    /**
+     * Apply volume to current audio clip.
+     *
+     * @throws AudioNotReadyException exception.
+     */
+    private void applyVolume() throws AudioNotReadyException {
+        try {
+            FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            control.setValue(volume);
+        } catch (Exception e) {
+            throw new AudioNotReadyException();
+        }
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param path       audio relative file path.
+     * @param continuous is continuous.
+     */
+    public PlaySound(String path, boolean continuous) {
+        this.continuous = continuous;
+
         try {
             this.clip = AudioSystem.getClip();
+            AudioInputStream stream = AudioSystem.getAudioInputStream(
+                    PathFile.getStream(path));
+
+            this.clip.open(stream);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Open file as stream and play it in a Thread.
+     * Auto close and terminate Thread if play completely.
+     */
     @Override
     public void run() {
         try {
-            AudioInputStream audioInputStream =
-                    AudioSystem.getAudioInputStream(PathFile.getStream(this.path));
-            this.clip.open(audioInputStream);
+            // Config setting before playing
+            if (this.continuous) clip.loop(Clip.LOOP_CONTINUOUSLY);
+            this.applyVolume();
             this.clip.start();
-            if (this.isContinuous()) clip.loop(Clip.LOOP_CONTINUOUSLY);
 
-            // Set volume
-//                    FloatControl control =
-//                            (FloatControl) this.clip.getControl(FloatControl.Type.MASTER_GAIN);
-//                    this.volume = Convert.DecibelToLinear(control.getValue());
-
+            // If finish playing audio, kill this Thread
             clip.addLineListener((LineEvent event) -> {
                 if (event.getType().toString().equals("Stop")) {
                     this.interrupt();
@@ -65,7 +94,6 @@ public class PlaySound extends Thread {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println(e.getMessage());
         }
     }
 }

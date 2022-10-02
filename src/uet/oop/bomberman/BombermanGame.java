@@ -23,6 +23,7 @@ public class BombermanGame extends Application {
     public static final int OFFSET = Sprite.SCALED_SIZE / 2;
 
     public static int BomberSpeed = 2;
+    public static int FlameSegmentLength = 1;
 
 
     private Canvas canvas;

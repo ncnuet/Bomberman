@@ -29,16 +29,16 @@ public abstract class MapLoader {
         return this.size;
     }
 
-    public int getWidth(){
+    public void setSize(Size size) {
+        this.size = size;
+    }
+
+    public int getWidth() {
         return this.size.getWidth();
     }
 
-    public int getHeight(){
+    public int getHeight() {
         return this.size.getHeight();
-    }
-
-    public void setSize(Size size) {
-        this.size = size;
     }
 
     /**
@@ -53,12 +53,16 @@ public abstract class MapLoader {
     }
 
     /**
-     * Load play map
+     * Load map from file.
+     *
+     * @param mapID map ID
      */
     protected abstract void loadMap(String mapID) throws LoadMapException;
 
     /**
-     * Generate ultimate map from input
+     * Generate Entity from loaded map.
+     *
+     * @param playground game board manager
      */
     protected abstract void generateMap(Playground playground);
 }
