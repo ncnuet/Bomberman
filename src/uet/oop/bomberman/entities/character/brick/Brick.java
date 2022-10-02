@@ -1,10 +1,11 @@
-package uet.oop.bomberman.entities.tile;
+package uet.oop.bomberman.entities.character.brick;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.character.StaticCharacter;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class Brick extends Entity {
+public class Brick extends StaticCharacter {
     private static final Image spriteImg = Sprite.brick.getFxImage();
 
     /**
@@ -20,11 +21,5 @@ public class Brick extends Entity {
 
     @Override
     public void update() {
-
-    }
-
-    @Override
-    protected boolean collide(Entity entity) {
-        return false;
     }
 }

@@ -1,16 +1,25 @@
 package uet.oop.bomberman.sound;
 
+import uet.oop.bomberman.exceptions.AudioNotReadyException;
 import uet.oop.bomberman.untility.PathFile;
 
 import javax.sound.sampled.*;
 
-public class PlaySound extends Thread {
+/**
+ * PlaySound class play a sound read from stream.
+ */
+public class PlaySound extends Thread implements AudioControl<Float> {
     private Clip clip;
-    private final String path;
     private final boolean continuous;
     private float volume;
 
-    public float getVolume() {
+    /**
+     * Get current logarithm scale value.
+     *
+     * @return logarithm scale value (dB)
+     */
+    @Override
+    public Float getVolume() {
         return volume;
     }
 
@@ -20,7 +29,8 @@ public class PlaySound extends Thread {
      *
      * @param volume volume by decibel
      */
-    public void setVolume(float volume) {
+    @Override
+    public void setVolume(Float volume) {
         this.volume = volume;
         try {
             if (this.getState().equals(State.RUNNABLE)) this.applyVolume();
@@ -32,30 +42,30 @@ public class PlaySound extends Thread {
     /**
      * Apply volume to current audio clip.
      *
-     * @throws Exception exception.
+     * @throws AudioNotReadyException exception.
      */
-    private void applyVolume() throws Exception {
+    private void applyVolume() throws AudioNotReadyException {
         try {
             FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             control.setValue(volume);
         } catch (Exception e) {
-            throw new Exception("Unable to set volume now");
+            throw new AudioNotReadyException();
         }
     }
 
     /**
      * Constructor.
-     * @param path audio relative file path.
+     *
+     * @param path       audio relative file path.
      * @param continuous is continuous.
      */
     public PlaySound(String path, boolean continuous) {
-        this.path = path;
         this.continuous = continuous;
 
         try {
             this.clip = AudioSystem.getClip();
             AudioInputStream stream = AudioSystem.getAudioInputStream(
-                    PathFile.getStream(this.path));
+                    PathFile.getStream(path));
 
             this.clip.open(stream);
         } catch (Exception e) {

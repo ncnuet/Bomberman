@@ -17,14 +17,6 @@ public abstract class Tile extends Entity {
     }
 
     /**
-     * Collide.
-     */
-    @Override
-    protected boolean collide(Entity entity) {
-        return true; // Cannot go through
-    }
-
-    /**
      * Update.
      */
     @Override

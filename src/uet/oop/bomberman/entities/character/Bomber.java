@@ -1,10 +1,11 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.character;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.Keyboard.Keyboard;
+import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.keyboard.Keyboard;
 import uet.oop.bomberman.Playground;
-import uet.oop.bomberman.entities.bomb.Bomb;
+import uet.oop.bomberman.entities.character.bomb.Bomb;
 import uet.oop.bomberman.entities.tile.EntityType;
 import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.graphics.Sprite;
@@ -13,7 +14,11 @@ import uet.oop.bomberman.untility.Convert;
 import uet.oop.bomberman.untility.Distance;
 import uet.oop.bomberman.untility.Point;
 
-public final class Bomber extends Character {
+public final class Bomber extends MovingCharacter {
+
+    /**
+     * Sprite image.
+     */
     private static final Image player_img_up = Sprite.player_up.getFxImage();
     private static final Image player_img_up_1 = Sprite.player_up_1.getFxImage();
     private static final Image player_img_up_2 = Sprite.player_up_2.getFxImage();
@@ -27,11 +32,14 @@ public final class Bomber extends Character {
     private static final Image player_img_right_1 = Sprite.player_right_1.getFxImage();
     private static final Image player_img_right_2 = Sprite.player_right_2.getFxImage();
 
+    /**
+     * Main Class
+     */
+    private static final int MIN_TIME_BETWEEN_PUT_BOMB = 20;
     private final Keyboard keyboard;
     private final Playground playground;
     private int timeBetweenPutBomb; // by frame unit
     private Bomb myLatestBomb; // last set bomb
-    private static final int MIN_TIME_BETWEEN_PUT_BOMB = 20;
 
     public Bomber(int x, int y, Keyboard keyboard, Playground playground) {
         super(x, y, player_img_right);
@@ -51,12 +59,7 @@ public final class Bomber extends Character {
 
         // Display
         selectSprite();
-        this.getFrameCount().update();
-    }
-
-    @Override
-    protected boolean collide(Entity entity) {
-        return false;
+        super.update();
     }
 
     //-----------------

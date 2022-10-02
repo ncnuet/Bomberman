@@ -1,14 +1,13 @@
 package uet.oop.bomberman.entities;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.Stack;
 
-public class EntityGroup extends Entity {
-    private Stack<Entity> entities = new Stack<>();
+public final class EntityGroup extends Entity {
+    private final Stack<Entity> entities = new Stack<>();
 
     public Entity getTopEntity() {
-        return this.entities.get(this.entities.size() - 1);
+        return this.entities.peek();
     }
 
     public EntityGroup(int x, int y, Entity... entities) {
@@ -19,10 +18,5 @@ public class EntityGroup extends Entity {
     @Override
     public void update() {
 
-    }
-
-    @Override
-    protected boolean collide(Entity entity) {
-        return false;
     }
 }

@@ -2,33 +2,40 @@ package uet.oop.bomberman.map;
 
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.EntityGroup;
-import uet.oop.bomberman.entities.tile.Brick;
+import uet.oop.bomberman.entities.character.brick.Brick;
 import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.entities.tile.Wall;
-import uet.oop.bomberman.exceptions.GameException;
 import uet.oop.bomberman.exceptions.LoadMapException;
 import uet.oop.bomberman.exceptions.ParseMapException;
 import uet.oop.bomberman.untility.PathFile;
 import uet.oop.bomberman.untility.Size;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class FileMapLoader extends MapLoader {
-    private List<List<String>> map = new ArrayList<>();
+    private final List<List<String>> map = new ArrayList<>();
 
+    /**
+     * Load a map.
+     *
+     * @param mapID      string map id
+     * @param playground game board manager
+     */
     public FileMapLoader(String mapID, Playground playground) throws LoadMapException {
         super(mapID);
+
         loadMap(mapID);
         this.generateMap(playground);
     }
 
+    /**
+     * This function used to test only
+     */
     private void logFile() {
         System.out.println(this.getMapID());
         System.out.println(this.getTime());
@@ -42,7 +49,12 @@ public class FileMapLoader extends MapLoader {
         }
     }
 
-    private void readProps(String input) throws ParseMapException {
+    /**
+     * Read specification of map.
+     *
+     * @param input String line input
+     */
+    private void readSpecs(String input) throws ParseMapException {
         try {
             String[] props = input.split(" ");
             this.setMapID(props[0]);
@@ -57,6 +69,11 @@ public class FileMapLoader extends MapLoader {
         }
     }
 
+    /**
+     * Parse string input to special character corresponding to an entity.
+     *
+     * @param input String line input
+     */
     private void readEntityText(String input) throws ParseMapException {
         try {
             String[] entityChar = input.split("");
@@ -69,16 +86,21 @@ public class FileMapLoader extends MapLoader {
         }
     }
 
+    /**
+     * Read all lines in map file and decode it.
+     *
+     * @param mapID map ID
+     */
     @Override
     protected void loadMap(String mapID) throws LoadMapException {
-        final String path = PathFile.getPath("levels\\" + mapID + ".txt");
+        final String path = PathFile.getPath("/levels/" + mapID + ".txt");
 
         try {
             FileReader fileReader = new FileReader(path);
             BufferedReader buffer = new BufferedReader(fileReader);
             String row = "";
 
-            readProps(buffer.readLine());
+            readSpecs(buffer.readLine());
             do {
                 row = buffer.readLine();
                 if (!row.equals("")) readEntityText(row);
@@ -91,6 +113,12 @@ public class FileMapLoader extends MapLoader {
         }
     }
 
+    /**
+     * Load map with optional result log
+     *
+     * @param mapID String map id
+     * @param isLog is log
+     */
     protected void loadMap(String mapID, boolean isLog) throws LoadMapException {
         this.loadMap(mapID);
         if (isLog) {
@@ -98,6 +126,11 @@ public class FileMapLoader extends MapLoader {
         }
     }
 
+    /**
+     * Generate Entity from loaded map.
+     *
+     * @param playground game board manager
+     */
     @Override
     protected void generateMap(Playground playground) {
         int width = this.getWidth();

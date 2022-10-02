@@ -1,16 +1,19 @@
-package uet.oop.bomberman.entities.bomb;
+package uet.oop.bomberman.entities.character.bomb;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.Playground;
-import uet.oop.bomberman.entities.Character;
+import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.tile.Grass;
+import uet.oop.bomberman.entities.character.StaticCharacter;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.untility.Convert;
 import uet.oop.bomberman.untility.Distance;
 import uet.oop.bomberman.untility.Point;
 
-public class Flame extends Character {
+public class Flame extends StaticCharacter {
+    /**
+     * Sprite image.
+     */
     private static final Image center = Sprite.bomb_exploded.getFxImage();
     private static final Image center_1 = Sprite.bomb_exploded1.getFxImage();
     private static final Image center_2 = Sprite.bomb_exploded2.getFxImage();
@@ -32,8 +35,7 @@ public class Flame extends Character {
     private static final Image hor_right_2 = Sprite.explosion_horizontal_right_last2.getFxImage();
 
     private boolean exploded;
-    private final Point coordinate;
-    private Playground playground;
+    private final Playground playground;
     FramSegment[] side;
 
     public boolean isExploded() {
@@ -47,7 +49,6 @@ public class Flame extends Character {
     public Flame(int x, int y, Playground playground) {
         super(x, y, center);
         this.setExploded(false);
-        this.coordinate = Convert.pixelToTile(new Point(this.getX(), this.getY()));
         side = new FramSegment[4];
         this.playground = playground;
     }
@@ -56,11 +57,7 @@ public class Flame extends Character {
     public void update() {
         selectSprite();
         explode();
-        this.getFrameCount().update();
-    }
-
-    @Override
-    protected void move(Distance distance) {
+        super.update();
     }
 
     @Override
@@ -74,10 +71,5 @@ public class Flame extends Character {
         if (this.getFrameCount().getFrame() > 30) {
             this.setExploded(true);
         }
-    }
-
-    @Override
-    protected boolean collide(Entity entity) {
-        return false;
     }
 }

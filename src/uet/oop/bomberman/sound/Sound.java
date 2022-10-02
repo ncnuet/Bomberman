@@ -2,31 +2,21 @@ package uet.oop.bomberman.sound;
 
 import uet.oop.bomberman.untility.Convert;
 
-public class Sound {
-    /**
-     * Define audio file name.
-     */
-    private static final String BG_SOUND = "bg_sound";
-    private static final String BOM_EXPLODE = "bom_explode";
-    private static final String BOM_SET = "bom_set";
-
-    /**
-     * Define Audio object which ready to play.
-     */
-    public static final Sound bg_sound = new Sound(Sound.BG_SOUND, true);
-    public static final Sound bom_explode = new Sound((Sound.BOM_EXPLODE));
-    public static final Sound bom_set = new Sound(Sound.BOM_SET);
-
-    /**
-     * Internal property.
-     */
+/**
+ * Sound class control a special sound.
+ */
+public class Sound implements AudioControl<Integer>, AudioPack {
     private final String relativePath;
     private final boolean continuous;
-    private int volume = 100;
     private PlaySound playSound;
 
-    public int getVolume() {
-        return this.volume;
+    /**
+     * Return volume value after converted.
+     *
+     * @return linear volume value.
+     */
+    public Integer getVolume() {
+        return Convert.DecibelToLinear(this.playSound.getVolume());
     }
 
     /**
@@ -36,7 +26,8 @@ public class Sound {
      * @param volume value in linear scale (0-100)
      * @throws Exception exception.
      */
-    public void setVolume(int volume) throws Exception {
+    @Override
+    public void setVolume(Integer volume) throws Exception {
         if (volume >= 0 && volume <= 100) {
             this.playSound.setVolume(Convert.LinearToDecibel(volume));
         } else {
@@ -79,5 +70,4 @@ public class Sound {
             System.out.println(e.getMessage());
         }
     }
-
 }
