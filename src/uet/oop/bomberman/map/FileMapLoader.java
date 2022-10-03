@@ -5,6 +5,7 @@ import uet.oop.bomberman.entities.EntityGroup;
 import uet.oop.bomberman.entities.character.moving.CharacterType;
 import uet.oop.bomberman.entities.character.unmoving.brick.Brick;
 import uet.oop.bomberman.entities.tile.*;
+import uet.oop.bomberman.entities.tile.Item.*;
 import uet.oop.bomberman.exceptions.LoadMapException;
 import uet.oop.bomberman.exceptions.ParseMapException;
 import uet.oop.bomberman.untility.PathFile;

@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.entities.character.unmoving.brick.Brick;
+import uet.oop.bomberman.entities.tile.Tile;
 
 import java.util.Arrays;
 import java.util.Stack;
@@ -21,9 +22,14 @@ public final class EntityGroup extends Entity {
     @Override
     public void update() {
         this.entities.forEach(Entity::update);
+
+        // Remove
         this.entities.removeIf((Entity entity) -> {
             if (entity instanceof Brick) {
                 return (((Brick) entity).isExploded());
+            }
+            if (entity instanceof Tile) {
+                return ((Tile) entity).isInvisible();
             }
             return false;
         });

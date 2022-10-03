@@ -46,8 +46,7 @@ public final class Bomb extends Explosion {
         if (this.getFrameCount().getFrame() > TIME_TO_EXPLODE) {
             this.setExploded(true);
             Point coordinate = this.getCoordinate();
-            this.playground.addFlame(new Flame(coordinate.x, coordinate.y, this.playground,
-                    BombermanGame.FlameSegmentLength));
+            this.playground.addFlame(new Flame(coordinate.x, coordinate.y, this.playground));
             Sound.bom_explode.start();
         }
     }

@@ -23,9 +23,72 @@ public class BombermanGame extends Application {
 
     public static final int OFFSET = Sprite.SCALED_SIZE / 2;
 
-    public static int BomberSpeed = 2;
-    public static int FlameSegmentLength = 1;
+    private static int conf_BomberSpeed = 2;
+    private static int conf_FlameSegmentLength = 1;
+    private static boolean conf_canDetonate = false;
+    private static boolean conf_canByBomb = false;
+    private static boolean conf_canByFlame = false;
+    private static boolean conf_canByWall = false;
+    private static int bombCapacity = 1;
 
+    public static void updateBomberSpeed() {
+        final int max = 5;
+        if (conf_BomberSpeed < max) conf_BomberSpeed++;
+    }
+
+    public static int getBomberSpeed() {
+        return conf_BomberSpeed;
+    }
+
+    public static void updateFlameLength() {
+        final int max = 10;
+        if (conf_FlameSegmentLength < max) conf_FlameSegmentLength++;
+    }
+
+    public static void updateBombCapacity() {
+        final int max = 5;
+        if (bombCapacity < max) bombCapacity++;
+    }
+
+    public static int getBombCapacity() {
+        return bombCapacity;
+    }
+
+    public static void updateCanDetonate() {
+        conf_canDetonate = true;
+    }
+
+    public static boolean isConf_canDetonate() {
+        return conf_canDetonate;
+    }
+
+    public static int getFlameLength() {
+        return conf_FlameSegmentLength;
+    }
+
+    public static void updateCanByWall() {
+        conf_canByWall = true;
+    }
+
+    public static boolean isConf_canByWall() {
+        return conf_canByWall;
+    }
+
+    public static void updateCanByBomb() {
+        conf_canByBomb = true;
+    }
+
+    public static boolean isConf_canByBomb() {
+        return conf_canByBomb;
+    }
+
+    public static void updateCanByFlame() {
+        conf_canByFlame = true;
+    }
+
+    public static boolean isConf_canByFlame() {
+        return conf_canByFlame;
+    }
 
     private Canvas canvas;
 

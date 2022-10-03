@@ -1,9 +1,10 @@
-package uet.oop.bomberman.entities.tile;
+package uet.oop.bomberman.entities.tile.Item;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.entities.tile.Item.Item;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class FlameItem extends Tile {
+public class FlameItem extends Item {
     private static final Image flame_item = Sprite.powerup_flames.getFxImage();
 
     public FlameItem(int xUnit, int yUnit) {

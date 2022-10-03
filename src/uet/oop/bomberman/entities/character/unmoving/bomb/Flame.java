@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.character.unmoving.bomb;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.unmoving.Explosion;
@@ -22,13 +23,11 @@ public final class Flame extends Explosion {
     private static final int[] directionY = new int[]{-1, 0, 1, 0};
 
     private final Playground playground;
-    private final int flameSegmentLength;
 
-    public Flame(int x, int y, Playground playground, int length) {
+    public Flame(int x, int y, Playground playground) {
         super(x, y, center);
 
         this.playground = playground;
-        this.flameSegmentLength = length;
         this.generateSegment();
     }
 
@@ -52,7 +51,7 @@ public final class Flame extends Explosion {
         // Loop through 4 sides
         for (Direction direction : Direction.values()) {
             // find entity in range of flameSegmentLength
-            for (int j = 1; j <= flameSegmentLength; j++) {
+            for (int j = 1; j <= BombermanGame.getFlameLength(); j++) {
                 Point findingPosition = new Point(
                         currentPosition.x + directionX[index] * j,
                         currentPosition.y + directionY[index] * j);
@@ -65,7 +64,7 @@ public final class Flame extends Explosion {
                                 findingPosition.x,
                                 findingPosition.y,
                                 direction,
-                                j != flameSegmentLength
+                                j != BombermanGame.getFlameLength()
                         ));
                     } else if (entity instanceof Brick) {
                         ((Brick) entity).setExploding(true);

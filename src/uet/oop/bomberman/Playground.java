@@ -135,11 +135,6 @@ public class Playground {
         this.flames.forEach(Entity::update);
 
         // Remove out date entities
-        this.entities.removeIf((Entity entity) -> {
-            if (entity instanceof Tile) {
-                return ((Tile) entity).isInvisible();
-            } else return false;
-        });
         this.bombs.removeIf(Bomb::isExploded);
         this.flames.removeIf(Explosion::isExploded);
         this.characters.removeIf(MovingCharacter::isExploded);
