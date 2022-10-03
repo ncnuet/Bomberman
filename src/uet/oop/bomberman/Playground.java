@@ -4,9 +4,11 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import uet.oop.bomberman.entities.character.moving.CharacterType;
 import uet.oop.bomberman.entities.character.moving.MovingCharacter;
 import uet.oop.bomberman.entities.character.unmoving.Explosion;
 import uet.oop.bomberman.entities.character.unmoving.brick.Brick;
+import uet.oop.bomberman.entities.tile.Tile;
 import uet.oop.bomberman.keyboard.Keyboard;
 import uet.oop.bomberman.entities.character.moving.Bomber;
 import uet.oop.bomberman.entities.character.Character;
@@ -18,6 +20,7 @@ import uet.oop.bomberman.map.FileMapLoader;
 import uet.oop.bomberman.map.MapLoader;
 import uet.oop.bomberman.untility.Point;
 
+import java.lang.management.ThreadInfo;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +49,7 @@ public class Playground {
             this.bombs = new ArrayList<>();
             this.flames = new ArrayList<>();
 
-            this.map = new FileMapLoader("Level1", this);
+            this.map = new FileMapLoader("Level1");
             this.canvas = new Canvas(
                     Sprite.SCALED_SIZE * this.map.getSize().getWidth(),
                     Sprite.SCALED_SIZE * this.map.getSize().getWidth());
@@ -58,7 +61,7 @@ public class Playground {
 
             this.scene = new Scene(root);
             this.keyboard = new Keyboard(scene);
-            this.characters.add(new Bomber(1, 1, keyboard, this));
+            this.map.generateMap(this);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,6 +78,12 @@ public class Playground {
 
     public void addFlame(Explosion explosion) {
         this.flames.add(explosion);
+    }
+
+    public void addCharacter(int x, int y, CharacterType characterType) {
+        switch (characterType) {
+            case BOMBER -> this.characters.add(new Bomber(x, y, keyboard, this));
+        }
     }
 
     public Entity getTile(int index) {
@@ -126,6 +135,11 @@ public class Playground {
         this.flames.forEach(Entity::update);
 
         // Remove out date entities
+        this.entities.removeIf((Entity entity) -> {
+            if (entity instanceof Tile) {
+                return ((Tile) entity).isInvisible();
+            } else return false;
+        });
         this.bombs.removeIf(Bomb::isExploded);
         this.flames.removeIf(Explosion::isExploded);
         this.characters.removeIf(MovingCharacter::isExploded);

@@ -4,5 +4,6 @@ public enum EntityType {
     ENERMY,
     TILE,
     GRASS,
-    BOMB
+    BOMB,
+    PORTAL
 }

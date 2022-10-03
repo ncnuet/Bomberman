@@ -2,17 +2,16 @@ package uet.oop.bomberman.entities.character.moving;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.unmoving.Explosion;
-import uet.oop.bomberman.entities.character.unmoving.bomb.Flame;
-import uet.oop.bomberman.entities.character.unmoving.bomb.FrameSegment;
-import uet.oop.bomberman.entities.character.unmoving.brick.Brick;
-import uet.oop.bomberman.keyboard.Keyboard;
-import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.character.unmoving.bomb.Bomb;
+import uet.oop.bomberman.entities.character.unmoving.brick.Brick;
 import uet.oop.bomberman.entities.tile.EntityType;
 import uet.oop.bomberman.entities.tile.Grass;
+import uet.oop.bomberman.entities.tile.Portal;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.keyboard.Keyboard;
 import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.untility.Convert;
 import uet.oop.bomberman.untility.Direction;
@@ -78,6 +77,11 @@ public final class Bomber extends MovingCharacter {
     protected void kill() {
         this.setAlive(false);
         Sound.end_game.start();
+    }
+
+    private void portalIn() {
+        this.setAlive(false);
+        Sound.cryst_up.start();
     }
 
     //-----------------
@@ -149,6 +153,7 @@ public final class Bomber extends MovingCharacter {
             }
 
             if (entity instanceof Explosion && !(entity instanceof Brick)) return EntityType.BOMB;
+            if (entity instanceof Portal) return EntityType.PORTAL;
 
             if (!(entity instanceof Grass)) return EntityType.TILE;
         }
@@ -175,6 +180,9 @@ public final class Bomber extends MovingCharacter {
                 break;
             case BOMB:
                 kill();
+                break;
+            case PORTAL:
+                portalIn();
                 break;
             default: // Grass can move through
                 this.setX(this.getX() + distance.getX());

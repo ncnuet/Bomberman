@@ -64,5 +64,5 @@ public abstract class MapLoader {
      *
      * @param playground game board manager
      */
-    protected abstract void generateMap(Playground playground);
+    public abstract void generateMap(Playground playground);
 }
