@@ -1,6 +1,11 @@
-name: learn-github-actions
-run-name: ${{ github.actor }} is learning GitHub Actions
-on: [ push ]
+name: Update Wiki
+
+on:
+  push:
+    paths:
+      - 'wiki/**'
+    branches:
+      - map
 jobs:
   update-wiki:
     runs-on: ubuntu-latest
@@ -8,5 +13,5 @@ jobs:
     steps:
       - uses: OrlovM/Wiki-Action@v1
         with:
-          path: './Bomberman.wiki'
+          path: 'wiki'
           token: ${{ secrets.GITHUB_TOKEN }}
