@@ -7,8 +7,6 @@ jobs:
     name: Update wiki
     steps:
       - uses: actions/checkout@v2
-        run: |
-          echo
       - uses: ./.github/actions/update
         with:
           path: 'wiki'
