@@ -1,9 +1,6 @@
 name: Update Wiki
 
-on:
-  push:
-    paths:
-      - 'wiki/**'
+on: [ push ]
 jobs:
   update-wiki:
     runs-on: ubuntu-latest
