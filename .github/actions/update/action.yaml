@@ -11,7 +11,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: ./update-wiki.sh
+    - run: update-wiki.sh
       shell: bash
       env:
         WIKI_DIR: ${{ inputs.path }}
