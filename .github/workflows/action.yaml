@@ -7,7 +7,7 @@ jobs:
     name: Update wiki
     steps:
       - name: test script
-        run: ./.github/scripts/build.sh
+        run: ./.github/scripts/update.sh
         shell: bash
         env:
           WIKI_DIR: ${{ inputs.path }}
