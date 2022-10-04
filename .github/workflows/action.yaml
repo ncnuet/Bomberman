@@ -7,7 +7,9 @@ jobs:
     name: Update wiki
     steps:
       - uses: actions/checkout@v2
-      - uses: OrlovM/Wiki-Action@v1
+        run: |
+          echo
+      - uses: ./.github/actions/update
         with:
           path: 'wiki'
           token: ${{ secrets.GITHUB_TOKEN }}
