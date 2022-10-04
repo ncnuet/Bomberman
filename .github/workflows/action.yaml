@@ -4,8 +4,6 @@ on:
   push:
     paths:
       - './Bomberman.wiki/wiki/**'
-    branches:
-      - map
 jobs:
   update-wiki:
     runs-on: ubuntu-latest
