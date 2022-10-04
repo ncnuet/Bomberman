@@ -3,7 +3,7 @@ name: Update Wiki
 on:
   push:
     paths:
-      - 'wiki/**'
+      - './Bomberman.wiki/wiki/**'
     branches:
       - map
 jobs:
@@ -13,5 +13,5 @@ jobs:
     steps:
       - uses: OrlovM/Wiki-Action@v1
         with:
-          path: 'wiki'
+          path: './Bomberman.wiki/'
           token: ${{ secrets.GITHUB_TOKEN }}
