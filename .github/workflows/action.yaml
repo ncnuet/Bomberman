@@ -6,8 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Update wiki
     steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/update
-        with:
-          path: 'wiki'
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: test script
+        run: ./.github/scripts/build.sh
+        shell: bash
+        env:
+          WIKI_DIR: ${{ inputs.path }}
+          GH_TOKEN: ${{ inputs.token }}
