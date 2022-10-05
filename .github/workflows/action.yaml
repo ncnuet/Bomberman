@@ -1,14 +1,17 @@
 name: Update Wiki
 
-on: [ push ]
+on:
+  push:
+    paths:
+      - 'wiki/**'
+    branches:
+      - master
 jobs:
   update-wiki:
     runs-on: ubuntu-latest
     name: Update wiki
     steps:
-      - name: test script
-        run: ./.github/scripts/update.sh
-        shell: bash
-        env:
-          WIKI_DIR: ${{ inputs.path }}
-          GH_TOKEN: ${{ inputs.token }}
+      - uses: OrlovM/Wiki-Action@v1
+        with:
+          path: 'wiki'
+          token: ${{ secrets.GITHUB_TOKEN }}
