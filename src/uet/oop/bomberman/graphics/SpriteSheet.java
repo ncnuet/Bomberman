@@ -9,22 +9,16 @@ import java.net.URL;
 import java.util.Objects;
 
 /**
- * Save only one sprite sheet that can get a special sprite from there
+ * Save only one sprite sheet that can get a special sprite from here
  */
-public final class SpriteSheet {
+public final class SpriteSheet extends RawImage {
     // Constant class value
     public static final String PATH = "/textures/classic.png";
     public static final int SIZE = 256;
-    public static final SpriteSheet tiles = new SpriteSheet(SpriteSheet.PATH, SpriteSheet.SIZE);
+    public static final SpriteSheet sheet = new SpriteSheet(PATH, SIZE);
 
     // Object value
     private final String path;
-    private final int size;
-    public int[] pixels;
-
-    public int getSize() {
-        return size;
-    }
 
     /**
      * Constructor.
@@ -33,15 +27,14 @@ public final class SpriteSheet {
      * @param size size of square sheet
      */
     public SpriteSheet(String path, int size) {
+        super(size);
         this.path = path;
-        this.size = size;
-        this.pixels = new int[size * size];
 
         load();
     }
 
     /**
-     * Load resource and fill rgb value to pixels array.
+     * Load resource and fill argb value to pixel array.
      */
     private void load() {
         try {
@@ -51,11 +44,11 @@ public final class SpriteSheet {
             int w = image.getWidth();
             int h = image.getHeight();
 
-            // Fill pixel 1-D array with color code
+            // Fill 1-D pixel array with color code
             image.getRGB(0, 0, w, h, this.pixels, 0, w);
         } catch (IOException e) {
             e.printStackTrace();
-            System.exit(0);
+            System.exit(0); // Crash
         }
     }
 }
