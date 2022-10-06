@@ -9,7 +9,7 @@ import java.net.URL;
 import java.util.Objects;
 
 /**
- * Save only one sprite sheet that can get a special sprite from there
+ * Save only one sprite sheet that can get a special sprite from here
  */
 public final class SpriteSheet {
     // Constant class value
