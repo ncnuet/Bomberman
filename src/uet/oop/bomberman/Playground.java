@@ -4,6 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.WritableImage;
 import uet.oop.bomberman.entities.character.moving.CharacterType;
 import uet.oop.bomberman.entities.character.moving.MovingCharacter;
 import uet.oop.bomberman.entities.character.unmoving.Explosion;
@@ -20,6 +21,8 @@ import uet.oop.bomberman.map.FileMapLoader;
 import uet.oop.bomberman.map.MapLoader;
 import uet.oop.bomberman.untility.Point;
 
+import javax.swing.text.html.ImageView;
+import java.awt.*;
 import java.lang.management.ThreadInfo;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +38,6 @@ public class Playground {
 
     private GraphicsContext graphicsContext;
     private Canvas canvas;
-
     private Scene scene;
 
     public Scene getScene() {
@@ -51,13 +53,14 @@ public class Playground {
 
             this.map = new FileMapLoader("Level1");
             this.canvas = new Canvas(
-                    Sprite.SCALED_SIZE * this.map.getSize().getWidth(),
-                    Sprite.SCALED_SIZE * this.map.getSize().getWidth());
+                    Sprite.SCALED_SIZE * this.map.getWidth(),
+                    Sprite.SCALED_SIZE * this.map.getWidth());
             this.graphicsContext = canvas.getGraphicsContext2D();
 
             // Create root container
             Group root = new Group();
-            root.getChildren().add(this.canvas);
+            root.getChildren().add(canvas);
+
 
             this.scene = new Scene(root);
             this.keyboard = new Keyboard(scene);

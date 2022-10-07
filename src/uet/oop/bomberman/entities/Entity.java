@@ -17,6 +17,9 @@ public abstract class Entity {
     }
 
     public void setCoordinate(Point coordinate) {
+        if (coordinate.x < 0 || coordinate.y < 0) {
+            throw new IllegalArgumentException("Incorrect coordinate");
+        }
         this.coordinate = coordinate;
     }
 
