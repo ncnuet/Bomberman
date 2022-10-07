@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
+import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.character.unmoving.brick.Brick;
 import uet.oop.bomberman.entities.tile.Tile;
 
@@ -36,7 +37,7 @@ public final class EntityGroup extends Entity {
     }
 
     @Override
-    public void render(GraphicsContext graphicsContext) {
-        this.entities.forEach(entity -> entity.render(graphicsContext));
+    public void render(GraphicsContext graphicsContext, Playground playground) {
+        this.entities.forEach(entity -> entity.render(graphicsContext, playground));
     }
 }

@@ -5,7 +5,7 @@ package uet.oop.bomberman.graphics;
  */
 public interface SpritePack {
     int DEFAULT_SIZE = 16;
-    int SCALED_SIZE = DEFAULT_SIZE * 3;
+    int SCALED_SIZE = DEFAULT_SIZE * 2;
 
     /*
     |--------------------------------------------------------------------------

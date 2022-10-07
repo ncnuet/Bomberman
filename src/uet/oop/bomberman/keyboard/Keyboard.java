@@ -4,16 +4,24 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import uet.oop.bomberman.untility.Direction;
+import uet.oop.bomberman.untility.Distance;
 
-import java.security.Key;
 import java.util.*;
 
 public class Keyboard implements Code {
-    private final Map<KeyCode, Boolean> keyFlags = new HashMap<>();
-    public boolean up, down, left, right, space;
+    protected final Map<KeyCode, Boolean> keyFlags = new HashMap<>();
+
+    public Distance distance;
+    public boolean moving;
+    public Direction direction;
 
     public Keyboard(Scene scene) {
         // Initialize value
+        this.distance = new Distance(0, 0);
+        this.moving = false;
+        this.direction = Direction.RIGHT;
+
         for (KeyCode key : CODE_LIST) {
             keyFlags.put(key, false);
         }
@@ -34,13 +42,4 @@ public class Keyboard implements Code {
             }
         });
     }
-
-    public void update() {
-        this.up = keyFlags.get(KeyCode.UP) || keyFlags.get(KeyCode.W);
-        this.down = keyFlags.get(KeyCode.DOWN) || keyFlags.get(KeyCode.S);
-        this.left = keyFlags.get(KeyCode.LEFT) || keyFlags.get(KeyCode.A);
-        this.right = keyFlags.get(KeyCode.RIGHT) || keyFlags.get(KeyCode.D);
-        this.space = keyFlags.get(KeyCode.SPACE) || keyFlags.get(KeyCode.X);
-    }
-
 }

@@ -25,4 +25,8 @@ public final class Distance {
         this.x = x;
         this.y = y;
     }
+
+    public boolean isZero() {
+        return this.x == 0 && this.y == 0;
+    }
 }

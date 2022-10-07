@@ -1,12 +1,11 @@
 package uet.oop.bomberman.entities.character.unmoving.bomb;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Playground;
-import uet.oop.bomberman.entities.character.unmoving.Explosion;
-import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.untility.Point;
+import uet.oop.bomberman.entities.character.unmoving.Explosion;
+import uet.oop.bomberman.graphics.Sprite;
 
 public final class Bomb extends Explosion {
     /**

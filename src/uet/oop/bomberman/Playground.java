@@ -4,41 +4,65 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.WritableImage;
+import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.untility.Point;
 import uet.oop.bomberman.entities.character.moving.CharacterType;
 import uet.oop.bomberman.entities.character.moving.MovingCharacter;
 import uet.oop.bomberman.entities.character.unmoving.Explosion;
-import uet.oop.bomberman.entities.character.unmoving.brick.Brick;
-import uet.oop.bomberman.entities.tile.Tile;
-import uet.oop.bomberman.keyboard.Keyboard;
+import uet.oop.bomberman.keyboard.KeyControl;
 import uet.oop.bomberman.entities.character.moving.Bomber;
-import uet.oop.bomberman.entities.character.Character;
-import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.EntityGroup;
 import uet.oop.bomberman.entities.character.unmoving.bomb.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.FileMapLoader;
 import uet.oop.bomberman.map.MapLoader;
-import uet.oop.bomberman.untility.Point;
 
-import javax.swing.text.html.ImageView;
-import java.awt.*;
-import java.lang.management.ThreadInfo;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Playground {
-    private MapLoader map;
-    private Keyboard keyboard;
-
+    private int MIN_OFFSET_X;
+    private int MIN_OFFSET_Y;
     private List<Entity> entities;
     private List<MovingCharacter> characters;
     private List<Bomb> bombs;
     private List<Explosion> flames;
 
+    private MapLoader map;
+    private KeyControl keyboard;
     private GraphicsContext graphicsContext;
     private Canvas canvas;
     private Scene scene;
+    private int offsetX = 0;
+    private int offsetY = 0;
+
+    public int getOffsetX() {
+        return offsetX;
+    }
+
+    public void setOffsetX(int offsetX) {
+        if (offsetX <= 0 && offsetX >= MIN_OFFSET_X) {
+            this.offsetX = offsetX;
+        }
+    }
+
+    public int getOffsetY() {
+        return offsetY;
+    }
+
+    public void setOffsetY(int offsetY) {
+        if (offsetY <= 0 && offsetY >= MIN_OFFSET_Y) {
+            this.offsetY = offsetY;
+        }
+    }
+
+    public int getWidthByPixel() {
+        return this.map.getWidthByPixel();
+    }
+
+    public int getHeightByPixel() {
+        return this.map.getHeightByPixel();
+    }
 
     public Scene getScene() {
         return this.scene;
@@ -46,25 +70,31 @@ public class Playground {
 
     public Playground() {
         try {
+            // Initial list
             this.entities = new ArrayList<>();
             this.characters = new ArrayList<>();
             this.bombs = new ArrayList<>();
             this.flames = new ArrayList<>();
 
+            // Load map
             this.map = new FileMapLoader("Level1");
-            this.canvas = new Canvas(
-                    Sprite.SCALED_SIZE * this.map.getWidth(),
-                    Sprite.SCALED_SIZE * this.map.getWidth());
+            this.canvas = new Canvas(this.map.getHeightByPixel(), this.map.getWidthByPixel());
             this.graphicsContext = canvas.getGraphicsContext2D();
 
-            // Create root container
+            // Create root container wrap canvas
             Group root = new Group();
             root.getChildren().add(canvas);
 
-
+            // Start draw
             this.scene = new Scene(root);
-            this.keyboard = new Keyboard(scene);
+            this.keyboard = new KeyControl(scene);
             this.map.generateMap(this);
+
+            // Define boundary
+            int app_real_width = BombermanGame.APP_TILE_WIDTH * Sprite.SCALED_SIZE;
+            int app_real_height = BombermanGame.APP_TILE_HEIGHT * Sprite.SCALED_SIZE;
+            this.MIN_OFFSET_X = app_real_width - this.map.getWidthByPixel();
+            this.MIN_OFFSET_Y = app_real_height - this.map.getHeightByPixel();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,10 +177,10 @@ public class Playground {
 
     public void render() {
         graphicsContext.clearRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
-        entities.forEach(entity -> entity.render(graphicsContext));
-        characters.forEach(entity -> entity.render(graphicsContext));
-        bombs.forEach(entity -> entity.render(graphicsContext));
-        flames.forEach(entity -> entity.render(graphicsContext));
+        entities.forEach(entity -> entity.render(graphicsContext, this));
+        characters.forEach(entity -> entity.render(graphicsContext, this));
+        bombs.forEach(entity -> entity.render(graphicsContext, this));
+        flames.forEach(entity -> entity.render(graphicsContext, this));
     }
 
 }

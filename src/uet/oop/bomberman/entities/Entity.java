@@ -2,6 +2,9 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.Playground;
+import uet.oop.bomberman.entities.character.moving.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.untility.Convert;
 import uet.oop.bomberman.untility.Point;
@@ -69,8 +72,31 @@ public abstract class Entity {
      *
      * @param gc graphic context.
      */
-    public void render(GraphicsContext gc) {
-        gc.drawImage(spriteImg, x, y);
+    public void render(GraphicsContext gc, Playground playground) {
+        int posX = this.getX();
+        int posY = this.getY();
+        int centerDistanceX = BombermanGame.SCENE_WIDTH / 2;
+        int centerDistanceY = BombermanGame.SCENE_HEIGHT / 2;
+        int mapWidth = playground.getWidthByPixel();
+        int mapHeight = playground.getHeightByPixel();
+
+        if (this instanceof Bomber) {
+            if (this.getX() >= centerDistanceX && this.getX() + centerDistanceX <= mapWidth)
+                posX = centerDistanceX;
+            if (this.getY() >= centerDistanceY && this.getY() + centerDistanceY <= mapHeight)
+                posY = centerDistanceY;
+            if (this.getX() + centerDistanceX > mapWidth)
+                posX = BombermanGame.SCENE_WIDTH - (mapWidth - this.getX());
+            if (this.getY() + centerDistanceY > mapHeight)
+                posY = BombermanGame.SCENE_HEIGHT - (mapHeight - this.getY());
+        } else {
+            int offsetX = playground.getOffsetX();
+            int offsetY = playground.getOffsetY();
+            posX += offsetX;
+            posY += offsetY;
+        }
+
+        gc.drawImage(spriteImg, posX, posY);
     }
 
     /**

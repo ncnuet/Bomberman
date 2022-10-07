@@ -1,6 +1,5 @@
 package uet.oop.bomberman.untility;
 
-import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Convert {
