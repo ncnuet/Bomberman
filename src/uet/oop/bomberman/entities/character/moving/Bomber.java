@@ -7,15 +7,14 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.unmoving.Explosion;
 import uet.oop.bomberman.entities.character.unmoving.bomb.Bomb;
 import uet.oop.bomberman.entities.character.unmoving.brick.Brick;
+import uet.oop.bomberman.keyboard.KeyControl;
+import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.entities.tile.Item.*;
 import uet.oop.bomberman.untility.EntityType;
 import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.entities.tile.Item.Portal;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.keyboard.Keyboard;
-import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.untility.Convert;
-import uet.oop.bomberman.untility.Direction;
 import uet.oop.bomberman.untility.Distance;
 import uet.oop.bomberman.untility.Point;
 
@@ -44,12 +43,12 @@ public final class Bomber extends MovingCharacter {
      * Main Class
      */
     private static final int MIN_TIME_BETWEEN_PUT_BOMB = 20;
-    private final Keyboard keyboard;
+    private final KeyControl keyboard;
     private final Playground playground;
     private int timeBetweenPutBomb; // by frame unit
     private Bomb myLatestBomb; // last set bomb
 
-    public Bomber(int x, int y, Keyboard keyboard, Playground playground) {
+    public Bomber(int x, int y, KeyControl keyboard, Playground playground) {
         super(x, y, player_img_right);
         this.keyboard = keyboard;
         this.playground = playground;
@@ -59,7 +58,9 @@ public final class Bomber extends MovingCharacter {
     public void update() {
         // Determine entity and move
         if (this.isAlive()) {
-            Distance distance = listenMoving();
+            Distance distance = keyboard.getDistance();
+            setMoving(!distance.isZero());
+            setDirection(keyboard.getDirection());
             collide(distance);
         } else {
             explode();
@@ -84,7 +85,7 @@ public final class Bomber extends MovingCharacter {
     // Bombing handler
     // ----------------
     private void listenSetBomb() {
-        if (this.keyboard.space) {
+        if (this.keyboard.isSpacePressed()) {
             setBomb();
         }
     }
@@ -112,21 +113,6 @@ public final class Bomber extends MovingCharacter {
     //-----------------
     // Moving handler
     // ----------------
-
-    private Distance listenMoving() {
-        int x = (this.keyboard.left ? -1 : 0) + (this.keyboard.right ? 1 : 0);
-        int y = (this.keyboard.up ? -1 : 0) + (this.keyboard.down ? 1 : 0);
-
-        this.setMoving(x != 0 || y != 0);
-        if (x < 0) setDirection(Direction.LEFT);
-        if (x > 0) setDirection(Direction.RIGHT);
-        if (y < 0) setDirection(Direction.UP);
-        if (y > 0) setDirection(Direction.DOWN);
-
-        return new Distance(
-                x * BombermanGame.getBomberSpeed(),
-                y * BombermanGame.getBomberSpeed());
-    }
 
     private void collideItem(Entity entity) {
         ((Item) entity).setInvisible(true);
@@ -220,8 +206,23 @@ public final class Bomber extends MovingCharacter {
             // TODO: Mystery item.
 
             default: // Grass can move through
-                move(distance);
+                moveGraphic(distance);
+                moveSprite(distance);
                 break;
+        }
+    }
+
+    private void moveGraphic(Distance distance) {
+        int centerDistanceX = BombermanGame.SCENE_WIDTH / 2;
+        int centerDistanceY = BombermanGame.SCENE_HEIGHT / 2;
+        int mapWidth = playground.getWidthByPixel();
+        int mapHeight = playground.getHeightByPixel();
+
+        if (this.getX() >= centerDistanceX && this.getX() + centerDistanceX <= mapWidth) {
+            this.playground.setOffsetX(this.playground.getOffsetX() - distance.getX());
+        }
+        if (this.getY() >= centerDistanceY && this.getY() + centerDistanceY <= mapHeight) {
+            this.playground.setOffsetY(this.playground.getOffsetY() - distance.getY());
         }
     }
 
@@ -231,7 +232,7 @@ public final class Bomber extends MovingCharacter {
      * @param distance predicated distance
      */
     @Override
-    protected void move(Distance distance) {
+    protected void moveSprite(Distance distance) {
         this.setX(this.getX() + distance.getX());
         this.setY(this.getY() + distance.getY());
     }

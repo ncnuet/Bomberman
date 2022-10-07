@@ -4,12 +4,12 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.character.unmoving.Explosion;
 import uet.oop.bomberman.entities.character.unmoving.brick.Brick;
-import uet.oop.bomberman.entities.tile.Grass;
-import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.untility.Direction;
 import uet.oop.bomberman.untility.Point;
+import uet.oop.bomberman.entities.character.unmoving.Explosion;
+import uet.oop.bomberman.entities.tile.Grass;
+import uet.oop.bomberman.graphics.Sprite;
 
 public final class Flame extends Explosion {
     /**

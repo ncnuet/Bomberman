@@ -1,9 +1,9 @@
 package uet.oop.bomberman.entities.character.moving;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.untility.Direction;
 import uet.oop.bomberman.untility.Distance;
+import uet.oop.bomberman.entities.character.Character;
 
 public abstract class MovingCharacter extends Character {
 
@@ -12,6 +12,7 @@ public abstract class MovingCharacter extends Character {
     private Direction direction;
     private boolean moving;
     private boolean exploded;
+
 
     public boolean isExploded() {
         return exploded;
@@ -80,7 +81,7 @@ public abstract class MovingCharacter extends Character {
     /**
      * Move.
      */
-    protected abstract void move(Distance distance);
+    protected abstract void moveSprite(Distance distance);
 
     protected abstract void kill();
 }

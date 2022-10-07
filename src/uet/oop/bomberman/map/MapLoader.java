@@ -2,6 +2,7 @@ package uet.oop.bomberman.map;
 
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.exceptions.LoadMapException;
+import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.untility.Size;
 
 public abstract class MapLoader {
@@ -39,6 +40,14 @@ public abstract class MapLoader {
 
     public int getHeight() {
         return this.size.getHeight();
+    }
+
+    public int getWidthByPixel() {
+        return this.getWidth() * Sprite.SCALED_SIZE;
+    }
+
+    public int getHeightByPixel() {
+        return this.getHeight() * Sprite.SCALED_SIZE;
     }
 
     /**

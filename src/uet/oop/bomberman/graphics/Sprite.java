@@ -5,33 +5,54 @@ import javafx.scene.image.*;
 /**
  * Manage a special sprite.
  */
-public final class Sprite implements SpritePack {
-    private static final int TRANSPARENT_COLOR = 0xffff00ff;
-    private final int size;
+public final class Sprite extends RawImage implements SpritePack {
     private final int x, y;
-    public int[] pixels;
-    private final int realWidth;
-    private final int realHeight;
     private final SpriteSheet sheet;
 
     /**
      * Constructor.
      *
-     * @param size       size of sprite
-     * @param crdX       tile coordinate in sheet
-     * @param crdY       tile coordinate in sheet
-     * @param sheet      sheet map image
-     * @param realWidth  real width
-     * @param realHeight real height
+     * @param size  size of sprite
+     * @param crdX  tile coordinate in sheet
+     * @param crdY  tile coordinate in sheet
+     * @param sheet sheet map image
      */
-    public Sprite(int size, int crdX, int crdY, SpriteSheet sheet, int realWidth, int realHeight) {
-        this.size = size;
-        this.x = crdX * this.size;
-        this.y = crdY * this.size;
+    public Sprite(int size, int crdX, int crdY, SpriteSheet sheet) {
+        super(size);
+        this.x = crdX * this.size; // convert from coordinate to pixel position
+        this.y = crdY * this.size; // convert from coordinate to pixel position
         this.sheet = sheet;
-        this.realWidth = realWidth;
-        this.realHeight = realHeight;
-        this.pixels = new int[this.size * this.size];
+
+        load();
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param size size of sprite
+     * @param crdX tile coordinate in sheet
+     * @param crdY tile coordinate in sheet
+     */
+    public Sprite(int size, int crdX, int crdY) {
+        super(size);
+        this.x = crdX * this.size; // convert from coordinate to pixel position
+        this.y = crdY * this.size; // convert from coordinate to pixel position
+        this.sheet = SpriteSheet.sheet;
+
+        load();
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param crdX tile coordinate in sheet
+     * @param crdY tile coordinate in sheet
+     */
+    public Sprite(int crdX, int crdY) {
+        super(DEFAULT_SIZE);
+        this.x = crdX * this.size; // convert from coordinate to pixel position
+        this.y = crdY * this.size; // convert from coordinate to pixel position
+        this.sheet = SpriteSheet.sheet;
 
         load();
     }
@@ -42,20 +63,9 @@ public final class Sprite implements SpritePack {
     private void load() {
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-                pixels[x + y * size] = sheet.pixels[(x + this.x) + (y + this.y) * sheet.getSize()];
+                this.setPixel(x, y, sheet.getPixel(x + this.x, y + this.y));
             }
         }
-    }
-
-    /**
-     * Get pixel value at position (x,y).
-     *
-     * @param x posX
-     * @param y posY
-     * @return pixel value
-     */
-    private int getPixel(int x, int y) {
-        return this.pixels[x + y * size];
     }
 
     /**
@@ -75,9 +85,7 @@ public final class Sprite implements SpritePack {
         // Copy image
         for (int x = 0; x < this.size; x++) {
             for (int y = 0; y < this.size; y++) {
-                // read pixel and remove background color
                 final int pixel = this.getPixel(x, y);
-                final int finalPixel = pixel == TRANSPARENT_COLOR ? 0 : pixel;
 
                 // Fill pixel color
                 for (int dy = 0; dy < scaleFactor; dy++) {
@@ -85,10 +93,9 @@ public final class Sprite implements SpritePack {
                         pixelWriter.setArgb(
                                 x * scaleFactor + dx,
                                 y * scaleFactor + dy,
-                                finalPixel);
+                                pixel);
                     }
                 }
-
             }
         }
 
@@ -96,17 +103,20 @@ public final class Sprite implements SpritePack {
     }
 
     /**
-     * choose suitable sprite according to time passed
+     * Choose suitable sprite according to time passed
      *
-     * @param frameCount      time passed by frame unit
-     * @param framesForSprite total time frame unit for all sprite
-     * @param sprites         sprites
+     * @param frameCount            time passed by frame unit
+     * @param numberFramesForSprite total time frame unit for all sprite
+     * @param sprites               sprites
      * @return suitable sprite
      */
     @SafeVarargs
-    public static <T> T selectSprite(int frameCount, int framesForSprite, T... sprites) {
+    public static <T> T selectSprite(int frameCount, int numberFramesForSprite, T... sprites) {
         int numObject = sprites.length;
-        int session = framesForSprite / numObject;
-        return sprites[(frameCount % framesForSprite) / session];
+
+        // each frame display in the same span of time
+        int session = numberFramesForSprite / numObject;
+
+        return sprites[(frameCount % numberFramesForSprite) / session];
     }
 }

@@ -1,9 +1,9 @@
 package uet.oop.bomberman.entities.character.unmoving.bomb;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.untility.Direction;
 import uet.oop.bomberman.entities.character.unmoving.Explosion;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.untility.Direction;
 
 public final class FrameSegment extends Explosion {
     /**
