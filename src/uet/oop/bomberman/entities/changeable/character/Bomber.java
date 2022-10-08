@@ -4,9 +4,10 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.changeable.unmovable.Explosion;
+import uet.oop.bomberman.entities.changeable.character.enermy.Enermy;
 import uet.oop.bomberman.entities.changeable.unmovable.bomb.Bomb;
 import uet.oop.bomberman.entities.changeable.unmovable.bomb.FlameSegment;
+import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.keyboard.KeyControl;
 import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.entities.tile.item.*;
@@ -59,7 +60,7 @@ public final class Bomber extends MovingChangeableObject {
         if (this.isAlive()) {
             Distance distance = keyboard.getDistance();
             setMoving(keyboard.isMoving());
-            setDirection(keyboard.getDirection());
+            if (this.isMoving()) setDirection(keyboard.getDirection());
             collide(distance);
         } else {
             explode();
@@ -90,14 +91,21 @@ public final class Bomber extends MovingChangeableObject {
     }
 
     private void setBomb() {
+        int offsetX = Sprite.SCALED_SIZE / 2;
+        int offsetY = Sprite.SCALED_SIZE / 2;
+
         Point position = Convert.pixelToTile(new Point(
-                this.getX() + Sprite.SCALED_SIZE / 2,
-                this.getY() + Sprite.SCALED_SIZE / 2
+                this.getX() + offsetX,
+                this.getY() + offsetY
         ));
+
         Entity entity = this.playground.getEntity(position);
 
-        if (entity instanceof Grass && this.timeBetweenPutBomb > MIN_TIME_BETWEEN_PUT_BOMB) {
+        if (entity instanceof Grass &&
+                this.timeBetweenPutBomb > MIN_TIME_BETWEEN_PUT_BOMB &&
+                BombermanGame.getCurrentCapacity() > 0) {
             placeBomb(position);
+            BombermanGame.removeCurrentCapacity();
             this.timeBetweenPutBomb = 0;
         }
     }
@@ -132,7 +140,7 @@ public final class Bomber extends MovingChangeableObject {
                 if (entity == myLatestBomb) continue;
                 return entity;
             }
-            if (entity instanceof FlameSegment){
+            if (entity instanceof FlameSegment) {
                 return entity;
             }
             if (!(entity instanceof Grass)) return entity;
@@ -145,25 +153,34 @@ public final class Bomber extends MovingChangeableObject {
 
     private void collide(Distance distance) {
         Entity entity = detectEntity(distance);
-        if (entity == null || entity instanceof Grass) {
+        if (entity == null || entity instanceof Grass ||
+                (BombermanGame.isConf_canByBomb() && entity instanceof Bomb) ||
+                (BombermanGame.isConf_canByWall() && entity instanceof Wall &&
+                        !this.playground.isOutOfBound(entity.getCoordinate()))) {
             moveGraphic(distance);
             moveSprite(distance);
         } else if (entity instanceof Enermy) {
             // TODO
         } else if (entity instanceof FlameSegment) {
-            kill();
+            if (!BombermanGame.isConf_canByFlame()) {
+                kill();
+            }
         } else if (entity instanceof Item) {
             EntityType entityType = detectItem(entity);
             entity.setInvisible(true);
             Sound.cryst_up.start();
             switch (entityType) {
-                case ITEM_BOMB_BYPASS -> BombermanGame.updateCanByBomb();
-                case ITEM_WALL_BYPASS -> BombermanGame.updateCanByWall();
-                case ITEM_FLAME_BYPASS -> BombermanGame.updateCanByFlame();
-                case ITEM_BOMB -> BombermanGame.updateBombCapacity();
-                case ITEM_FLAME -> BombermanGame.updateFlameLength();
-                case ITEM_SPEED -> BombermanGame.updateBomberSpeed();
-                case ITEM_DETONATOR -> BombermanGame.updateCanDetonate();
+                case ITEM_BOMB_BYPASS -> BombermanGame.updateCanByBomb(); // v
+                case ITEM_WALL_BYPASS -> BombermanGame.updateCanByWall(); // v
+                case ITEM_FLAME_BYPASS -> BombermanGame.updateCanByFlame(); // v
+                case ITEM_BOMB -> { // v
+                    BombermanGame.updateBombCapacity();
+                    BombermanGame.addCurrentCapacity();
+                }
+                case ITEM_FLAME -> BombermanGame.updateFlameLength(); // v
+                case ITEM_SPEED -> BombermanGame.updateBomberSpeed(); // v
+                case ITEM_DETONATOR -> BombermanGame.updateCanDetonate(); // TODO:
+                case ITEM_MYSTERY -> BombermanGame.updateMystery(); // TODO:
                 case PORTAL -> this.setAlive(false);
                 // TODO: Mystery item.
             }

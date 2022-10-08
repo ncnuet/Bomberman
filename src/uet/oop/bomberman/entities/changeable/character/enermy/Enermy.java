@@ -1,9 +1,10 @@
-package uet.oop.bomberman.entities.changeable.character;
+package uet.oop.bomberman.entities.changeable.character.enermy;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.entities.changeable.character.MovingChangeableObject;
 import uet.oop.bomberman.untility.Distance;
 
-public class Enermy extends MovingChangeableObject {
+public abstract class Enermy extends MovingChangeableObject {
     /**
      * Constructor.
      * Create new Entity with position and it's image

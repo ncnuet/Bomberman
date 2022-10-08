@@ -157,6 +157,11 @@ public class Playground {
         } else return flame;
     }
 
+    public boolean isOutOfBound(Point coordinate) {
+        return (coordinate.x >= this.map.getWidth() - 1 || coordinate.x <= 0 ||
+                coordinate.y >= this.map.getHeight() - 1 || coordinate.y <= 0);
+    }
+
     /**
      * Update all entities.
      */

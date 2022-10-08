@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.changeable.unmovable.bomb;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.untility.Point;
@@ -47,6 +48,7 @@ public final class Bomb extends Explosion {
             this.setInvisible(true);
             Point coordinate = this.getCoordinate();
             this.playground.addFlame(new Flame(coordinate.x, coordinate.y, this.playground));
+            BombermanGame.addCurrentCapacity();
             Sound.bom_explode.start();
         }
     }

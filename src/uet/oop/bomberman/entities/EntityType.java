@@ -12,5 +12,6 @@ public enum EntityType {
     ITEM_FLAME,
     ITEM_FLAME_BYPASS,
     ITEM_SPEED,
-    ITEM_WALL_BYPASS
+    ITEM_WALL_BYPASS,
+    ITEM_MYSTERY
 }
