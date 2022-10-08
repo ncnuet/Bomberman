@@ -3,6 +3,9 @@ package uet.oop.bomberman.entities.tile;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.entities.Entity;
 
+/**
+ * Entity can not be movable, changeable.
+ */
 public abstract class Tile extends Entity {
     /**
      * Constructor.
@@ -12,16 +15,6 @@ public abstract class Tile extends Entity {
      * @param yUnit     position in predefined
      * @param spriteImg image
      */
-    private boolean invisible;
-
-    public boolean isInvisible() {
-        return invisible;
-    }
-
-    public void setInvisible(boolean invisible) {
-        this.invisible = invisible;
-    }
-
     public Tile(int xUnit, int yUnit, Image spriteImg) {
         super(xUnit, yUnit, spriteImg);
     }
@@ -31,5 +24,10 @@ public abstract class Tile extends Entity {
      */
     @Override
     public void update() {
+    }
+
+    @Override
+    protected void selectSpriteOnDead() {
+
     }
 }

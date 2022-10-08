@@ -5,14 +5,17 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.sprite.character.enermy.Balloon;
+import uet.oop.bomberman.entities.sprite.character.enermy.Enermy;
+import uet.oop.bomberman.entities.sprite.character.enermy.Oneal;
+import uet.oop.bomberman.entities.sprite.obstacle.bomb.Flame;
 import uet.oop.bomberman.untility.Point;
-import uet.oop.bomberman.entities.character.moving.CharacterType;
-import uet.oop.bomberman.entities.character.moving.MovingCharacter;
-import uet.oop.bomberman.entities.character.unmoving.Explosion;
+import uet.oop.bomberman.entities.sprite.character.CharacterType;
+import uet.oop.bomberman.entities.sprite.character.Character;
 import uet.oop.bomberman.keyboard.KeyControl;
-import uet.oop.bomberman.entities.character.moving.Bomber;
-import uet.oop.bomberman.entities.EntityGroup;
-import uet.oop.bomberman.entities.character.unmoving.bomb.Bomb;
+import uet.oop.bomberman.entities.sprite.character.Bomber;
+import uet.oop.bomberman.entities.StackEntity;
+import uet.oop.bomberman.entities.sprite.obstacle.bomb.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.FileMapLoader;
 import uet.oop.bomberman.map.MapLoader;
@@ -24,9 +27,9 @@ public class Playground {
     private int MIN_OFFSET_X;
     private int MIN_OFFSET_Y;
     private List<Entity> entities;
-    private List<MovingCharacter> characters;
+    private List<Character> characters;
     private List<Bomb> bombs;
-    private List<Explosion> flames;
+    private List<Flame> flames;
 
     private MapLoader map;
     private KeyControl keyboard;
@@ -109,23 +112,25 @@ public class Playground {
         this.bombs.add(bomb);
     }
 
-    public void addFlame(Explosion explosion) {
-        this.flames.add(explosion);
+    public void addFlame(Flame flame) {
+        this.flames.add(flame);
     }
 
     public void addCharacter(int x, int y, CharacterType characterType) {
         switch (characterType) {
             case BOMBER -> this.characters.add(new Bomber(x, y, keyboard, this));
+            case BALLOON -> this.characters.add(new Balloon(x, y));
+            case ONEAL -> this.characters.add(new Oneal(x, y));
         }
     }
 
-    public Entity getTile(int index) {
+    private Entity getTile(int index) {
         Entity entity = this.entities.get(index);
-        if (entity instanceof EntityGroup) return ((EntityGroup) entity).getTopEntity();
+        if (entity instanceof StackEntity) return ((StackEntity) entity).getTopEntity();
         return entity;
     }
 
-    public Entity getBomb(int x, int y) {
+    private Entity getBomb(int x, int y) {
         for (Bomb bomb : this.bombs) {
             Point coordinate = bomb.getCoordinate();
             if (coordinate.x == x && coordinate.y == y) {
@@ -135,11 +140,21 @@ public class Playground {
         return null;
     }
 
-    public Entity getFlame(int x, int y) {
-        for (Explosion flame : this.flames) {
-            Point coordinate = flame.getCoordinate();
-            if (coordinate.x == x && coordinate.y == y) {
-                return flame;
+    private Entity getFlame(int x, int y) {
+        for (Flame flame : this.flames) {
+            Entity e = flame.getFlameSegment(x, y);
+            if (e != null) return e;
+        }
+        return null;
+    }
+
+    private Entity getEnemy(int x, int y) {
+        for (Character character : this.characters) {
+            if (character instanceof Enermy) {
+                Point coordinate = character.getCoordinate();
+                if (coordinate.x == x && coordinate.y == y) {
+                    return character;
+                }
             }
         }
         return null;
@@ -151,10 +166,17 @@ public class Playground {
         Entity tile = getTile(point.y * width + point.x);
         Entity bomb = getBomb(point.x, point.y);
         Entity flame = getFlame(point.x, point.y);
+        Entity enemy = getEnemy(point.x, point.y);
 
-        if (flame == null) {
-            return (bomb == null) ? tile : bomb;
-        } else return flame;
+        if (enemy != null) return enemy;
+        if (flame != null) return flame;
+        if (bomb != null) return bomb;
+        return tile;
+    }
+
+    public boolean isOutOfBound(Point coordinate) {
+        return (coordinate.x >= this.map.getWidth() - 1 || coordinate.x <= 0 ||
+                coordinate.y >= this.map.getHeight() - 1 || coordinate.y <= 0);
     }
 
     /**
@@ -168,9 +190,9 @@ public class Playground {
         this.flames.forEach(Entity::update);
 
         // Remove out date entities
-        this.bombs.removeIf(Bomb::isExploded);
-        this.flames.removeIf(Explosion::isExploded);
-        this.characters.removeIf(MovingCharacter::isExploded);
+        this.bombs.removeIf(Bomb::isInvisible);
+        this.flames.removeIf(Flame::isInvisible);
+        this.characters.removeIf(Character::isInvisible);
 
         keyboard.update();
     }

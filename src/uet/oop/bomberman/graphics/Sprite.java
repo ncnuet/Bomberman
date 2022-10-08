@@ -117,6 +117,7 @@ public final class Sprite extends RawImage implements SpritePack {
         // each frame display in the same span of time
         int session = numberFramesForSprite / numObject;
 
+        if (frameCount == numberFramesForSprite) return sprites[numObject - 1];
         return sprites[(frameCount % numberFramesForSprite) / session];
     }
 }

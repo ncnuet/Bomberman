@@ -25,7 +25,7 @@ public class KeyControl extends Keyboard {
     }
 
     public Direction getDirection() {
-        Direction direction = Direction.RIGHT;
+        Direction direction = null;
 
         if (x < 0) direction = Direction.LEFT;
         if (x > 0) direction = Direction.RIGHT;

@@ -33,7 +33,25 @@ public class BombermanGame extends Application {
     private static boolean conf_canByBomb = false;
     private static boolean conf_canByFlame = false;
     private static boolean conf_canByWall = false;
+    private static boolean conf_mystery = false;
     private static int conf_bombCapacity = 1;
+    private static int currentCapacity = 1;
+
+    public static void addCurrentCapacity() {
+        if (currentCapacity + 1 <= conf_bombCapacity) {
+            currentCapacity++;
+        }
+    }
+
+    public static void removeCurrentCapacity() {
+        if (currentCapacity - 1 >= 0) {
+            currentCapacity--;
+        }
+    }
+
+    public static int getCurrentCapacity() {
+        return currentCapacity;
+    }
 
     public static void updateBomberSpeed() {
         final int max = 5;
@@ -59,7 +77,7 @@ public class BombermanGame extends Application {
     }
 
     public static void updateCanDetonate() {
-        conf_canDetonate = true;
+        BombermanGame.conf_canDetonate = true;
     }
 
     public static boolean isConf_canDetonate() {
@@ -71,7 +89,7 @@ public class BombermanGame extends Application {
     }
 
     public static void updateCanByWall() {
-        conf_canByWall = true;
+        BombermanGame.conf_canByWall = true;
     }
 
     public static boolean isConf_canByWall() {
@@ -79,7 +97,7 @@ public class BombermanGame extends Application {
     }
 
     public static void updateCanByBomb() {
-        conf_canByBomb = true;
+        BombermanGame.conf_canByBomb = true;
     }
 
     public static boolean isConf_canByBomb() {
@@ -87,11 +105,19 @@ public class BombermanGame extends Application {
     }
 
     public static void updateCanByFlame() {
-        conf_canByFlame = true;
+        BombermanGame.conf_canByFlame = true;
     }
 
     public static boolean isConf_canByFlame() {
         return conf_canByFlame;
+    }
+
+    public static boolean isConf_mystery() {
+        return conf_mystery;
+    }
+
+    public static void updateMystery() {
+        BombermanGame.conf_mystery = true;
     }
 
     /**

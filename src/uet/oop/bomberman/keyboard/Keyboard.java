@@ -12,16 +12,9 @@ import java.util.*;
 public class Keyboard implements Code {
     protected final Map<KeyCode, Boolean> keyFlags = new HashMap<>();
 
-    public Distance distance;
-    public boolean moving;
-    public Direction direction;
-
     public Keyboard(Scene scene) {
-        // Initialize value
-        this.distance = new Distance(0, 0);
-        this.moving = false;
-        this.direction = Direction.RIGHT;
 
+        // Initialize value
         for (KeyCode key : CODE_LIST) {
             keyFlags.put(key, false);
         }
