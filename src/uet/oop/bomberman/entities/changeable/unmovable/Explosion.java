@@ -1,10 +1,10 @@
-package uet.oop.bomberman.entities.character.unmoving;
+package uet.oop.bomberman.entities.changeable.unmovable;
 
 import javafx.scene.image.Image;
 
-public abstract class Explosion extends StaticCharacter implements Explodable {
-    private boolean exploded;
+public abstract class Explosion extends StaticChangeableObject implements Exploitable {
     private static final int TimeToExplode = 30; // in frame time;
+    private boolean exploded;
 
     public boolean isExploded() {
         return exploded;
@@ -24,12 +24,14 @@ public abstract class Explosion extends StaticCharacter implements Explodable {
      */
     public Explosion(int crdX, int crdY, Image spriteImg) {
         super(crdX, crdY, spriteImg);
+        this.setInvisible(false);
         this.setExploded(false);
     }
 
     @Override
     public void explode() {
         if (this.getFrameCount().getFrame() > TimeToExplode) {
+            this.setInvisible(true);
             this.setExploded(true);
         }
     }

@@ -1,4 +1,4 @@
-package uet.oop.bomberman.untility;
+package uet.oop.bomberman.entities;
 
 public enum EntityType {
     ENERMY,

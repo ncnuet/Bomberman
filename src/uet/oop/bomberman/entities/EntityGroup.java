@@ -2,7 +2,7 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.Playground;
-import uet.oop.bomberman.entities.character.unmoving.brick.Brick;
+import uet.oop.bomberman.entities.changeable.unmovable.brick.Brick;
 import uet.oop.bomberman.entities.tile.Tile;
 
 import java.util.Arrays;

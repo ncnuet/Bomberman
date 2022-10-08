@@ -1,7 +1,7 @@
-package uet.oop.bomberman.entities.character.unmoving.brick;
+package uet.oop.bomberman.entities.changeable.unmovable.brick;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.entities.character.unmoving.Explosion;
+import uet.oop.bomberman.entities.changeable.unmovable.Explosion;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Brick extends Explosion {

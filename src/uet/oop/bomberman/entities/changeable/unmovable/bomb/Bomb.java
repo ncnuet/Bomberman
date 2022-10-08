@@ -1,10 +1,10 @@
-package uet.oop.bomberman.entities.character.unmoving.bomb;
+package uet.oop.bomberman.entities.changeable.unmovable.bomb;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.untility.Point;
-import uet.oop.bomberman.entities.character.unmoving.Explosion;
+import uet.oop.bomberman.entities.changeable.unmovable.Explosion;
 import uet.oop.bomberman.graphics.Sprite;
 
 public final class Bomb extends Explosion {
@@ -16,6 +16,7 @@ public final class Bomb extends Explosion {
     private static final Image bomb_img_2 = Sprite.bomb_2.getFxImage();
 
     public static final int TIME_TO_EXPLODE = 120; // by frame unit
+
 
     private final Playground playground;
 
@@ -42,8 +43,8 @@ public final class Bomb extends Explosion {
      */
     @Override
     public void explode() {
-        if (this.getFrameCount().getFrame() > TIME_TO_EXPLODE) {
-            this.setExploded(true);
+        if (this.getFrameCount().getFrame() > TIME_TO_EXPLODE || this.isExploded()) {
+            this.setInvisible(true);
             Point coordinate = this.getCoordinate();
             this.playground.addFlame(new Flame(coordinate.x, coordinate.y, this.playground));
             Sound.bom_explode.start();

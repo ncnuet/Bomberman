@@ -1,13 +1,13 @@
-package uet.oop.bomberman.entities.character.unmoving.bomb;
+package uet.oop.bomberman.entities.changeable.unmovable.bomb;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.character.unmoving.brick.Brick;
+import uet.oop.bomberman.entities.changeable.unmovable.brick.Brick;
 import uet.oop.bomberman.untility.Direction;
 import uet.oop.bomberman.untility.Point;
-import uet.oop.bomberman.entities.character.unmoving.Explosion;
+import uet.oop.bomberman.entities.changeable.unmovable.Explosion;
 import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -60,7 +60,7 @@ public final class Flame extends Explosion {
                 if (findingPosition.x >= 0 && findingPosition.y >= 0) {
                     Entity entity = this.playground.getEntity(findingPosition);
                     if (entity instanceof Grass) {
-                        this.playground.addFlame(new FrameSegment(
+                        this.playground.addFlame(new FlameSegment(
                                 findingPosition.x,
                                 findingPosition.y,
                                 direction,
@@ -69,6 +69,8 @@ public final class Flame extends Explosion {
                     } else if (entity instanceof Brick) {
                         ((Brick) entity).setExploding(true);
                         break;
+                    } else if (entity instanceof Bomb) {
+                        ((Bomb) entity).setExploded(true);
                     } else break;
                 } else {
                     // if position is invalid, skip to next side

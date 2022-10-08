@@ -4,27 +4,18 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Playground;
-import uet.oop.bomberman.entities.character.moving.Bomber;
+import uet.oop.bomberman.entities.changeable.character.Bomber;
+import uet.oop.bomberman.entities.tile.item.*;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.untility.Convert;
 import uet.oop.bomberman.untility.Point;
 
 public abstract class Entity {
-    private int x; // in pixel
-    private int y; // in pixel
+    private int x, y; // in pixel
     private Point coordinate; // in tile
     private Image spriteImg;
 
-    public Point getCoordinate() {
-        return coordinate;
-    }
-
-    public void setCoordinate(Point coordinate) {
-        if (coordinate.x < 0 || coordinate.y < 0) {
-            throw new IllegalArgumentException("Incorrect coordinate");
-        }
-        this.coordinate = coordinate;
-    }
+    private boolean invisible;
 
     public int getX() {
         return x;
@@ -42,6 +33,25 @@ public abstract class Entity {
     public void setY(int y) {
         this.y = y;
         this.setCoordinate(Convert.pixelToTile(new Point(this.x, this.y)));
+    }
+
+    public Point getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(Point coordinate) {
+        if (coordinate.x < 0 || coordinate.y < 0) {
+            throw new IllegalArgumentException("Incorrect coordinate");
+        }
+        this.coordinate = coordinate;
+    }
+
+    public boolean isInvisible() {
+        return invisible;
+    }
+
+    public void setInvisible(boolean invisible) {
+        this.invisible = invisible;
     }
 
     public Image getSpriteImg() {
@@ -63,7 +73,8 @@ public abstract class Entity {
     public Entity(int crdX, int crdY, Image spriteImg) {
         this.setX(crdX * Sprite.SCALED_SIZE);
         this.setY(crdY * Sprite.SCALED_SIZE);
-
+        this.setCoordinate(new Point(crdX, crdY));
+        this.setInvisible(false);
         this.setSpriteImg(spriteImg);
     }
 
@@ -97,6 +108,19 @@ public abstract class Entity {
         }
 
         gc.drawImage(spriteImg, posX, posY);
+    }
+
+    protected EntityType detectItem(Entity entity) {
+        if (entity instanceof Portal) return EntityType.PORTAL;
+        if (entity instanceof BombItem) return EntityType.ITEM_BOMB;
+        if (entity instanceof BombpassItem) return EntityType.ITEM_BOMB_BYPASS;
+        if (entity instanceof FlameItem) return EntityType.ITEM_FLAME;
+        if (entity instanceof FlamepassItem) return EntityType.ITEM_FLAME_BYPASS;
+        if (entity instanceof DetonatorItem) return EntityType.ITEM_DETONATOR;
+        if (entity instanceof SpeedItem) return EntityType.ITEM_SPEED;
+        if (entity instanceof WallpassItem) return EntityType.ITEM_WALL_BYPASS;
+
+        return EntityType.TILE;
     }
 
     /**

@@ -1,9 +1,9 @@
-package uet.oop.bomberman.entities.character.unmoving;
+package uet.oop.bomberman.entities.changeable.character;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.entities.character.Character;
+import uet.oop.bomberman.untility.Distance;
 
-public abstract class StaticCharacter extends Character {
+public class Enermy extends MovingChangeableObject {
     /**
      * Constructor.
      * Create new Entity with position and it's image
@@ -12,16 +12,17 @@ public abstract class StaticCharacter extends Character {
      * @param crdY      position in predefined
      * @param spriteImg image
      */
-    public StaticCharacter(int crdX, int crdY, Image spriteImg) {
+    public Enermy(int crdX, int crdY, Image spriteImg) {
         super(crdX, crdY, spriteImg);
     }
 
     @Override
-    public void update() {
-        super.update();
+    protected void moveSprite(Distance distance) {
+
     }
 
     @Override
-    protected void selectSprite() {
+    protected void kill() {
+
     }
 }

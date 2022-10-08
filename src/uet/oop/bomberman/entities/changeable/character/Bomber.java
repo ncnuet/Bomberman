@@ -1,24 +1,23 @@
-package uet.oop.bomberman.entities.character.moving;
+package uet.oop.bomberman.entities.changeable.character;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.character.unmoving.Explosion;
-import uet.oop.bomberman.entities.character.unmoving.bomb.Bomb;
-import uet.oop.bomberman.entities.character.unmoving.brick.Brick;
+import uet.oop.bomberman.entities.changeable.unmovable.Explosion;
+import uet.oop.bomberman.entities.changeable.unmovable.bomb.Bomb;
+import uet.oop.bomberman.entities.changeable.unmovable.bomb.FlameSegment;
 import uet.oop.bomberman.keyboard.KeyControl;
 import uet.oop.bomberman.sound.Sound;
-import uet.oop.bomberman.entities.tile.Item.*;
-import uet.oop.bomberman.untility.EntityType;
+import uet.oop.bomberman.entities.tile.item.*;
+import uet.oop.bomberman.entities.EntityType;
 import uet.oop.bomberman.entities.tile.Grass;
-import uet.oop.bomberman.entities.tile.Item.Portal;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.untility.Convert;
 import uet.oop.bomberman.untility.Distance;
 import uet.oop.bomberman.untility.Point;
 
-public final class Bomber extends MovingCharacter {
+public final class Bomber extends MovingChangeableObject {
 
     /**
      * Sprite image.
@@ -59,7 +58,7 @@ public final class Bomber extends MovingCharacter {
         // Determine entity and move
         if (this.isAlive()) {
             Distance distance = keyboard.getDistance();
-            setMoving(!distance.isZero());
+            setMoving(keyboard.isMoving());
             setDirection(keyboard.getDirection());
             collide(distance);
         } else {
@@ -114,27 +113,7 @@ public final class Bomber extends MovingCharacter {
     // Moving handler
     // ----------------
 
-    private void collideItem(Entity entity) {
-        ((Item) entity).setInvisible(true);
-        Sound.cryst_up.start();
-    }
-
-    private EntityType detectItem(Entity entity) {
-        collideItem(entity);
-
-        if (entity instanceof Portal) return EntityType.PORTAL;
-        if (entity instanceof BombItem) return EntityType.ITEM_BOMB;
-        if (entity instanceof BombpassItem) return EntityType.ITEM_BOMB_BYPASS;
-        if (entity instanceof FlameItem) return EntityType.ITEM_FLAME;
-        if (entity instanceof FlamepassItem) return EntityType.ITEM_FLAME_BYPASS;
-        if (entity instanceof DetonatorItem) return EntityType.ITEM_DETONATOR;
-        if (entity instanceof SpeedItem) return EntityType.ITEM_SPEED;
-        if (entity instanceof WallpassItem) return EntityType.ITEM_WALL_BYPASS;
-
-        return EntityType.TILE;
-    }
-
-    private EntityType detectEntity(Distance distance) {
+    private Entity detectEntity(Distance distance) {
         final int size = Sprite.SCALED_SIZE - 1;
         boolean bombFlag = false;
         Entity entity = null;
@@ -151,66 +130,46 @@ public final class Bomber extends MovingCharacter {
             if (entity instanceof Bomb) {
                 bombFlag = true;
                 if (entity == myLatestBomb) continue;
-                return EntityType.BOMB;
+                return entity;
             }
-
-            if (entity instanceof Explosion && !(entity instanceof Brick)) return EntityType.BOMB;
-            if (entity instanceof Item) return detectItem(entity);
-
-
-            if (!(entity instanceof Grass)) return EntityType.TILE;
+            if (entity instanceof FlameSegment){
+                return entity;
+            }
+            if (!(entity instanceof Grass)) return entity;
         }
 
         // entity in this line = Grass | Bomb already set
         if (entity instanceof Grass && !bombFlag) this.myLatestBomb = null;
-        return EntityType.GRASS;
+        return null;
     }
 
     private void collide(Distance distance) {
-        EntityType entityType = detectEntity(distance);
-
-        switch (entityType) {
-            case TILE:
-                break;
-            case ENERMY:
-                // TODO: kill
-                break;
-            case BOMB:
-                kill();
-                break;
-            case PORTAL:
-                this.setAlive(false);
-                break;
-
-            case ITEM_BOMB_BYPASS:
-                BombermanGame.updateCanByBomb();
-                break;
-            case ITEM_WALL_BYPASS:
-                BombermanGame.updateCanByWall();
-                break;
-            case ITEM_FLAME_BYPASS:
-                BombermanGame.updateCanByFlame();
-                break;
-            case ITEM_BOMB:
-                BombermanGame.updateBombCapacity();
-                break;
-            case ITEM_FLAME:
-                BombermanGame.updateFlameLength();
-                break;
-            case ITEM_SPEED:
-                BombermanGame.updateBomberSpeed();
-                break;
-            case ITEM_DETONATOR:
-                BombermanGame.updateCanDetonate();
-                break;
-            // TODO: Mystery item.
-
-            default: // Grass can move through
-                moveGraphic(distance);
-                moveSprite(distance);
-                break;
+        Entity entity = detectEntity(distance);
+        if (entity == null || entity instanceof Grass) {
+            moveGraphic(distance);
+            moveSprite(distance);
+        } else if (entity instanceof Enermy) {
+            // TODO
+        } else if (entity instanceof FlameSegment) {
+            kill();
+        } else if (entity instanceof Item) {
+            EntityType entityType = detectItem(entity);
+            entity.setInvisible(true);
+            Sound.cryst_up.start();
+            switch (entityType) {
+                case ITEM_BOMB_BYPASS -> BombermanGame.updateCanByBomb();
+                case ITEM_WALL_BYPASS -> BombermanGame.updateCanByWall();
+                case ITEM_FLAME_BYPASS -> BombermanGame.updateCanByFlame();
+                case ITEM_BOMB -> BombermanGame.updateBombCapacity();
+                case ITEM_FLAME -> BombermanGame.updateFlameLength();
+                case ITEM_SPEED -> BombermanGame.updateBomberSpeed();
+                case ITEM_DETONATOR -> BombermanGame.updateCanDetonate();
+                case PORTAL -> this.setAlive(false);
+                // TODO: Mystery item.
+            }
         }
     }
+
 
     private void moveGraphic(Distance distance) {
         int centerDistanceX = BombermanGame.SCENE_WIDTH / 2;

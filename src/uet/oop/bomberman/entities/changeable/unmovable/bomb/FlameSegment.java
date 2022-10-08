@@ -1,11 +1,11 @@
-package uet.oop.bomberman.entities.character.unmoving.bomb;
+package uet.oop.bomberman.entities.changeable.unmovable.bomb;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.untility.Direction;
-import uet.oop.bomberman.entities.character.unmoving.Explosion;
+import uet.oop.bomberman.entities.changeable.unmovable.Explosion;
 import uet.oop.bomberman.graphics.Sprite;
 
-public final class FrameSegment extends Explosion {
+public final class FlameSegment extends Explosion {
     /**
      * Sprite image.
      */
@@ -41,7 +41,7 @@ public final class FrameSegment extends Explosion {
      * @param crdX position in predefined
      * @param crdY position in predefined
      */
-    public FrameSegment(int crdX, int crdY, Direction direction, boolean bodySegment) {
+    public FlameSegment(int crdX, int crdY, Direction direction, boolean bodySegment) {
         super(crdX, crdY, hor);
         this.direction = direction;
         this.bodySegment = bodySegment;

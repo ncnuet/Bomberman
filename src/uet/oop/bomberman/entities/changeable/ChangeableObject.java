@@ -1,10 +1,10 @@
-package uet.oop.bomberman.entities.character;
+package uet.oop.bomberman.entities.changeable;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.untility.FrameCount;
 
-public abstract class Character extends Entity {
+public abstract class ChangeableObject extends Entity {
 
     private final FrameCount frameCount;
 
@@ -20,7 +20,7 @@ public abstract class Character extends Entity {
      * @param crdY      position in predefined
      * @param spriteImg image
      */
-    public Character(int crdX, int crdY, Image spriteImg) {
+    public ChangeableObject(int crdX, int crdY, Image spriteImg) {
         super(crdX, crdY, spriteImg);
         this.frameCount = new FrameCount();
     }

@@ -1,26 +1,16 @@
-package uet.oop.bomberman.entities.character.moving;
+package uet.oop.bomberman.entities.changeable.character;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.untility.Direction;
 import uet.oop.bomberman.untility.Distance;
-import uet.oop.bomberman.entities.character.Character;
+import uet.oop.bomberman.entities.changeable.ChangeableObject;
 
-public abstract class MovingCharacter extends Character {
+public abstract class MovingChangeableObject extends ChangeableObject {
 
     private static final int timeToExplode = 60;
     private boolean alive;
     private Direction direction;
     private boolean moving;
-    private boolean exploded;
-
-
-    public boolean isExploded() {
-        return exploded;
-    }
-
-    public void setExploded(boolean exploded) {
-        this.exploded = exploded;
-    }
 
     public boolean isAlive() {
         return alive;
@@ -55,11 +45,11 @@ public abstract class MovingCharacter extends Character {
      * @param crdY      position in predefined
      * @param spriteImg image
      */
-    public MovingCharacter(int crdX, int crdY, Image spriteImg) {
+    public MovingChangeableObject(int crdX, int crdY, Image spriteImg) {
         super(crdX, crdY, spriteImg);
         this.setDirection(Direction.RIGHT);
         this.setAlive(true);
-        this.setExploded(false);
+        this.setInvisible(false);
         this.setMoving(false);
     }
 
@@ -74,7 +64,7 @@ public abstract class MovingCharacter extends Character {
 
     protected void explode() {
         if (this.getFrameCount().getFrame() > timeToExplode) {
-            this.setExploded(true);
+            this.setInvisible(true);
         }
     }
 
