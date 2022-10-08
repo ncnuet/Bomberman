@@ -1,10 +1,9 @@
-package uet.oop.bomberman.entities.changeable.character.enermy;
+package uet.oop.bomberman.entities.sprite.obstacle;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.entities.sprite.Sprite;
 
-public class PontanPink extends Enermy { //TODO:
-
+public abstract class StaticSprite extends Sprite {
     /**
      * Constructor.
      * Create new Entity with position and it's image
@@ -13,7 +12,12 @@ public class PontanPink extends Enermy { //TODO:
      * @param crdY      position in predefined
      * @param spriteImg image
      */
-    public PontanPink(int crdX, int crdY, Image spriteImg) {
+    public StaticSprite(int crdX, int crdY, Image spriteImg) {
         super(crdX, crdY, spriteImg);
+    }
+
+    @Override
+    public void update() {
+        super.update();
     }
 }

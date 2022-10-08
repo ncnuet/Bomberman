@@ -1,12 +1,12 @@
-package uet.oop.bomberman.entities.changeable.character;
+package uet.oop.bomberman.entities.sprite.character;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.changeable.character.enermy.Enermy;
-import uet.oop.bomberman.entities.changeable.unmovable.bomb.Bomb;
-import uet.oop.bomberman.entities.changeable.unmovable.bomb.FlameSegment;
+import uet.oop.bomberman.entities.sprite.character.enermy.Enermy;
+import uet.oop.bomberman.entities.sprite.obstacle.bomb.Bomb;
+import uet.oop.bomberman.entities.sprite.obstacle.bomb.FlameSegment;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.keyboard.KeyControl;
 import uet.oop.bomberman.sound.Sound;
@@ -18,7 +18,7 @@ import uet.oop.bomberman.untility.Convert;
 import uet.oop.bomberman.untility.Distance;
 import uet.oop.bomberman.untility.Point;
 
-public final class Bomber extends MovingChangeableObject {
+public final class Bomber extends Character {
 
     /**
      * Sprite image.
@@ -62,22 +62,30 @@ public final class Bomber extends MovingChangeableObject {
             setMoving(keyboard.isMoving());
             if (this.isMoving()) setDirection(keyboard.getDirection());
             collide(distance);
+            selectSprite();
         } else {
-            explode();
+            this.explode();
         }
 
         // Listen press space key to set bomb
         listenSetBomb();
         this.timeBetweenPutBomb++;
-
-        // Display
-        selectSprite();
         super.update();
     }
 
     @Override
-    protected void kill() {
+    public void kill() {
+        Sound.end_game.start();
         this.setAlive(false);
+    }
+
+    @Override
+    protected void selectSpriteOnDead() {
+        this.setSpriteImg(Sprite.selectSprite(
+                this.getFrameCount().getFrame(),
+                60,
+                player_dead, player_dead_1, player_dead_2
+        ));
     }
 
 
@@ -131,16 +139,14 @@ public final class Bomber extends MovingChangeableObject {
             int x = this.getX() + distance.getX() + (i % 2) * size + (i % 2 == 0 ? 4 : -10);
             int y = this.getY() + distance.getY() + (i / 2) * size + (i / 2 == 0 ? 5 : -5);
 
-            entity = this.playground.getEntity(
-                    Convert.pixelToTile(new Point(x, y))
-            );
+            entity = this.playground.getEntity(Convert.pixelToTile(new Point(x, y)));
 
             if (entity instanceof Bomb) {
                 bombFlag = true;
                 if (entity == myLatestBomb) continue;
                 return entity;
             }
-            if (entity instanceof FlameSegment) {
+            if (entity instanceof FlameSegment || entity instanceof Enermy) {
                 return entity;
             }
             if (!(entity instanceof Grass)) return entity;
@@ -160,7 +166,7 @@ public final class Bomber extends MovingChangeableObject {
             moveGraphic(distance);
             moveSprite(distance);
         } else if (entity instanceof Enermy) {
-            // TODO
+            kill();
         } else if (entity instanceof FlameSegment) {
             if (!BombermanGame.isConf_canByFlame()) {
                 kill();
@@ -218,36 +224,27 @@ public final class Bomber extends MovingChangeableObject {
      */
     @Override
     protected void selectSprite() {
-        if (this.isAlive()) {
-            switch (this.getDirection()) {
-                case UP -> this.setSpriteImg(!this.isMoving()
-                        ? player_img_up
-                        : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
-                        player_img_up_1, player_img_up_2
-                ));
-                case DOWN -> this.setSpriteImg(!this.isMoving()
-                        ? player_img_down
-                        : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
-                        player_img_down_1, player_img_down_2
-                ));
-                case LEFT -> this.setSpriteImg(!this.isMoving()
-                        ? player_img_left
-                        : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
-                        player_img_left_1, player_img_left_2
-                ));
-                case RIGHT -> this.setSpriteImg(!this.isMoving()
-                        ? player_img_right
-                        : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
-                        player_img_right_1, player_img_right_2
-                ));
-            }
-        } else {
-            this.setSpriteImg(Sprite.selectSprite(
-                    this.getFrameCount().getFrame(),
-                    60,
-                    player_dead, player_dead_1, player_dead_2
+        switch (this.getDirection()) {
+            case UP -> this.setSpriteImg(!this.isMoving()
+                    ? player_img_up
+                    : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
+                    player_img_up_1, player_img_up_2
+            ));
+            case DOWN -> this.setSpriteImg(!this.isMoving()
+                    ? player_img_down
+                    : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
+                    player_img_down_1, player_img_down_2
+            ));
+            case LEFT -> this.setSpriteImg(!this.isMoving()
+                    ? player_img_left
+                    : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
+                    player_img_left_1, player_img_left_2
+            ));
+            case RIGHT -> this.setSpriteImg(!this.isMoving()
+                    ? player_img_right
+                    : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
+                    player_img_right_1, player_img_right_2
             ));
         }
-
     }
 }

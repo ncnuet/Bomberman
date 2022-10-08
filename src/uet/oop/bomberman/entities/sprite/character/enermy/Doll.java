@@ -1,9 +1,10 @@
-package uet.oop.bomberman.entities.changeable.character.enermy;
+package uet.oop.bomberman.entities.sprite.character.enermy;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.untility.Distance;
 
-public class Doll extends Enermy{
+public final class Doll extends Enermy {
     private static final Image doll_left1 = Sprite.doll_left1.getFxImage();
     private static final Image doll_left2 = Sprite.doll_left2.getFxImage();
     private static final Image doll_left3 = Sprite.doll_left3.getFxImage();
@@ -18,9 +19,17 @@ public class Doll extends Enermy{
      *
      * @param crdX      position in predefined
      * @param crdY      position in predefined
-     * @param spriteImg image
      */
-    public Doll(int crdX, int crdY, Image spriteImg) {
-        super(crdX, crdY, spriteImg);
+    public Doll(int crdX, int crdY) {
+        super(crdX, crdY, doll_left1, doll_left1);
+    }
+
+    @Override
+    protected void selectSprite() {
+
+    }
+
+    @Override
+    protected void moveSprite(Distance distance) {
     }
 }

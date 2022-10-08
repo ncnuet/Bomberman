@@ -25,4 +25,9 @@ public abstract class Tile extends Entity {
     @Override
     public void update() {
     }
+
+    @Override
+    protected void selectSpriteOnDead() {
+
+    }
 }

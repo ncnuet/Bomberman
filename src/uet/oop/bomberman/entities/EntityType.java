@@ -1,10 +1,7 @@
 package uet.oop.bomberman.entities;
 
 public enum EntityType {
-    ENERMY,
     TILE,
-    GRASS,
-    BOMB,
     PORTAL,
     ITEM_BOMB,
     ITEM_BOMB_BYPASS,

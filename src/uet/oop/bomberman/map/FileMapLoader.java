@@ -1,9 +1,9 @@
 package uet.oop.bomberman.map;
 
 import uet.oop.bomberman.Playground;
-import uet.oop.bomberman.entities.EntityGroup;
-import uet.oop.bomberman.entities.changeable.character.CharacterType;
-import uet.oop.bomberman.entities.changeable.unmovable.brick.Brick;
+import uet.oop.bomberman.entities.StackEntity;
+import uet.oop.bomberman.entities.sprite.character.CharacterType;
+import uet.oop.bomberman.entities.sprite.obstacle.brick.Brick;
 import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.entities.tile.item.*;
 import uet.oop.bomberman.entities.tile.Wall;
@@ -145,63 +145,73 @@ public class FileMapLoader extends MapLoader {
                     case "#" -> // Wall
                             playground.addEntity(new Wall(x, y));
                     case "*" -> // Brick
-                            playground.addEntity(new EntityGroup(x, y,
+                            playground.addEntity(new StackEntity(x, y,
                                     new Grass(x, y),
                                     new Brick(x, y)
                             ));
                     case "x" -> // Portal
-                            playground.addEntity(new EntityGroup(x, y,
+                            playground.addEntity(new StackEntity(x, y,
                                     new Grass(x, y),
                                     new Portal(x, y),
                                     new Brick(x, y)
                             ));
-                    case "p" -> {
-                        // Bomber
+                    /*
+                     * Character
+                     */
+                    case "p" -> {  // Bomber
                         playground.addEntity(new Grass(x, y));
                         playground.addCharacter(x, y, CharacterType.BOMBER);
+                    }
+                    case "1" -> {
+                        playground.addEntity(new Grass(x, y));
+                        playground.addCharacter(x, y, CharacterType.BALLOON);
+                    }
+                    case "2" -> {
+                        playground.addEntity(new Grass(x, y));
+                        playground.addCharacter(x, y, CharacterType.ONEAL);
                     }
 
                     /*
                      * Power-up Item
                      */
                     case "s" -> // SpeedItem
-                            playground.addEntity(new EntityGroup(x, y,
+                            playground.addEntity(new StackEntity(x, y,
                                     new Grass(x, y),
                                     new SpeedItem(x, y),
                                     new Brick(x, y)
                             ));
                     case "b" -> // BombItem
-                            playground.addEntity(new EntityGroup(x, y,
+                            playground.addEntity(new StackEntity(x, y,
                                     new Grass(x, y),
                                     new BombItem(x, y),
                                     new Brick(x, y)
                             ));
                     case "f" -> // FlameItem
-                            playground.addEntity(new EntityGroup(x, y,
+                            playground.addEntity(new StackEntity(x, y,
                                     new Grass(x, y),
                                     new FlameItem(x, y),
                                     new Brick(x, y)
                             ));
                     case "h" -> // BombpassItem
-                            playground.addEntity(new EntityGroup(x, y,
+                            playground.addEntity(new StackEntity(x, y,
                                     new Grass(x, y),
                                     new BombpassItem(x, y),
                                     new Brick(x, y)
                             ));
                     case "j" -> // FlamePassItem
-                            playground.addEntity(new EntityGroup(x, y,
+                            playground.addEntity(new StackEntity(x, y,
                                     new Grass(x, y),
                                     new FlamepassItem(x, y),
                                     new Brick(x, y)
                             ));
                     case "k" -> // WallPassItem
-                            playground.addEntity(new EntityGroup(x, y,
+                            playground.addEntity(new StackEntity(x, y,
                                     new Grass(x, y),
                                     new WallpassItem(x, y),
                                     new Brick(x, y)
                             ));
                     case "d" -> // DetonatorItem
-                            playground.addEntity(new EntityGroup(x, y,
+                            playground.addEntity(new StackEntity(x, y,
                                     new Grass(x, y),
                                     new DetonatorItem(x, y),
                                     new Brick(x, y)

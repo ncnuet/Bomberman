@@ -4,10 +4,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Playground;
-import uet.oop.bomberman.entities.changeable.character.Bomber;
+import uet.oop.bomberman.entities.sprite.character.Bomber;
 import uet.oop.bomberman.entities.tile.item.*;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.untility.Convert;
+import uet.oop.bomberman.untility.FrameCount;
 import uet.oop.bomberman.untility.Point;
 
 public abstract class Entity {
@@ -16,6 +17,9 @@ public abstract class Entity {
     private Image spriteImg;
 
     private boolean invisible;
+    private boolean alive;
+    private int timeToExplode;
+    private final FrameCount frameCount;
 
     public int getX() {
         return x;
@@ -46,6 +50,14 @@ public abstract class Entity {
         this.coordinate = coordinate;
     }
 
+    public Image getSpriteImg() {
+        return spriteImg;
+    }
+
+    public void setSpriteImg(Image spriteImg) {
+        this.spriteImg = spriteImg;
+    }
+
     public boolean isInvisible() {
         return invisible;
     }
@@ -54,12 +66,25 @@ public abstract class Entity {
         this.invisible = invisible;
     }
 
-    public Image getSpriteImg() {
-        return spriteImg;
+    public boolean isAlive() {
+        return alive;
     }
 
-    public void setSpriteImg(Image spriteImg) {
-        this.spriteImg = spriteImg;
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+        this.frameCount.reset();
+    }
+
+    public int getTimeToExplode() {
+        return timeToExplode;
+    }
+
+    public void setTimeToExplode(int timeToExplode) {
+        this.timeToExplode = timeToExplode;
+    }
+
+    public FrameCount getFrameCount() {
+        return frameCount;
     }
 
     /**
@@ -76,6 +101,10 @@ public abstract class Entity {
         this.setCoordinate(new Point(crdX, crdY));
         this.setInvisible(false);
         this.setSpriteImg(spriteImg);
+        this.frameCount = new FrameCount();
+        this.setAlive(true);
+        this.setInvisible(false);
+        this.setTimeToExplode(60);
     }
 
     /**
@@ -126,5 +155,18 @@ public abstract class Entity {
     /**
      * Update.
      */
-    public abstract void update();
+    public void update() {
+        this.frameCount.update();
+        if (!this.isAlive()) explode();
+    }
+
+    protected void explode() {
+        if (this.getFrameCount().getFrame() > this.getTimeToExplode()) {
+            this.setInvisible(true);
+        } else {
+            selectSpriteOnDead();
+        }
+    }
+
+    protected abstract void selectSpriteOnDead();
 }

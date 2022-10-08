@@ -10,4 +10,6 @@ public interface AudioFileName {
     String BOM_SET = "bom_set";
     String END_GAME = "end_game";
     String CRYST_UP = "cryst_up";
+    String DEAD = "dead";
+
 }

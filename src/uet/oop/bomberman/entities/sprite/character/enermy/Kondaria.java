@@ -1,9 +1,10 @@
-package uet.oop.bomberman.entities.changeable.character.enermy;
+package uet.oop.bomberman.entities.sprite.character.enermy;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.untility.Distance;
 
-public class Kondaria extends Enermy {
+public final class Kondaria extends Enermy {
     private static final Image kondaria_left1 = Sprite.kondoria_left1.getFxImage();
     private static final Image kondaria_left2 = Sprite.kondoria_left2.getFxImage();
     private static final Image kondaria_left3 = Sprite.kondoria_left3.getFxImage();
@@ -20,7 +21,17 @@ public class Kondaria extends Enermy {
      * @param crdY      position in predefined
      * @param spriteImg image
      */
-    public Kondaria(int crdX, int crdY, Image spriteImg) {
-        super(crdX, crdY, spriteImg);
+    public Kondaria(int crdX, int crdY) {
+        super(crdX, crdY, kondaria_left1, kondaria_left1);
+    }
+
+    @Override
+    protected void selectSprite() {
+
+    }
+
+    @Override
+    protected void moveSprite(Distance distance) {
+
     }
 }

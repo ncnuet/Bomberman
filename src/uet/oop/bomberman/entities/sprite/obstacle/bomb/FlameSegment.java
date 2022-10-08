@@ -1,11 +1,11 @@
-package uet.oop.bomberman.entities.changeable.unmovable.bomb;
+package uet.oop.bomberman.entities.sprite.obstacle.bomb;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.untility.Direction;
-import uet.oop.bomberman.entities.changeable.unmovable.Explosion;
 import uet.oop.bomberman.graphics.Sprite;
 
-public final class FlameSegment extends Explosion {
+public final class FlameSegment extends Entity {
     /**
      * Sprite image.
      */
@@ -45,16 +45,12 @@ public final class FlameSegment extends Explosion {
         super(crdX, crdY, hor);
         this.direction = direction;
         this.bodySegment = bodySegment;
+        this.setAlive(false);
+        this.setTimeToExplode(30);
     }
 
     @Override
-    public void update() {
-        selectSprite();
-        super.update();
-    }
-
-    @Override
-    protected void selectSprite() {
+    protected void selectSpriteOnDead() {
         if (this.bodySegment) {
             switch (direction) {
                 case LEFT, RIGHT -> this.setSpriteImg(

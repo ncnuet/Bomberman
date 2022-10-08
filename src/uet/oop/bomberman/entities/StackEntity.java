@@ -2,20 +2,20 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.Playground;
-import uet.oop.bomberman.entities.changeable.unmovable.brick.Brick;
+import uet.oop.bomberman.entities.sprite.obstacle.brick.Brick;
 import uet.oop.bomberman.entities.tile.Tile;
 
 import java.util.Arrays;
 import java.util.Stack;
 
-public final class EntityGroup extends Entity {
+public final class StackEntity extends Entity {
     private final Stack<Entity> entities = new Stack<>();
 
     public Entity getTopEntity() {
         return this.entities.peek();
     }
 
-    public EntityGroup(int x, int y, Entity... entities) {
+    public StackEntity(int x, int y, Entity... entities) {
         super(x, y, entities[entities.length - 1].getSpriteImg());
         this.entities.addAll(Arrays.stream(entities).toList());
     }
@@ -27,13 +27,18 @@ public final class EntityGroup extends Entity {
         // Remove
         this.entities.removeIf((Entity entity) -> {
             if (entity instanceof Brick) {
-                return (((Brick) entity).isExploded());
+                return (((Brick) entity).isInvisible());
             }
             if (entity instanceof Tile) {
                 return ((Tile) entity).isInvisible();
             }
             return false;
         });
+    }
+
+    @Override
+    protected void selectSpriteOnDead() {
+
     }
 
     @Override

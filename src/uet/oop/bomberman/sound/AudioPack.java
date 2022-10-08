@@ -10,5 +10,6 @@ public interface AudioPack {
     Sound bom_set = new Sound(AudioFileName.BOM_SET);
     Sound end_game = new Sound(AudioFileName.END_GAME);
     Sound cryst_up = new Sound(AudioFileName.CRYST_UP);
+    Sound dead = new Sound(AudioFileName.DEAD);
 
 }

@@ -1,10 +1,10 @@
-package uet.oop.bomberman.entities.changeable.unmovable.brick;
+package uet.oop.bomberman.entities.sprite.obstacle.brick;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.entities.changeable.unmovable.Explosion;
+import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class Brick extends Explosion {
+public class Brick extends Entity {
     /**
      * Sprite image.
      */
@@ -12,16 +12,6 @@ public class Brick extends Explosion {
     private static final Image brick_exploded = Sprite.brick_exploded.getFxImage();
     private static final Image brick_exploded_1 = Sprite.brick_exploded1.getFxImage();
     private static final Image brick_exploded_2 = Sprite.brick_exploded2.getFxImage();
-
-    private boolean exploding;
-
-    public boolean isExploding() {
-        return exploding;
-    }
-
-    public void setExploding(boolean exploding) {
-        this.exploding = exploding;
-    }
 
     /**
      * Constructor.
@@ -32,19 +22,11 @@ public class Brick extends Explosion {
      */
     public Brick(int xUnit, int yUnit) {
         super(xUnit, yUnit, brick);
-        this.setExploding(false);
+        this.setTimeToExplode(30);
     }
 
     @Override
-    public void update() {
-        if (this.isExploding()) {
-            selectSprite();
-            super.update();
-        }
-    }
-
-    @Override
-    protected void selectSprite() {
+    protected void selectSpriteOnDead() {
         this.setSpriteImg(Sprite.selectSprite(
                 this.getFrameCount().getFrame(), 30,
                 brick_exploded, brick_exploded_1, brick_exploded_2));
