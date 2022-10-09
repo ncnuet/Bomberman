@@ -4,28 +4,27 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Playground;
-import uet.oop.bomberman.entities.sprite.character.Bomber;
+import uet.oop.bomberman.entities.spriteEntity.character.Bomber;
 import uet.oop.bomberman.entities.tile.item.*;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.untility.Convert;
-import uet.oop.bomberman.untility.FrameCount;
-import uet.oop.bomberman.untility.Point;
+import uet.oop.bomberman.util.Convert;
+import uet.oop.bomberman.util.Point;
 
 public abstract class Entity {
+
+    private static final int CENTER_POINT_X = BombermanGame.SCENE_WIDTH / 2;
+    private static final int CENTER_POINT_Y = BombermanGame.SCENE_HEIGHT / 2;
+
     private int x, y; // in pixel
     private Point coordinate; // in tile
     private Image spriteImg;
-
     private boolean invisible;
-    private boolean alive;
-    private int timeToExplode;
-    private final FrameCount frameCount;
 
     public int getX() {
         return x;
     }
 
-    public void setX(int x) {
+    protected void setX(int x) {
         this.x = x;
         this.setCoordinate(Convert.pixelToTile(new Point(this.x, this.y)));
     }
@@ -34,7 +33,7 @@ public abstract class Entity {
         return y;
     }
 
-    public void setY(int y) {
+    protected void setY(int y) {
         this.y = y;
         this.setCoordinate(Convert.pixelToTile(new Point(this.x, this.y)));
     }
@@ -43,10 +42,7 @@ public abstract class Entity {
         return coordinate;
     }
 
-    public void setCoordinate(Point coordinate) {
-        if (coordinate.x < 0 || coordinate.y < 0) {
-            throw new IllegalArgumentException("Incorrect coordinate");
-        }
+    protected void setCoordinate(Point coordinate) {
         this.coordinate = coordinate;
     }
 
@@ -54,7 +50,7 @@ public abstract class Entity {
         return spriteImg;
     }
 
-    public void setSpriteImg(Image spriteImg) {
+    protected void setSpriteImg(Image spriteImg) {
         this.spriteImg = spriteImg;
     }
 
@@ -62,29 +58,8 @@ public abstract class Entity {
         return invisible;
     }
 
-    public void setInvisible(boolean invisible) {
+    protected void setInvisible(boolean invisible) {
         this.invisible = invisible;
-    }
-
-    public boolean isAlive() {
-        return alive;
-    }
-
-    public void setAlive(boolean alive) {
-        this.alive = alive;
-        this.frameCount.reset();
-    }
-
-    public int getTimeToExplode() {
-        return timeToExplode;
-    }
-
-    public void setTimeToExplode(int timeToExplode) {
-        this.timeToExplode = timeToExplode;
-    }
-
-    public FrameCount getFrameCount() {
-        return frameCount;
     }
 
     /**
@@ -96,15 +71,12 @@ public abstract class Entity {
      * @param spriteImg image
      */
     public Entity(int crdX, int crdY, Image spriteImg) {
-        this.setX(crdX * Sprite.SCALED_SIZE);
-        this.setY(crdY * Sprite.SCALED_SIZE);
+        this.setX(crdX * Sprite.SCALED_SIZE); // convert from tile crd to pixel crd
+        this.setY(crdY * Sprite.SCALED_SIZE); // convert from tile crd to pixel crd
         this.setCoordinate(new Point(crdX, crdY));
-        this.setInvisible(false);
         this.setSpriteImg(spriteImg);
-        this.frameCount = new FrameCount();
-        this.setAlive(true);
         this.setInvisible(false);
-        this.setTimeToExplode(60);
+        this.setInvisible(false);
     }
 
     /**
@@ -115,19 +87,17 @@ public abstract class Entity {
     public void render(GraphicsContext gc, Playground playground) {
         int posX = this.getX();
         int posY = this.getY();
-        int centerDistanceX = BombermanGame.SCENE_WIDTH / 2;
-        int centerDistanceY = BombermanGame.SCENE_HEIGHT / 2;
         int mapWidth = playground.getWidthByPixel();
         int mapHeight = playground.getHeightByPixel();
 
         if (this instanceof Bomber) {
-            if (this.getX() >= centerDistanceX && this.getX() + centerDistanceX <= mapWidth)
-                posX = centerDistanceX;
-            if (this.getY() >= centerDistanceY && this.getY() + centerDistanceY <= mapHeight)
-                posY = centerDistanceY;
-            if (this.getX() + centerDistanceX > mapWidth)
+            if (this.getX() >= CENTER_POINT_X && this.getX() + CENTER_POINT_X <= mapWidth)
+                posX = CENTER_POINT_X;
+            if (this.getY() >= CENTER_POINT_Y && this.getY() + CENTER_POINT_Y <= mapHeight)
+                posY = CENTER_POINT_Y;
+            if (this.getX() + CENTER_POINT_X > mapWidth)
                 posX = BombermanGame.SCENE_WIDTH - (mapWidth - this.getX());
-            if (this.getY() + centerDistanceY > mapHeight)
+            if (this.getY() + CENTER_POINT_Y > mapHeight)
                 posY = BombermanGame.SCENE_HEIGHT - (mapHeight - this.getY());
         } else {
             int offsetX = playground.getOffsetX();
@@ -139,7 +109,7 @@ public abstract class Entity {
         gc.drawImage(spriteImg, posX, posY);
     }
 
-    protected EntityType detectItem(Entity entity) {
+    public static EntityType detectItem(Entity entity) {
         if (entity instanceof Portal) return EntityType.PORTAL;
         if (entity instanceof BombItem) return EntityType.ITEM_BOMB;
         if (entity instanceof BombpassItem) return EntityType.ITEM_BOMB_BYPASS;
@@ -152,21 +122,7 @@ public abstract class Entity {
         return EntityType.TILE;
     }
 
-    /**
-     * Update.
-     */
-    public void update() {
-        this.frameCount.update();
-        if (!this.isAlive()) explode();
-    }
+    public abstract void update();
 
-    protected void explode() {
-        if (this.getFrameCount().getFrame() > this.getTimeToExplode()) {
-            this.setInvisible(true);
-        } else {
-            selectSpriteOnDead();
-        }
-    }
-
-    protected abstract void selectSpriteOnDead();
+    public abstract void kill();
 }

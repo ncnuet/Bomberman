@@ -19,15 +19,13 @@ public abstract class Tile extends Entity {
         super(xUnit, yUnit, spriteImg);
     }
 
-    /**
-     * Update.
-     */
     @Override
-    public void update() {
+    public void kill() {
+        this.setInvisible(true);
     }
 
     @Override
-    protected void selectSpriteOnDead() {
+    public void update() {
 
     }
 }

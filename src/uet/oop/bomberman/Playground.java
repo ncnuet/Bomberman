@@ -5,17 +5,17 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.sprite.character.enermy.Balloon;
-import uet.oop.bomberman.entities.sprite.character.enermy.Enermy;
-import uet.oop.bomberman.entities.sprite.character.enermy.Oneal;
-import uet.oop.bomberman.entities.sprite.obstacle.bomb.Flame;
-import uet.oop.bomberman.untility.Point;
-import uet.oop.bomberman.entities.sprite.character.CharacterType;
-import uet.oop.bomberman.entities.sprite.character.Character;
+import uet.oop.bomberman.entities.spriteEntity.character.enermy.Balloon;
+import uet.oop.bomberman.entities.spriteEntity.character.enermy.Enemy;
+import uet.oop.bomberman.entities.spriteEntity.character.enermy.Oneal;
+import uet.oop.bomberman.entities.spriteEntity.obstacle.bomb.Flame;
+import uet.oop.bomberman.util.Point;
+import uet.oop.bomberman.entities.spriteEntity.character.CharacterType;
+import uet.oop.bomberman.entities.spriteEntity.character.Character;
 import uet.oop.bomberman.keyboard.KeyControl;
-import uet.oop.bomberman.entities.sprite.character.Bomber;
+import uet.oop.bomberman.entities.spriteEntity.character.Bomber;
 import uet.oop.bomberman.entities.StackEntity;
-import uet.oop.bomberman.entities.sprite.obstacle.bomb.Bomb;
+import uet.oop.bomberman.entities.spriteEntity.obstacle.bomb.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.FileMapLoader;
 import uet.oop.bomberman.map.MapLoader;
@@ -150,7 +150,7 @@ public class Playground {
 
     private Entity getEnemy(int x, int y) {
         for (Character character : this.characters) {
-            if (character instanceof Enermy) {
+            if (character instanceof Enemy) {
                 Point coordinate = character.getCoordinate();
                 if (coordinate.x == x && coordinate.y == y) {
                     return character;

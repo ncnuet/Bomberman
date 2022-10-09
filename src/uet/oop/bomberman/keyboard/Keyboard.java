@@ -4,8 +4,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import uet.oop.bomberman.untility.Direction;
-import uet.oop.bomberman.untility.Distance;
 
 import java.util.*;
 
