@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.spriteEntity.character.enermy;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.util.Distance;
 
@@ -14,8 +15,8 @@ public final class PontanOrange extends Enemy {
      * @param crdX position in predefined
      * @param crdY position in predefined
      */
-    public PontanOrange(int crdX, int crdY) {
-        super(crdX, crdY, img, img);
+    public PontanOrange(int crdX, int crdY, Playground playground) {
+        super(crdX, crdY, img, img, playground);
     }
 
     @Override

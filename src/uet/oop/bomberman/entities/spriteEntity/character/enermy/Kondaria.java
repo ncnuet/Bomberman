@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.spriteEntity.character.enermy;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.util.Distance;
 
@@ -19,10 +20,9 @@ public final class Kondaria extends Enemy {
      *
      * @param crdX      position in predefined
      * @param crdY      position in predefined
-     * @param spriteImg image
      */
-    public Kondaria(int crdX, int crdY) {
-        super(crdX, crdY, kondaria_left1, kondaria_left1);
+    public Kondaria(int crdX, int crdY, Playground playground) {
+        super(crdX, crdY, kondaria_left1, kondaria_left1, playground);
     }
 
     @Override

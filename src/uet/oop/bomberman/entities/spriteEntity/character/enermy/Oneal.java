@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.spriteEntity.character.enermy;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.util.Direction;
 import uet.oop.bomberman.util.Distance;
@@ -22,8 +23,8 @@ public final class Oneal extends Enemy {
      * @param crdX position in predefined
      * @param crdY position in predefined
      */
-    public Oneal(int crdX, int crdY) {
-        super(crdX, crdY, oneal_left1, oneal_dead);
+    public Oneal(int crdX, int crdY, Playground playground) {
+        super(crdX, crdY, oneal_left1, oneal_dead, playground);
     }
 
     @Override

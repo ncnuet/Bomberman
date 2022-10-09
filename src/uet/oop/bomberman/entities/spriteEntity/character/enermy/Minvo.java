@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.spriteEntity.character.enermy;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.util.Distance;
 
@@ -19,10 +20,9 @@ public final class Minvo extends Enemy {
      *
      * @param crdX      position in predefined
      * @param crdY      position in predefined
-     * @param spriteImg image
      */
-    public Minvo(int crdX, int crdY) {
-        super(crdX, crdY, minvo_left1, minvo_left1);
+    public Minvo(int crdX, int crdY, Playground playground) {
+        super(crdX, crdY, minvo_left1, minvo_left1, playground);
     }
 
     @Override
