@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.spriteEntity.character.enermy;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.spriteEntity.character.Character;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
@@ -21,8 +22,8 @@ public abstract class Enemy extends Character {
      * @param crdY      position in predefined
      * @param spriteImg image
      */
-    public Enemy(int crdX, int crdY, Image spriteImg, Image dead_img) {
-        super(crdX, crdY, spriteImg);
+    public Enemy(int crdX, int crdY, Image spriteImg, Image dead_img, Playground playground) {
+        super(crdX, crdY, spriteImg, playground);
         this.img_default = dead_img;
         this.setTimeToExplode(80);
         this.setDirection(Direction.LEFT);

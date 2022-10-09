@@ -119,8 +119,8 @@ public class Playground {
     public void addCharacter(int x, int y, CharacterType characterType) {
         switch (characterType) {
             case BOMBER -> this.characters.add(new Bomber(x, y, keyboard, this));
-            case BALLOON -> this.characters.add(new Balloon(x, y));
-            case ONEAL -> this.characters.add(new Oneal(x, y));
+            case BALLOON -> this.characters.add(new Balloon(x, y, this));
+            case ONEAL -> this.characters.add(new Oneal(x, y, this));
         }
     }
 

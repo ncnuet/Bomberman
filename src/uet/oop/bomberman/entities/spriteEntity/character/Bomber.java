@@ -44,14 +44,12 @@ public final class Bomber extends Character {
      */
     private static final int MIN_TIME_BETWEEN_PUT_BOMB = 20;
     private final KeyControl keyboard;
-    private final Playground playground;
     private int timeBetweenPutBomb; // by frame unit
     private Bomb myLatestBomb; // last set bomb
 
     public Bomber(int x, int y, KeyControl keyboard, Playground playground) {
-        super(x, y, player_img_right);
+        super(x, y, player_img_right, playground);
         this.keyboard = keyboard;
-        this.playground = playground;
     }
 
     @Override
