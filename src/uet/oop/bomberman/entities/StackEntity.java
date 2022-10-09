@@ -2,7 +2,7 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.Playground;
-import uet.oop.bomberman.entities.sprite.obstacle.brick.Brick;
+import uet.oop.bomberman.entities.spriteEntity.obstacle.brick.Brick;
 import uet.oop.bomberman.entities.tile.Tile;
 
 import java.util.Arrays;
@@ -37,12 +37,12 @@ public final class StackEntity extends Entity {
     }
 
     @Override
-    protected void selectSpriteOnDead() {
-
+    public void render(GraphicsContext graphicsContext, Playground playground) {
+        this.entities.forEach(entity -> entity.render(graphicsContext, playground));
     }
 
     @Override
-    public void render(GraphicsContext graphicsContext, Playground playground) {
-        this.entities.forEach(entity -> entity.render(graphicsContext, playground));
+    public void kill() {
+
     }
 }

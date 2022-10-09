@@ -1,6 +1,6 @@
 package uet.oop.bomberman.graphics;
 
-import uet.oop.bomberman.untility.PathFile;
+import uet.oop.bomberman.util.PathFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

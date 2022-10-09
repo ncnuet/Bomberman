@@ -3,8 +3,8 @@ package uet.oop.bomberman.keyboard;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.untility.Direction;
-import uet.oop.bomberman.untility.Distance;
+import uet.oop.bomberman.util.Direction;
+import uet.oop.bomberman.util.Distance;
 
 public class KeyControl extends Keyboard {
     private int x, y;

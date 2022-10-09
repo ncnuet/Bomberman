@@ -3,7 +3,7 @@ package uet.oop.bomberman.map;
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.exceptions.LoadMapException;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.untility.Size;
+import uet.oop.bomberman.util.Size;
 
 public abstract class MapLoader {
     private String mapID;

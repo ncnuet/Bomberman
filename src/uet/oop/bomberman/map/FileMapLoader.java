@@ -2,15 +2,15 @@ package uet.oop.bomberman.map;
 
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.StackEntity;
-import uet.oop.bomberman.entities.sprite.character.CharacterType;
-import uet.oop.bomberman.entities.sprite.obstacle.brick.Brick;
+import uet.oop.bomberman.entities.spriteEntity.character.CharacterType;
+import uet.oop.bomberman.entities.spriteEntity.obstacle.brick.Brick;
 import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.entities.tile.item.*;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.exceptions.LoadMapException;
 import uet.oop.bomberman.exceptions.ParseMapException;
-import uet.oop.bomberman.untility.PathFile;
-import uet.oop.bomberman.untility.Size;
+import uet.oop.bomberman.util.PathFile;
+import uet.oop.bomberman.util.Size;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

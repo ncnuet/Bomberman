@@ -8,7 +8,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.untility.PathFile;
+import uet.oop.bomberman.util.PathFile;
 
 import java.io.InputStream;
 
