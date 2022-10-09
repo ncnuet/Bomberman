@@ -40,8 +40,6 @@ public class KeyControl extends Keyboard {
     }
 
     public Distance getDistance() {
-//        if (x != 0) offsetX -= x;
-//        if (y != 0) offsetY -= y;
         return new Distance(
                 x * BombermanGame.getBomberSpeed(),
                 y * BombermanGame.getBomberSpeed());
