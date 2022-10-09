@@ -144,9 +144,7 @@ public final class Bomber extends Character {
                 if (entity == myLatestBomb) continue;
                 return entity;
             }
-            if (entity instanceof FlameSegment || entity instanceof Enemy) {
-                return entity;
-            }
+
             if (!(entity instanceof Grass)) return entity;
         }
 
@@ -164,6 +162,7 @@ public final class Bomber extends Character {
             moveGraphic(distance);
             moveSprite(distance);
         } else if (entity instanceof Enemy) {
+            System.out.println(getX() + " " + getY() + " " + entity.getX() + " " + entity.getY());
             kill();
         } else if (entity instanceof FlameSegment) {
             if (!BombermanGame.isConf_canByFlame()) {
