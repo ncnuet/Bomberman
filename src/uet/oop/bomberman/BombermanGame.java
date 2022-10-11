@@ -36,6 +36,7 @@ public class BombermanGame extends Application {
     private static boolean conf_mystery = false;
     private static int conf_bombCapacity = 1;
     private static int currentCapacity = 1;
+    public static final String ostype = System.getProperty("os.name");
 
     public static void addCurrentCapacity() {
         if (currentCapacity + 1 <= conf_bombCapacity) {
@@ -136,6 +137,7 @@ public class BombermanGame extends Application {
      */
     @Override
     public void start(Stage stage) {
+        System.out.printf(System.getProperty("os.name"));
         //Start background sound
         Sound.bg_sound.start();
 

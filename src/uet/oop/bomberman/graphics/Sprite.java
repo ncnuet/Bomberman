@@ -1,6 +1,9 @@
 package uet.oop.bomberman.graphics;
 
 import javafx.scene.image.*;
+import uet.oop.bomberman.entities.spriteEntity.character.enermy.Balloon;
+import uet.oop.bomberman.entities.spriteEntity.character.enermy.Enemy;
+import uet.oop.bomberman.entities.spriteEntity.character.enermy.Oneal;
 
 /**
  * Manage a special sprite.

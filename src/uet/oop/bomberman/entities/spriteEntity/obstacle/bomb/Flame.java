@@ -26,6 +26,7 @@ public final class Flame extends BombSprite {
 
     private static final int[] directionX = new int[]{0, 1, 0, -1};
     private static final int[] directionY = new int[]{-1, 0, 1, 0};
+    private static final int RenderTime = BombermanGame.ostype == "Linux" ? 150 : 30;
 
     private final Playground playground;
     private final List<FlameSegment> segments;
@@ -36,13 +37,13 @@ public final class Flame extends BombSprite {
         this.setAlive(false);
         this.segments = new ArrayList<>();
         this.generateSegment();
-        this.setTimeToExplode(30);
+        this.setTimeToExplode(RenderTime);
     }
 
     @Override
     protected void selectSpriteOnDead() {
         this.setSpriteImg(Sprite.selectSprite(
-                this.getFrameCount().getFrame(), 30,
+                this.getFrameCount().getFrame(), RenderTime,
                 center, center_1, center_2));
     }
 

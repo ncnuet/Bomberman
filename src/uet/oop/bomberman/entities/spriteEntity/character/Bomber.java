@@ -42,7 +42,8 @@ public final class Bomber extends Character {
     /**
      * Main Class
      */
-    private static final int MIN_TIME_BETWEEN_PUT_BOMB = 20;
+    private static final int RenderTime = BombermanGame.ostype == "Linux" ? 300 : 60;
+    private static final int MIN_TIME_BETWEEN_PUT_BOMB = RenderTime/3;
     private final KeyControl keyboard;
     private int timeBetweenPutBomb; // by frame unit
     private Bomb myLatestBomb; // last set bomb
@@ -81,7 +82,7 @@ public final class Bomber extends Character {
     protected void selectSpriteOnDead() {
         this.setSpriteImg(Sprite.selectSprite(
                 this.getFrameCount().getFrame(),
-                60,
+                RenderTime,
                 player_dead, player_dead_1, player_dead_2
         ));
     }
@@ -224,22 +225,22 @@ public final class Bomber extends Character {
         switch (this.getDirection()) {
             case UP -> this.setSpriteImg(!this.isMoving()
                     ? player_img_up
-                    : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
+                    : Sprite.selectSprite(this.getFrameCount().getFrame(), RenderTime/3,
                     player_img_up_1, player_img_up_2
             ));
             case DOWN -> this.setSpriteImg(!this.isMoving()
                     ? player_img_down
-                    : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
+                    : Sprite.selectSprite(this.getFrameCount().getFrame(), RenderTime/3,
                     player_img_down_1, player_img_down_2
             ));
             case LEFT -> this.setSpriteImg(!this.isMoving()
                     ? player_img_left
-                    : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
+                    : Sprite.selectSprite(this.getFrameCount().getFrame(), RenderTime/3,
                     player_img_left_1, player_img_left_2
             ));
             case RIGHT -> this.setSpriteImg(!this.isMoving()
                     ? player_img_right
-                    : Sprite.selectSprite(this.getFrameCount().getFrame(), 20,
+                    : Sprite.selectSprite(this.getFrameCount().getFrame(), RenderTime/3,
                     player_img_right_1, player_img_right_2
             ));
         }

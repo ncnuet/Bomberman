@@ -16,13 +16,15 @@ public final class Bomb extends BombSprite {
     private static final Image bomb_img_1 = Sprite.bomb_1.getFxImage();
     private static final Image bomb_img_2 = Sprite.bomb_2.getFxImage();
 
+    private static final int RenderTime = BombermanGame.ostype == "Linux" ? 600 : 120;
+
     private final Playground playground;
 
     public Bomb(int x, int y, Playground playground) {
         super(x, y, bomb_img_2);
         this.playground = playground;
         this.setAlive(false);
-        this.setTimeToExplode(120);
+        this.setTimeToExplode(RenderTime);
     }
 
     /**
@@ -44,7 +46,7 @@ public final class Bomb extends BombSprite {
     @Override
     protected void selectSpriteOnDead() {
         this.setSpriteImg(Sprite.selectSprite(
-                this.getFrameCount().getFrame(), 60,
+                this.getFrameCount().getFrame(), RenderTime / 2,
                 bomb_img_2, bomb_img_1, bomb_img));
     }
 }
