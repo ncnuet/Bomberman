@@ -2,8 +2,8 @@ package uet.oop.bomberman.entities.spriteEntity.obstacle.bomb;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.GameValue;
 import uet.oop.bomberman.Playground;
-import uet.oop.bomberman.entities.spriteEntity.obstacle.StaticSprite;
 import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.util.Point;
 import uet.oop.bomberman.graphics.Sprite;
@@ -16,7 +16,7 @@ public final class Bomb extends BombSprite {
     private static final Image bomb_img_1 = Sprite.bomb_1.getFxImage();
     private static final Image bomb_img_2 = Sprite.bomb_2.getFxImage();
 
-    private static final int RenderTime = BombermanGame.ostype == "Linux" ? 600 : 120;
+    private static final int EXPLODE_TIME = 120;
 
     private final Playground playground;
 
@@ -24,7 +24,7 @@ public final class Bomb extends BombSprite {
         super(x, y, bomb_img_2);
         this.playground = playground;
         this.setAlive(false);
-        this.setTimeToExplode(RenderTime);
+        this.setTimeToExplode(EXPLODE_TIME);
     }
 
     /**
@@ -36,7 +36,7 @@ public final class Bomb extends BombSprite {
             this.setInvisible(true);
             Point coordinate = this.getCoordinate();
             this.playground.addFlame(new Flame(coordinate.x, coordinate.y, this.playground));
-            BombermanGame.addCurrentCapacity();
+            GameValue.addCurrentCapacity();
             Sound.bom_explode.start();
         } else {
             selectSpriteOnDead();
@@ -46,7 +46,7 @@ public final class Bomb extends BombSprite {
     @Override
     protected void selectSpriteOnDead() {
         this.setSpriteImg(Sprite.selectSprite(
-                this.getFrameCount().getFrame(), RenderTime / 2,
+                this.getFrameCount().getFrame(), EXPLODE_TIME / 4,
                 bomb_img_2, bomb_img_1, bomb_img));
     }
 }

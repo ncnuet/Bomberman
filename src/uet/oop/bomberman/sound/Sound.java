@@ -5,7 +5,20 @@ import uet.oop.bomberman.util.Convert;
 /**
  * Sound class control a special sound.
  */
-public class Sound implements AudioControl<Integer>, AudioPack {
+public final class Sound implements AudioControl<Integer>, AudioFileName {
+    /* ===============
+    Predefined audio
+    =============== */
+    public static final Sound bg_sound = new Sound(BG_SOUND, true);
+    public static final Sound bom_explode = new Sound(BOM_EXPLODE);
+    public static final Sound bom_set = new Sound(BOM_SET);
+    public static final Sound end_game = new Sound(END_GAME);
+    public static final Sound cryst_up = new Sound(CRYST_UP);
+    public static final Sound dead = new Sound(DEAD);
+
+    /* ===============
+    Internal data
+     =============== */
     private final String relativePath;
     private final boolean continuous;
     private PlaySound playSound;
@@ -24,7 +37,6 @@ public class Sound implements AudioControl<Integer>, AudioPack {
      * Pass it as parameter.
      *
      * @param volume value in linear scale (0-100)
-     * @throws Exception exception.
      */
     @Override
     public void setVolume(Integer volume) throws Exception {
@@ -41,8 +53,8 @@ public class Sound implements AudioControl<Integer>, AudioPack {
      * @param sound_name name of sound
      * @param continuous is loop
      */
-    public Sound(String sound_name, boolean continuous) {
-        this.relativePath = "/sound/" + sound_name + ".wav";
+    private Sound(String sound_name, boolean continuous) {
+        this.relativePath = "/sound/" + sound_name;
         this.continuous = continuous;
     }
 
@@ -53,7 +65,7 @@ public class Sound implements AudioControl<Integer>, AudioPack {
      * @param sound_name name of sound
      */
     public Sound(String sound_name) {
-        this.relativePath = "/sound/" + sound_name + ".wav";
+        this.relativePath = "/sound/" + sound_name;
         this.continuous = false;
     }
 

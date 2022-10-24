@@ -94,10 +94,8 @@ public class Playground {
             this.map.generateMap(this);
 
             // Define boundary
-            int app_real_width = BombermanGame.APP_TILE_WIDTH * Sprite.SCALED_SIZE;
-            int app_real_height = BombermanGame.APP_TILE_HEIGHT * Sprite.SCALED_SIZE;
-            this.MIN_OFFSET_X = app_real_width - this.map.getWidthByPixel();
-            this.MIN_OFFSET_Y = app_real_height - this.map.getHeightByPixel();
+            this.MIN_OFFSET_X = BombermanGame.SCENE_WIDTH - this.map.getWidthByPixel();
+            this.MIN_OFFSET_Y = BombermanGame.SCENE_WIDTH - this.map.getHeightByPixel();
 
         } catch (Exception e) {
             e.printStackTrace();

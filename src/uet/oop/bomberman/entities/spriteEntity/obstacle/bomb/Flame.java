@@ -3,10 +3,10 @@ package uet.oop.bomberman.entities.spriteEntity.obstacle.bomb;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.GameValue;
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.spriteEntity.character.enermy.Enemy;
-import uet.oop.bomberman.entities.spriteEntity.obstacle.StaticSprite;
 import uet.oop.bomberman.entities.spriteEntity.obstacle.brick.Brick;
 import uet.oop.bomberman.util.Direction;
 import uet.oop.bomberman.util.Point;
@@ -26,7 +26,6 @@ public final class Flame extends BombSprite {
 
     private static final int[] directionX = new int[]{0, 1, 0, -1};
     private static final int[] directionY = new int[]{-1, 0, 1, 0};
-    private static final int RenderTime = BombermanGame.ostype == "Linux" ? 150 : 30;
 
     private final Playground playground;
     private final List<FlameSegment> segments;
@@ -37,13 +36,12 @@ public final class Flame extends BombSprite {
         this.setAlive(false);
         this.segments = new ArrayList<>();
         this.generateSegment();
-        this.setTimeToExplode(RenderTime);
     }
 
     @Override
     protected void selectSpriteOnDead() {
         this.setSpriteImg(Sprite.selectSprite(
-                this.getFrameCount().getFrame(), RenderTime,
+                this.getFrameCount().getFrame(), RENDER_TIME,
                 center, center_1, center_2));
     }
 
@@ -54,7 +52,7 @@ public final class Flame extends BombSprite {
         // Loop through 4 sides
         for (Direction direction : Direction.values()) {
             // find entity in range of flameSegmentLength
-            for (int j = 1; j <= BombermanGame.getFlameLength(); j++) {
+            for (int j = 1; j <= GameValue.getFlameLength(); j++) {
                 Point findingPosition = new Point(
                         currentPosition.x + directionX[index] * j,
                         currentPosition.y + directionY[index] * j);
@@ -67,7 +65,7 @@ public final class Flame extends BombSprite {
                                 findingPosition.x,
                                 findingPosition.y,
                                 direction,
-                                j != BombermanGame.getFlameLength());
+                                j != GameValue.getFlameLength());
                     } else if (entity instanceof Brick ||
                             entity instanceof Bomb ||
                             entity instanceof Enemy) {

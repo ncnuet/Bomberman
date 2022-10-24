@@ -17,8 +17,6 @@ public abstract class Enemy extends Character {
     private static final Image mob_dead2 = Sprite.mob_dead2.getFxImage();
     private static final Image mob_dead3 = Sprite.mob_dead3.getFxImage();
 
-    protected static final int RenderTime = Objects.equals(BombermanGame.ostype, "Linux") ? 150 : 30;
-
     private final Image img_default;
     private int speed = 2;
     private AI ai;
@@ -46,7 +44,7 @@ public abstract class Enemy extends Character {
     public Enemy(int crdX, int crdY, Image spriteImg, Image dead_img, Playground playground) {
         super(crdX, crdY, spriteImg, playground);
         this.img_default = dead_img;
-        this.setTimeToExplode(RenderTime);
+        this.setTimeToExplode(RENDER_TIME);
         this.setDirection(Direction.LEFT);
     }
 
@@ -59,7 +57,7 @@ public abstract class Enemy extends Character {
     @Override
     protected void selectSpriteOnDead() {
         this.setSpriteImg(Sprite.selectSprite(
-                this.getFrameCount().getFrame(), RenderTime,
+                this.getFrameCount().getFrame(), RENDER_TIME,
                 img_default, mob_dead1, mob_dead2, mob_dead3
         ));
     }

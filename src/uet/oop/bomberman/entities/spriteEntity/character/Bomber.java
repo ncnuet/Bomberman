@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities.spriteEntity.character;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.GameValue;
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.spriteEntity.character.enermy.Enemy;
@@ -42,8 +43,7 @@ public final class Bomber extends Character {
     /**
      * Main Class
      */
-    private static final int RenderTime = BombermanGame.ostype == "Linux" ? 300 : 60;
-    private static final int MIN_TIME_BETWEEN_PUT_BOMB = RenderTime/3;
+    private static final int MIN_TIME_BETWEEN_PUT_BOMB = RENDER_TIME * 2 / 3;
     private final KeyControl keyboard;
     private int timeBetweenPutBomb; // by frame unit
     private Bomb myLatestBomb; // last set bomb
@@ -61,6 +61,7 @@ public final class Bomber extends Character {
             setMoving(keyboard.isMoving());
             if (this.isMoving()) setDirection(keyboard.getDirection());
             collide(distance);
+
             selectSprite();
         } else {
             this.explode();
@@ -81,8 +82,7 @@ public final class Bomber extends Character {
     @Override
     protected void selectSpriteOnDead() {
         this.setSpriteImg(Sprite.selectSprite(
-                this.getFrameCount().getFrame(),
-                RenderTime,
+                this.getFrameCount().getFrame(), RENDER_TIME,
                 player_dead, player_dead_1, player_dead_2
         ));
     }
@@ -110,9 +110,9 @@ public final class Bomber extends Character {
 
         if (entity instanceof Grass &&
                 this.timeBetweenPutBomb > MIN_TIME_BETWEEN_PUT_BOMB &&
-                BombermanGame.getCurrentCapacity() > 0) {
+                GameValue.getCurrentCapacity() > 0) {
             placeBomb(position);
-            BombermanGame.removeCurrentCapacity();
+            GameValue.removeCurrentCapacity();
             this.timeBetweenPutBomb = 0;
         }
     }
@@ -135,8 +135,8 @@ public final class Bomber extends Character {
 
         // Xét tọa độ mới từ 4 đỉnh
         for (int i = 0; i < 4; i++) {
-            int x = this.getX() + distance.getX() + (i % 2) * size + (i % 2 == 0 ? 4 : -10);
-            int y = this.getY() + distance.getY() + (i / 2) * size + (i / 2 == 0 ? 5 : -5);
+            int x = (int) (this.getX() + distance.getX() + (i % 2) * size + (i % 2 == 0 ? 4 : -10));
+            int y = (int) (this.getY() + distance.getY() + (i / 2) * size + (i / 2 == 0 ? 5 : -5));
 
             entity = this.playground.getEntity(Convert.pixelToTile(new Point(x, y)));
 
@@ -157,8 +157,8 @@ public final class Bomber extends Character {
     private void collide(Distance distance) {
         Entity entity = detectEntity(distance);
         if (entity == null || entity instanceof Grass ||
-                (BombermanGame.isConf_canByBomb() && entity instanceof Bomb) ||
-                (BombermanGame.isConf_canByWall() && entity instanceof Wall &&
+                (GameValue.isCanByBomb() && entity instanceof Bomb) ||
+                (GameValue.isCanByWall() && entity instanceof Wall &&
                         !this.playground.isOutOfBound(entity.getCoordinate()))) {
             moveGraphic(distance);
             moveSprite(distance);
@@ -166,7 +166,7 @@ public final class Bomber extends Character {
             System.out.println(getX() + " " + getY() + " " + entity.getX() + " " + entity.getY());
             kill();
         } else if (entity instanceof FlameSegment) {
-            if (!BombermanGame.isConf_canByFlame()) {
+            if (!GameValue.isCanByFlame()) {
                 kill();
             }
         } else if (entity instanceof Item) {
@@ -174,17 +174,17 @@ public final class Bomber extends Character {
             entity.kill();
             Sound.cryst_up.start();
             switch (entityType) {
-                case ITEM_BOMB_BYPASS -> BombermanGame.updateCanByBomb(); // v
-                case ITEM_WALL_BYPASS -> BombermanGame.updateCanByWall(); // v
-                case ITEM_FLAME_BYPASS -> BombermanGame.updateCanByFlame(); // v
+                case ITEM_BOMB_BYPASS -> GameValue.updateCanByBomb(); // v
+                case ITEM_WALL_BYPASS -> GameValue.updateCanByWall(); // v
+                case ITEM_FLAME_BYPASS -> GameValue.updateCanByFlame(); // v
                 case ITEM_BOMB -> { // v
-                    BombermanGame.updateBombCapacity();
-                    BombermanGame.addCurrentCapacity();
+                    GameValue.updateBombCapacity();
+                    GameValue.addCurrentCapacity();
                 }
-                case ITEM_FLAME -> BombermanGame.updateFlameLength(); // v
-                case ITEM_SPEED -> BombermanGame.updateBomberSpeed(); // v
-                case ITEM_DETONATOR -> BombermanGame.updateCanDetonate(); // TODO:
-                case ITEM_MYSTERY -> BombermanGame.updateMystery(); // TODO:
+                case ITEM_FLAME -> GameValue.updateFlameLength(); // v
+                case ITEM_SPEED -> GameValue.updateBomberSpeed(); // v
+                case ITEM_DETONATOR -> GameValue.updateCanDetonate(); // TODO:
+                case ITEM_MYSTERY -> GameValue.updateMystery(); // TODO:
                 case PORTAL -> this.setAlive(false);
                 // TODO: Mystery item.
             }
@@ -199,10 +199,10 @@ public final class Bomber extends Character {
         int mapHeight = playground.getHeightByPixel();
 
         if (this.getX() >= centerDistanceX && this.getX() + centerDistanceX <= mapWidth) {
-            this.playground.setOffsetX(this.playground.getOffsetX() - distance.getX());
+            this.playground.setOffsetX((int) (this.playground.getOffsetX() - distance.getX()));
         }
         if (this.getY() >= centerDistanceY && this.getY() + centerDistanceY <= mapHeight) {
-            this.playground.setOffsetY(this.playground.getOffsetY() - distance.getY());
+            this.playground.setOffsetY((int) (this.playground.getOffsetY() - distance.getY()));
         }
     }
 
@@ -213,8 +213,8 @@ public final class Bomber extends Character {
      */
     @Override
     protected void moveSprite(Distance distance) {
-        this.setX(this.getX() + distance.getX());
-        this.setY(this.getY() + distance.getY());
+        this.setX((int) (this.getX() + distance.getX()));
+        this.setY((int) (this.getY() + distance.getY()));
     }
 
     /**
@@ -225,22 +225,22 @@ public final class Bomber extends Character {
         switch (this.getDirection()) {
             case UP -> this.setSpriteImg(!this.isMoving()
                     ? player_img_up
-                    : Sprite.selectSprite(this.getFrameCount().getFrame(), RenderTime/3,
+                    : Sprite.selectSprite(this.getFrameCount().getFrame(), RENDER_TIME,
                     player_img_up_1, player_img_up_2
             ));
             case DOWN -> this.setSpriteImg(!this.isMoving()
                     ? player_img_down
-                    : Sprite.selectSprite(this.getFrameCount().getFrame(), RenderTime/3,
+                    : Sprite.selectSprite(this.getFrameCount().getFrame(), RENDER_TIME,
                     player_img_down_1, player_img_down_2
             ));
             case LEFT -> this.setSpriteImg(!this.isMoving()
                     ? player_img_left
-                    : Sprite.selectSprite(this.getFrameCount().getFrame(), RenderTime/3,
+                    : Sprite.selectSprite(this.getFrameCount().getFrame(), RENDER_TIME,
                     player_img_left_1, player_img_left_2
             ));
             case RIGHT -> this.setSpriteImg(!this.isMoving()
                     ? player_img_right
-                    : Sprite.selectSprite(this.getFrameCount().getFrame(), RenderTime/3,
+                    : Sprite.selectSprite(this.getFrameCount().getFrame(), RENDER_TIME,
                     player_img_right_1, player_img_right_2
             ));
         }

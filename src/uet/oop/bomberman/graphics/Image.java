@@ -1,6 +1,6 @@
 package uet.oop.bomberman.graphics;
 
-public abstract class RawImage {
+public abstract class Image {
     private static final int TRANSPARENT_COLOR = 0xffff00ff;
     protected final int size;
     protected int[] pixels; // save all value argb pixel. 2D matrix value to 1D
@@ -32,7 +32,7 @@ public abstract class RawImage {
      *
      * @param size size of image
      */
-    public RawImage(int size) {
+    public Image(int size) {
         this.size = size;
         this.pixels = new int[this.size * this.size];
     }

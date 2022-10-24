@@ -73,8 +73,8 @@ public class AILow extends AI {
         };
 
         for (int i = 0; i < 4; i++) {
-            int x = this.enemy.getX() + distance.getX() + (i % 2) * size;
-            int y = this.enemy.getY() + distance.getY() + (i / 2) * size;
+            int x = (int) (this.enemy.getX() + distance.getX() + (i % 2) * size);
+            int y = (int) (this.enemy.getY() + distance.getY() + (i / 2) * size);
             Point point = Convert.pixelToTile(new Point(x, y));
             Entity entity = this.playground.getEntity(point);
             if (!isCanPass(entity)) return false;

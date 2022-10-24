@@ -2,8 +2,7 @@ package uet.oop.bomberman.util;
 
 
 public final class Distance {
-    private int x;
-    private int y;
+    private int x, y;
 
     public int getX() {
         return x;
@@ -24,9 +23,5 @@ public final class Distance {
     public Distance(int x, int y) {
         this.x = x;
         this.y = y;
-    }
-
-    public boolean isZero() {
-        return this.x == 0 && this.y == 0;
     }
 }

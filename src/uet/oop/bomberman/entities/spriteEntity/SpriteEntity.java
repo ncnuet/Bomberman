@@ -6,11 +6,10 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.util.FrameCount;
 
 public abstract class SpriteEntity extends Entity {
+    protected static final int RENDER_TIME = 30;
     private boolean alive;
     private int timeToExplode;
     private final FrameCount frameCount;
-
-    private static final int RenderTime = BombermanGame.ostype == "Linux" ? 300 : 60;
 
     public boolean isAlive() {
         return alive;
@@ -45,7 +44,7 @@ public abstract class SpriteEntity extends Entity {
         super(crdX, crdY, spriteImg);
         this.frameCount = new FrameCount();
         this.setAlive(true);
-        this.setTimeToExplode(RenderTime);
+        this.setTimeToExplode(RENDER_TIME);
     }
 
     /**

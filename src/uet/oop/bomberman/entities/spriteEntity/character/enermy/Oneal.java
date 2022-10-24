@@ -32,10 +32,10 @@ public final class Oneal extends Enemy {
     @Override
     protected void selectSprite() {
         if (this.getDirection() == Direction.RIGHT || this.getDirection() == Direction.DOWN) {
-            this.setSpriteImg(Sprite.selectSprite(this.getFrameCount().getFrame(), Enemy.RenderTime,
+            this.setSpriteImg(Sprite.selectSprite(this.getFrameCount().getFrame(), RENDER_TIME,
                     oneal_left1, oneal_left2, oneal_left3));
         } else if (this.getDirection() == Direction.LEFT || this.getDirection() == Direction.UP) {
-            this.setSpriteImg(Sprite.selectSprite(this.getFrameCount().getFrame(), Enemy.RenderTime,
+            this.setSpriteImg(Sprite.selectSprite(this.getFrameCount().getFrame(), RENDER_TIME,
                     oneal_right1, oneal_right2, oneal_right3));
         }
     }

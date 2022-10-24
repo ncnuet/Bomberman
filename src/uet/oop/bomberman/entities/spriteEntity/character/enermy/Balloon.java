@@ -17,7 +17,6 @@ public final class Balloon extends Enemy {
     private static final Image balloom_right3 = Sprite.balloom_right3.getFxImage();
 
     private static final Image balloon_dead = Sprite.balloom_dead.getFxImage();
-    private static final int RenderTime = BombermanGame.ostype == "Linux" ? 150 : 30;
 
     /**
      * Constructor.
@@ -35,10 +34,10 @@ public final class Balloon extends Enemy {
     @Override
     protected void selectSprite() {
         if (this.getDirection() == Direction.RIGHT || this.getDirection() == Direction.DOWN) {
-            this.setSpriteImg(Sprite.selectSprite(this.getFrameCount().getFrame(), Enemy.RenderTime,
+            this.setSpriteImg(Sprite.selectSprite(this.getFrameCount().getFrame(), RENDER_TIME,
                     balloom_left1, balloom_left2, balloom_left3));
         } else if (this.getDirection() == Direction.LEFT || this.getDirection() == Direction.UP) {
-            this.setSpriteImg(Sprite.selectSprite(this.getFrameCount().getFrame(), Enemy.RenderTime,
+            this.setSpriteImg(Sprite.selectSprite(this.getFrameCount().getFrame(), RENDER_TIME,
                     balloom_right1, balloom_right2, balloom_right3));
         }
     }
