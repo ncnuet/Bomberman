@@ -5,60 +5,27 @@ import javafx.scene.image.*;
 /**
  * Manage a special sprite.
  */
-public final class Sprite extends RawImage implements SpritePack {
+public final class Sprite extends Image implements SpritePack {
     private final int x, y;
     private final SpriteSheet sheet;
 
     /**
      * Constructor.
      *
-     * @param size  size of sprite
-     * @param crdX  tile coordinate in sheet
-     * @param crdY  tile coordinate in sheet
-     * @param sheet sheet map image
-     */
-    public Sprite(int size, int crdX, int crdY, SpriteSheet sheet) {
-        super(size);
-        this.x = crdX * this.size; // convert from coordinate to pixel position
-        this.y = crdY * this.size; // convert from coordinate to pixel position
-        this.sheet = sheet;
-
-        load();
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param size size of sprite
-     * @param crdX tile coordinate in sheet
-     * @param crdY tile coordinate in sheet
-     */
-    public Sprite(int size, int crdX, int crdY) {
-        super(size);
-        this.x = crdX * this.size; // convert from coordinate to pixel position
-        this.y = crdY * this.size; // convert from coordinate to pixel position
-        this.sheet = SpriteSheet.sheet;
-
-        load();
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param crdX tile coordinate in sheet
-     * @param crdY tile coordinate in sheet
+     * @param crdX tile coordinate in SHEET
+     * @param crdY tile coordinate in SHEET
      */
     public Sprite(int crdX, int crdY) {
         super(DEFAULT_SIZE);
         this.x = crdX * this.size; // convert from coordinate to pixel position
         this.y = crdY * this.size; // convert from coordinate to pixel position
-        this.sheet = SpriteSheet.sheet;
+        this.sheet = SpriteSheet.SHEET;
 
         load();
     }
 
     /**
-     * Copy image sheet area to sprite image area.
+     * Copy image SHEET area to sprite image area.
      */
     private void load() {
         for (int y = 0; y < size; y++) {
@@ -73,7 +40,7 @@ public final class Sprite extends RawImage implements SpritePack {
      *
      * @return Image Node
      */
-    public Image getFxImage() {
+    public javafx.scene.image.Image getFxImage() {
         final int scaleFactor = SCALED_SIZE / DEFAULT_SIZE;
 
         // Create empty frame with given size

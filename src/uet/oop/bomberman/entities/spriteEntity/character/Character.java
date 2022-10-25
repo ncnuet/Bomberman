@@ -10,6 +10,8 @@ public abstract class Character extends SpriteEntity {
     private Direction direction;
     private boolean moving;
     protected final Playground playground;
+    protected static final int RENDER_TIME = 30;
+
 
     protected void setMoving(boolean moving) {
         this.moving = moving;

@@ -12,12 +12,12 @@ public class Keyboard implements Code {
 
     public Keyboard(Scene scene) {
 
-        // Initialize value
+        // Mark as unpressed
         for (KeyCode key : CODE_LIST) {
             keyFlags.put(key, false);
         }
 
-        // if key pressed, the state corresponding to it will flag
+        // if key pressed, the state corresponding to it will be flagged
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {

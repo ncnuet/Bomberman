@@ -6,10 +6,10 @@ import uet.oop.bomberman.util.PathFile;
 import javax.sound.sampled.*;
 
 /**
- * PlaySound class play a sound read from stream.
+ * PlaySound class play a sound from stream.
  */
-public class PlaySound extends Thread implements AudioControl<Float> {
-    private Clip clip;
+public final class PlaySound extends Thread implements AudioControl<Float> {
+    private final Clip clip;
     private final boolean continuous;
     private float volume;
 
@@ -30,12 +30,13 @@ public class PlaySound extends Thread implements AudioControl<Float> {
      * @param volume volume by decibel
      */
     @Override
-    public void setVolume(Float volume) {
+    public void setVolume(Float volume) throws Exception {
         this.volume = volume;
         try {
             if (this.getState().equals(State.RUNNABLE)) this.applyVolume();
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
+            throw new Exception("Loi phat audio");
         }
     }
 
@@ -59,17 +60,17 @@ public class PlaySound extends Thread implements AudioControl<Float> {
      * @param path       audio relative file path.
      * @param continuous is continuous.
      */
-    public PlaySound(String path, boolean continuous) {
+    public PlaySound(String path, boolean continuous) throws Exception {
         this.continuous = continuous;
 
         try {
             this.clip = AudioSystem.getClip();
             AudioInputStream stream = AudioSystem.getAudioInputStream(
                     PathFile.getStream(path));
-
             this.clip.open(stream);
+
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception("Loi phat audio");
         }
     }
 

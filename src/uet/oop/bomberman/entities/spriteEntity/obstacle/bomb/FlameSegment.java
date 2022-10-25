@@ -1,7 +1,7 @@
 package uet.oop.bomberman.entities.spriteEntity.obstacle.bomb;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.entities.spriteEntity.obstacle.StaticSprite;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.util.Direction;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -46,7 +46,6 @@ public final class FlameSegment extends BombSprite {
         this.direction = direction;
         this.bodySegment = bodySegment;
         this.setAlive(false);
-        this.setTimeToExplode(30);
     }
 
     @Override
@@ -56,30 +55,30 @@ public final class FlameSegment extends BombSprite {
                 case LEFT, RIGHT -> this.setSpriteImg(
                         Sprite.selectSprite(
                                 this.getFrameCount().getFrame(),
-                                30, hor, hor_1, hor_2));
+                                RENDER_TIME, hor, hor_1, hor_2));
                 case UP, DOWN -> this.setSpriteImg(
                         Sprite.selectSprite(
                                 this.getFrameCount().getFrame(),
-                                30, ver, ver_1, ver_2));
+                                RENDER_TIME, ver, ver_1, ver_2));
             }
         } else {
             switch (direction) {
                 case LEFT -> this.setSpriteImg(
                         Sprite.selectSprite(
                                 this.getFrameCount().getFrame(),
-                                30, hor_left, hor_left_1, hor_left_2));
+                                RENDER_TIME, hor_left, hor_left_1, hor_left_2));
                 case RIGHT -> this.setSpriteImg(
                         Sprite.selectSprite(
                                 this.getFrameCount().getFrame(),
-                                30, hor_right, hor_right_1, hor_right_2));
+                                RENDER_TIME, hor_right, hor_right_1, hor_right_2));
                 case UP -> this.setSpriteImg(
                         Sprite.selectSprite(
                                 this.getFrameCount().getFrame(),
-                                30, ver_first, ver_first_1, ver_first_2));
+                                RENDER_TIME, ver_first, ver_first_1, ver_first_2));
                 case DOWN -> this.setSpriteImg(
                         Sprite.selectSprite(
                                 this.getFrameCount().getFrame(),
-                                30, ver_last, ver_last_1, ver_last_2));
+                                RENDER_TIME, ver_last, ver_last_1, ver_last_2));
             }
         }
     }

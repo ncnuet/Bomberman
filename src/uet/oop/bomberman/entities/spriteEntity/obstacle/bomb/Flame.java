@@ -3,10 +3,10 @@ package uet.oop.bomberman.entities.spriteEntity.obstacle.bomb;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.GameValue;
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.spriteEntity.character.enermy.Enemy;
-import uet.oop.bomberman.entities.spriteEntity.obstacle.StaticSprite;
 import uet.oop.bomberman.entities.spriteEntity.obstacle.brick.Brick;
 import uet.oop.bomberman.util.Direction;
 import uet.oop.bomberman.util.Point;
@@ -36,13 +36,12 @@ public final class Flame extends BombSprite {
         this.setAlive(false);
         this.segments = new ArrayList<>();
         this.generateSegment();
-        this.setTimeToExplode(30);
     }
 
     @Override
     protected void selectSpriteOnDead() {
         this.setSpriteImg(Sprite.selectSprite(
-                this.getFrameCount().getFrame(), 30,
+                this.getFrameCount().getFrame(), RENDER_TIME,
                 center, center_1, center_2));
     }
 
@@ -53,7 +52,7 @@ public final class Flame extends BombSprite {
         // Loop through 4 sides
         for (Direction direction : Direction.values()) {
             // find entity in range of flameSegmentLength
-            for (int j = 1; j <= BombermanGame.getFlameLength(); j++) {
+            for (int j = 1; j <= GameValue.getFlameLength(); j++) {
                 Point findingPosition = new Point(
                         currentPosition.x + directionX[index] * j,
                         currentPosition.y + directionY[index] * j);
@@ -66,7 +65,7 @@ public final class Flame extends BombSprite {
                                 findingPosition.x,
                                 findingPosition.y,
                                 direction,
-                                j != BombermanGame.getFlameLength());
+                                j != GameValue.getFlameLength());
                     } else if (entity instanceof Brick ||
                             entity instanceof Bomb ||
                             entity instanceof Enemy) {

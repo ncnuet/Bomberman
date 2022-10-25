@@ -9,13 +9,13 @@ import java.net.URL;
 import java.util.Objects;
 
 /**
- * Save only one sprite sheet that can get a special sprite from here
+ * Save only one sprite SHEET that can get a special sprite from here
  */
-public final class SpriteSheet extends RawImage {
+public final class SpriteSheet extends Image {
     // Constant class value
     public static final String PATH = "/textures/classic.png";
     public static final int SIZE = 256;
-    public static final SpriteSheet sheet = new SpriteSheet(PATH, SIZE);
+    public static final SpriteSheet SHEET = new SpriteSheet(PATH, SIZE);
 
     // Object value
     private final String path;
@@ -23,14 +23,14 @@ public final class SpriteSheet extends RawImage {
     /**
      * Constructor.
      *
-     * @param path path to sheet
-     * @param size size of square sheet
+     * @param path path to SHEET
+     * @param size size of square SHEET
      */
-    public SpriteSheet(String path, int size) {
+    private SpriteSheet(String path, int size) {
         super(size);
         this.path = path;
 
-        load();
+        this.load();
     }
 
     /**
@@ -48,7 +48,7 @@ public final class SpriteSheet extends RawImage {
             image.getRGB(0, 0, w, h, this.pixels, 0, w);
         } catch (IOException e) {
             e.printStackTrace();
-            System.exit(0); // Crash
+            System.exit(0); // If crash, break exit game.
         }
     }
 }

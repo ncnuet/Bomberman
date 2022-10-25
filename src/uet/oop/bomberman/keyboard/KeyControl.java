@@ -3,6 +3,7 @@ package uet.oop.bomberman.keyboard;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.GameValue;
 import uet.oop.bomberman.util.Direction;
 import uet.oop.bomberman.util.Distance;
 
@@ -41,8 +42,8 @@ public class KeyControl extends Keyboard {
 
     public Distance getDistance() {
         return new Distance(
-                x * BombermanGame.getBomberSpeed(),
-                y * BombermanGame.getBomberSpeed());
+                x * GameValue.getBomberSpeed(),
+                y * GameValue.getBomberSpeed());
     }
 
     public boolean isSpacePressed() {

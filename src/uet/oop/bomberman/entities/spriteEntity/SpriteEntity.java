@@ -1,10 +1,12 @@
 package uet.oop.bomberman.entities.spriteEntity;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.util.FrameCount;
 
 public abstract class SpriteEntity extends Entity {
+    protected static final int RENDER_TIME = 30;
     private boolean alive;
     private int timeToExplode;
     private final FrameCount frameCount;
@@ -42,7 +44,7 @@ public abstract class SpriteEntity extends Entity {
         super(crdX, crdY, spriteImg);
         this.frameCount = new FrameCount();
         this.setAlive(true);
-        this.setTimeToExplode(60);
+        this.setTimeToExplode(RENDER_TIME);
     }
 
     /**

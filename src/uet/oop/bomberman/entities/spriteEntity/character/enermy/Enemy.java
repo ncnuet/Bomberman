@@ -2,12 +2,15 @@ package uet.oop.bomberman.entities.spriteEntity.character.enermy;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.AI.AI;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Playground;
 import uet.oop.bomberman.entities.spriteEntity.character.Character;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.util.Direction;
 import uet.oop.bomberman.util.Distance;
+
+import java.util.Objects;
 
 public abstract class Enemy extends Character {
     private static final Image mob_dead1 = Sprite.mob_dead1.getFxImage();
@@ -41,7 +44,7 @@ public abstract class Enemy extends Character {
     public Enemy(int crdX, int crdY, Image spriteImg, Image dead_img, Playground playground) {
         super(crdX, crdY, spriteImg, playground);
         this.img_default = dead_img;
-        this.setTimeToExplode(80);
+        this.setTimeToExplode(RENDER_TIME);
         this.setDirection(Direction.LEFT);
     }
 
@@ -54,7 +57,7 @@ public abstract class Enemy extends Character {
     @Override
     protected void selectSpriteOnDead() {
         this.setSpriteImg(Sprite.selectSprite(
-                this.getFrameCount().getFrame(), 80,
+                this.getFrameCount().getFrame(), RENDER_TIME,
                 img_default, mob_dead1, mob_dead2, mob_dead3
         ));
     }
