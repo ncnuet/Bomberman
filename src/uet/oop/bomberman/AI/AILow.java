@@ -32,6 +32,7 @@ public class AILow extends AI {
         resetStepAvailable();
     }
 
+
     private void resetStepAvailable() {
         this.stepAvailable = Sprite.SCALED_SIZE + random.nextInt(6) * Sprite.SCALED_SIZE;
     }

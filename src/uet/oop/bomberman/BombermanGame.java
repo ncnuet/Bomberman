@@ -1,23 +1,26 @@
 package uet.oop.bomberman;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.util.PathFile;
+import uet.oop.bomberman.util.Time;
 
 import java.io.InputStream;
+import java.util.Timer;
 
 public class BombermanGame extends Application {
     private static final String TITLE = "Bomberman Game made by group 22";
     private static final String ICON_PATH = "/icons/icon.png";
-    public static final int APP_TILE_WIDTH = 15;
-    public static final int APP_TILE_HEIGHT = 15;
-    public static final int BORDER_WINDOW_X = 15;
+    Time time = new Time();
+    public static final int APP_TILE_WIDTH = 25;
+    public static final int APP_TILE_HEIGHT = 20;
+    public static final int BORDER_WINDOW_X = 25;
     public static final int BORDER_WINDOW_Y = 38;
     public static final int SCENE_WIDTH = APP_TILE_WIDTH * Sprite.SCALED_SIZE;
     public static final int SCENE_HEIGHT = APP_TILE_HEIGHT * Sprite.SCALED_SIZE;
@@ -135,15 +138,19 @@ public class BombermanGame extends Application {
      * @param stage stage
      */
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws Exception {
         //Start background sound
         Sound.bg_sound.start();
+        time.runTime();
+        System.out.println(300 - time.timeCount);
 
         Playground playground = new Playground();
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
         // Add scene into stage
-        stage.setScene(playground.getScene());
+        Scene scene =playground.getScene();
+        stage.setScene(scene);
+
         stage.show();
 
         // Setup stage
@@ -159,6 +166,8 @@ public class BombermanGame extends Application {
         if (stream != null) {
             stage.getIcons().add(new Image(stream));
         }
+        TheTimer gameTimer=new TheTimer();
+        gameTimer.start(stage,playground.getScene());
 
         // Set timer action
         AnimationTimer timer = new AnimationTimer() {
