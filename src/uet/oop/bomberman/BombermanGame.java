@@ -83,7 +83,7 @@ public class BombermanGame extends Application {
 
                     updateTimestamp = System.nanoTime();
                     frameCount++;
-                }
+//                }
 
                 if (now - titleUpdateTimestamp > refreshTitleTime) {
                     stage.setTitle(BombermanGame.TITLE + " | " + frameCount + " " + "fps");
