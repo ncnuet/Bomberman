@@ -1,7 +1,7 @@
 package uet.oop.bomberman.sound;
 
 import uet.oop.bomberman.exceptions.AudioNotReadyException;
-import uet.oop.bomberman.util.PathFile;
+import uet.oop.bomberman.utils.PathFile;
 
 import javax.sound.sampled.*;
 

@@ -2,30 +2,37 @@ package uet.oop.bomberman.entities.tile;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.utils.Coordinate;
 
 /**
- * Entity can not be movable, changeable.
+ * Entity can not be movable, just one sprite.
+ * Wrapper class.
  */
 public abstract class Tile extends Entity {
     /**
      * Constructor.
-     * Create new Entity with position and it's image
+     * Create new Entity with position and it's image.
      *
-     * @param xUnit     position in predefined
-     * @param yUnit     position in predefined
+     * @param crd       coordinate
      * @param spriteImg image
      */
-    public Tile(int xUnit, int yUnit, Image spriteImg) {
-        super(xUnit, yUnit, spriteImg);
+    public Tile(Coordinate crd, Image spriteImg) {
+        super(crd, spriteImg);
     }
 
-    @Override
-    public void kill() {
-        this.setInvisible(true);
-    }
-
+    /* Because of tile is a static entity (not change sprite or moving),
+    so it does not need to update
+     */
     @Override
     public void update() {
+
+    }
+
+    /*
+    Default tile entity is immortal
+     */
+    @Override
+    public void kill() {
 
     }
 }

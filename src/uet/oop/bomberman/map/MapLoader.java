@@ -1,9 +1,9 @@
 package uet.oop.bomberman.map;
 
-import uet.oop.bomberman.Playground;
+import uet.oop.bomberman.Context;
 import uet.oop.bomberman.exceptions.LoadMapException;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.util.Size;
+import uet.oop.bomberman.utils.Size;
 
 public abstract class MapLoader {
     private String mapID;
@@ -71,7 +71,7 @@ public abstract class MapLoader {
     /**
      * Generate Entity from loaded map.
      *
-     * @param playground game board manager
+     * @param context game board manager
      */
-    public abstract void generateMap(Playground playground);
+    public abstract void generateMap(Context context);
 }

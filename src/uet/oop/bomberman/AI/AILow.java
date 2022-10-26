@@ -1,16 +1,13 @@
 package uet.oop.bomberman.AI;
 
-import uet.oop.bomberman.Playground;
+import uet.oop.bomberman.Context;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.spriteEntity.character.Bomber;
-import uet.oop.bomberman.entities.spriteEntity.character.enermy.Enemy;
-import uet.oop.bomberman.entities.spriteEntity.obstacle.bomb.FlameSegment;
+import uet.oop.bomberman.entities.spriteEntity.bomber.Bomber;
+import uet.oop.bomberman.entities.spriteEntity.enermy.Enemy;
+import uet.oop.bomberman.entities.spriteEntity.bomb.FlameSegment;
 import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.util.Convert;
-import uet.oop.bomberman.util.Direction;
-import uet.oop.bomberman.util.Distance;
-import uet.oop.bomberman.util.Point;
+import uet.oop.bomberman.utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +18,14 @@ public class AILow extends AI {
     private final Random random;
     private final Enemy enemy;
     private final int speed;
-    private final Playground playground;
+    private final Context context;
     private Direction preAnsDirection;
 
-    public AILow(Enemy enemy, Playground playground) {
+    public AILow(Enemy enemy, Context context) {
         this.random = new Random();
         this.enemy = enemy;
         this.speed = enemy.getSpeed();
-        this.playground = playground;
+        this.context = context;
         resetStepAvailable();
     }
 
@@ -73,10 +70,10 @@ public class AILow extends AI {
         };
 
         for (int i = 0; i < 4; i++) {
-            int x = (int) (this.enemy.getX() + distance.getX() + (i % 2) * size);
-            int y = (int) (this.enemy.getY() + distance.getY() + (i / 2) * size);
-            Point point = Convert.pixelToTile(new Point(x, y));
-            Entity entity = this.playground.getEntity(point);
+            int x = this.enemy.getXAsPixel() + distance.getX() + (i % 2) * size;
+            int y = this.enemy.getYAsPixel() + distance.getY() + (i / 2) * size;
+
+            Entity entity = this.context.getEntity(Coordinate.createCrdByPixel(x,y), false);
             if (!isCanPass(entity)) return false;
         }
 
