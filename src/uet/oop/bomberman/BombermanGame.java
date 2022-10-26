@@ -7,8 +7,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import uet.oop.bomberman.sound.Sound;
-import uet.oop.bomberman.util.PathFile;
-import uet.oop.bomberman.util.Size;
+import uet.oop.bomberman.utils.PathFile;
+import uet.oop.bomberman.utils.Size;
 
 import java.io.InputStream;
 
@@ -38,13 +38,13 @@ public class BombermanGame extends Application {
         //Start background sound
         Sound.bg_sound.start();
 
-        Playground playground = new Playground();
+        Context context = new Context();
 
         // Get boundary of screen
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
         // Add scene into stage
-        stage.setScene(playground.getScene());
+        stage.setScene(context.getScene());
         stage.show();
 
         // Setup stage
@@ -78,8 +78,8 @@ public class BombermanGame extends Application {
 
             public void handle(long now) {
                 if (now - updateTimestamp > refreshUpdateTime) {
-                    playground.render();
-                    playground.update();
+                    context.render();
+                    context.update();
 
                     updateTimestamp = System.nanoTime();
                     frameCount++;

@@ -85,6 +85,9 @@ public final class Sprite extends Image implements SpritePack {
         int session = numberFramesForSprite / numObject;
 
         if (frameCount == numberFramesForSprite) return sprites[numObject - 1];
+        if ((frameCount % numberFramesForSprite) / session >= numObject) {
+            return sprites[numObject - 1];
+        }
         return sprites[(frameCount % numberFramesForSprite) / session];
     }
 }

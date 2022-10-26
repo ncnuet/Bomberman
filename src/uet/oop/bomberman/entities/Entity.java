@@ -3,80 +3,75 @@ package uet.oop.bomberman.entities;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.Playground;
-import uet.oop.bomberman.entities.spriteEntity.character.Bomber;
+import uet.oop.bomberman.Context;
+import uet.oop.bomberman.entities.spriteEntity.bomber.Bomber;
 import uet.oop.bomberman.entities.tile.item.*;
-import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.util.Convert;
-import uet.oop.bomberman.util.Point;
+import uet.oop.bomberman.utils.Coordinate;
 
+/*
+ The class manages the display and the position of an entity.
+ This is the top base class.
+ */
 public abstract class Entity {
 
     private static final int CENTER_POINT_X = BombermanGame.SCENE_WIDTH / 2;
     private static final int CENTER_POINT_Y = BombermanGame.SCENE_HEIGHT / 2;
 
-    private int x, y; // in pixel
-    private Point coordinate; // in tile
-    private Image spriteImg;
-    private boolean invisible;
+    private final Coordinate coordinate; // the coordinate of entity by tile
+    private Image spriteImg; // the image of entity
+    private boolean isRemoved; // default = false. If true, entity will be cleared
 
-    public int getX() {
-        return x;
+    /**
+     * Get and set value as pixel coordinate
+     */
+
+    public int getXAsPixel() {
+        return this.coordinate.getPixelCrd().getX();
     }
 
-    protected void setX(int x) {
-        this.x = x;
-        this.setCoordinate(Convert.pixelToTile(new Point(this.x, this.y)));
+    protected void setXAsPixel(int x) {
+        this.coordinate.setXAsPixel(x);
     }
 
-    public int getY() {
-        return y;
+    public int getYAsPixel() {
+        return this.coordinate.getPixelCrd().getY();
     }
 
-    protected void setY(int y) {
-        this.y = y;
-        this.setCoordinate(Convert.pixelToTile(new Point(this.x, this.y)));
+    protected void setYAsPixel(int y) {
+        this.coordinate.setYAsPixel(y);
     }
 
-    public Point getCoordinate() {
+    public Coordinate getCoordinate() {
         return coordinate;
     }
 
-    protected void setCoordinate(Point coordinate) {
-        this.coordinate = coordinate;
-    }
-
-    public Image getSpriteImg() {
+    public Image getSprite() {
         return spriteImg;
     }
 
-    protected void setSpriteImg(Image spriteImg) {
+    protected void setSprite(Image spriteImg) {
         this.spriteImg = spriteImg;
     }
 
-    public boolean isInvisible() {
-        return invisible;
+    public boolean isRemoved() {
+        return isRemoved;
     }
 
-    protected void setInvisible(boolean invisible) {
-        this.invisible = invisible;
+    protected void setRemoved(boolean removed) {
+        this.isRemoved = removed;
     }
 
     /**
      * Constructor.
      * Create new Entity with position and it's image
      *
-     * @param crdX      in tile
-     * @param crdY      in tile
-     * @param spriteImg image
+     * @param crd    coordinate
+     * @param sprite image
      */
-    public Entity(int crdX, int crdY, Image spriteImg) {
-        this.setX(crdX * Sprite.SCALED_SIZE); // convert from tile crd to pixel crd
-        this.setY(crdY * Sprite.SCALED_SIZE); // convert from tile crd to pixel crd
-        this.setCoordinate(new Point(crdX, crdY));
-        this.setSpriteImg(spriteImg);
-        this.setInvisible(false);
-        this.setInvisible(false);
+    public Entity(Coordinate crd, Image sprite) {
+        this.coordinate = crd;
+        this.setSprite(sprite);
+        this.setRemoved(false);
     }
 
     /**
@@ -84,32 +79,37 @@ public abstract class Entity {
      *
      * @param gc graphic context.
      */
-    public void render(GraphicsContext gc, Playground playground) {
-        int posX = this.getX();
-        int posY = this.getY();
-        int mapWidth = playground.getWidthByPixel();
-        int mapHeight = playground.getHeightByPixel();
+    public void render(GraphicsContext gc, Context context) {
+        int x = this.getXAsPixel();
+        int y = this.getYAsPixel();
+        int mapWidth = context.getWidthByPixel();
+        int mapHeight = context.getHeightByPixel();
 
         if (this instanceof Bomber) {
-            if (this.getX() >= CENTER_POINT_X && this.getX() + CENTER_POINT_X <= mapWidth)
-                posX = CENTER_POINT_X;
-            if (this.getY() >= CENTER_POINT_Y && this.getY() + CENTER_POINT_Y <= mapHeight)
-                posY = CENTER_POINT_Y;
-            if (this.getX() + CENTER_POINT_X > mapWidth)
-                posX = BombermanGame.SCENE_WIDTH - (mapWidth - this.getX());
-            if (this.getY() + CENTER_POINT_Y > mapHeight)
-                posY = BombermanGame.SCENE_HEIGHT - (mapHeight - this.getY());
+            if (this.getXAsPixel() >= CENTER_POINT_X && this.getXAsPixel() + CENTER_POINT_X <= mapWidth)
+                x = CENTER_POINT_X;
+            if (this.getYAsPixel() >= CENTER_POINT_Y && this.getYAsPixel() + CENTER_POINT_Y <= mapHeight)
+                y = CENTER_POINT_Y;
+            if (this.getXAsPixel() + CENTER_POINT_X > mapWidth)
+                x = BombermanGame.SCENE_WIDTH - (mapWidth - this.getXAsPixel());
+            if (this.getYAsPixel() + CENTER_POINT_Y > mapHeight)
+                y = BombermanGame.SCENE_HEIGHT - (mapHeight - this.getYAsPixel());
         } else {
-            int offsetX = playground.getOffsetX();
-            int offsetY = playground.getOffsetY();
-            posX += offsetX;
-            posY += offsetY;
+            int offsetX = context.getOffsetX();
+            int offsetY = context.getOffsetY();
+            x += offsetX;
+            y += offsetY;
         }
 
-        gc.drawImage(spriteImg, posX, posY);
+        gc.drawImage(spriteImg, x, y);
     }
 
-    public static EntityType detectItem(Entity entity) {
+    /**
+     * Classify the Item type
+     * @param entity Item entity
+     * @return type of item or tile
+     */
+    public static EntityType classify(Entity entity) {
         if (entity instanceof Portal) return EntityType.PORTAL;
         if (entity instanceof BombItem) return EntityType.ITEM_BOMB;
         if (entity instanceof BombpassItem) return EntityType.ITEM_BOMB_BYPASS;
@@ -122,7 +122,13 @@ public abstract class Entity {
         return EntityType.TILE;
     }
 
+    /**
+     * Update entity state.
+     */
     public abstract void update();
 
+    /**
+     * Update killable state
+     */
     public abstract void kill();
 }

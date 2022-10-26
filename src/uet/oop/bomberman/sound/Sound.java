@@ -1,6 +1,6 @@
 package uet.oop.bomberman.sound;
 
-import uet.oop.bomberman.util.Convert;
+import uet.oop.bomberman.utils.Convert;
 
 /**
  * Sound class control a special sound.

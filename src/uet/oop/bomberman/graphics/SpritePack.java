@@ -48,16 +48,16 @@ public interface SpritePack {
     | Characters
     |--------------------------------------------------------------------------
      */
-    //BALLOM
-    Sprite balloom_left1 = new Sprite(9, 0);
-    Sprite balloom_left2 = new Sprite(9, 1);
-    Sprite balloom_left3 = new Sprite(9, 2);
+    //BALLOON
+    Sprite balloon_left1 = new Sprite(9, 0);
+    Sprite balloon_left2 = new Sprite(9, 1);
+    Sprite balloon_left3 = new Sprite(9, 2);
 
-    Sprite balloom_right1 = new Sprite(10, 0);
-    Sprite balloom_right2 = new Sprite(10, 1);
-    Sprite balloom_right3 = new Sprite(10, 2);
+    Sprite balloon_right1 = new Sprite(10, 0);
+    Sprite balloon_right2 = new Sprite(10, 1);
+    Sprite balloon_right3 = new Sprite(10, 2);
 
-    Sprite balloom_dead = new Sprite(9, 3);
+    Sprite balloon_dead = new Sprite(9, 3);
 
     //ONEAL
     Sprite oneal_left1 = new Sprite(11, 0);

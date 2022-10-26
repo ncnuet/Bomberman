@@ -1,16 +1,17 @@
 package uet.oop.bomberman.map;
 
-import uet.oop.bomberman.Playground;
+import uet.oop.bomberman.Context;
 import uet.oop.bomberman.entities.StackEntity;
-import uet.oop.bomberman.entities.spriteEntity.character.CharacterType;
-import uet.oop.bomberman.entities.spriteEntity.obstacle.brick.Brick;
+import uet.oop.bomberman.entities.spriteEntity.CharacterType;
+import uet.oop.bomberman.entities.spriteEntity.brick.Brick;
 import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.entities.tile.item.*;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.exceptions.LoadMapException;
 import uet.oop.bomberman.exceptions.ParseMapException;
-import uet.oop.bomberman.util.PathFile;
-import uet.oop.bomberman.util.Size;
+import uet.oop.bomberman.utils.Coordinate;
+import uet.oop.bomberman.utils.PathFile;
+import uet.oop.bomberman.utils.Size;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FileMapLoader extends MapLoader {
-    private final List<List<String>> map = new ArrayList<>();
+    private final List<List<Character>> map = new ArrayList<>();
 
     /**
      * Load a map.
@@ -40,9 +41,9 @@ public class FileMapLoader extends MapLoader {
         System.out.println(this.getTime());
         System.out.println(this.getSize().getWidth() + " " + this.getSize().getHeight());
 
-        for (List<String> row : map) {
-            for (String s : row) {
-                System.out.print(s);
+        for (List<Character> row : map) {
+            for (Character c : row) {
+                System.out.print(c);
             }
             System.out.println();
         }
@@ -73,12 +74,13 @@ public class FileMapLoader extends MapLoader {
      *
      * @param input String line input
      */
-    private void readEntityText(String input) throws ParseMapException {
+    private void readEntity(String input) throws ParseMapException {
         try {
-            String[] entityChar = input.split("");
-            List<String> entitiesInRow = new ArrayList<>(Arrays.asList(entityChar));
+            List<Character> entities
+                    = Arrays.stream(input.split(""))
+                    .map((String s) -> s.charAt(0)).toList();
 
-            this.map.add(entitiesInRow);
+            this.map.add(entities);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             throw new ParseMapException();
@@ -102,7 +104,7 @@ public class FileMapLoader extends MapLoader {
             readSpecs(buffer.readLine());
             do {
                 row = buffer.readLine();
-                if (!row.equals("")) readEntityText(row);
+                if (!row.equals("")) readEntity(row);
             } while (!row.equals(""));
 
         } catch (IOException | ParseMapException e) {
@@ -128,96 +130,103 @@ public class FileMapLoader extends MapLoader {
     /**
      * Generate Entity from loaded map.
      *
-     * @param playground game board manager
+     * @param context game board manager
      */
     @Override
-    public void generateMap(Playground playground) {
+    public void generateMap(Context context) {
         int width = this.getWidth();
         int height = this.getHeight();
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                String s = this.map.get(y).get(x);
-
-                switch (s) {
-                    case " " -> // Grass
-                            playground.addEntity(new Grass(x, y));
-                    case "#" -> // Wall
-                            playground.addEntity(new Wall(x, y));
-                    case "*" -> // Brick
-                            playground.addEntity(new StackEntity(x, y,
+                switch (this.map.get(y).get(x)) {
+                    case ' ' -> // Grass
+                            context.addEntity(new Grass(x, y));
+                    case '#' -> // Wall
+                            context.addEntity(new Wall(x, y));
+                    case '*' -> // Brick
+                            context.addEntity(new StackEntity(
+                                    new Coordinate(x, y),
                                     new Grass(x, y),
                                     new Brick(x, y)
                             ));
-                    case "x" -> // Portal
-                            playground.addEntity(new StackEntity(x, y,
+                    case 'x' -> // Portal
+                            context.addEntity(new StackEntity(
+                                    new Coordinate(x, y),
                                     new Grass(x, y),
                                     new Portal(x, y),
                                     new Brick(x, y)
                             ));
                     /*
-                     * Character
+                     * MovableEntity
                      */
-                    case "p" -> {  // Bomber
-                        playground.addEntity(new Grass(x, y));
-                        playground.addCharacter(x, y, CharacterType.BOMBER);
+                    case 'p' -> {  // Bomber
+                        context.addEntity(new Grass(x, y));
+                        context.addCharacter(x, y, CharacterType.BOMBER);
                     }
-                    case "1" -> {
-                        playground.addEntity(new Grass(x, y));
-                        playground.addCharacter(x, y, CharacterType.BALLOON);
+                    case '1' -> {
+                        context.addEntity(new Grass(x, y));
+                        context.addCharacter(x, y, CharacterType.BALLOON);
                     }
-                    case "2" -> {
-                        playground.addEntity(new Grass(x, y));
-                        playground.addCharacter(x, y, CharacterType.ONEAL);
+                    case '2' -> {
+                        context.addEntity(new Grass(x, y));
+                        context.addCharacter(x, y, CharacterType.ONEAL);
                     }
 
                     /*
                      * Power-up Item
                      */
-                    case "s" -> // SpeedItem
-                            playground.addEntity(new StackEntity(x, y,
+                    case 's' -> // SpeedItem
+                            context.addEntity(new StackEntity(
+                                    new Coordinate(x, y),
                                     new Grass(x, y),
                                     new SpeedItem(x, y),
                                     new Brick(x, y)
                             ));
-                    case "b" -> // BombItem
-                            playground.addEntity(new StackEntity(x, y,
+                    case 'b' -> // BombItem
+                            context.addEntity(new StackEntity(
+                                    new Coordinate(x, y),
                                     new Grass(x, y),
                                     new BombItem(x, y),
                                     new Brick(x, y)
                             ));
-                    case "f" -> // FlameItem
-                            playground.addEntity(new StackEntity(x, y,
+                    case 'f' -> // FlameItem
+                            context.addEntity(new StackEntity(
+                                    new Coordinate(x, y),
                                     new Grass(x, y),
                                     new FlameItem(x, y),
                                     new Brick(x, y)
                             ));
-                    case "h" -> // BombpassItem
-                            playground.addEntity(new StackEntity(x, y,
+                    case 'h' -> // BombpassItem
+                            context.addEntity(new StackEntity(
+                                    new Coordinate(x, y),
                                     new Grass(x, y),
                                     new BombpassItem(x, y),
                                     new Brick(x, y)
                             ));
-                    case "j" -> // FlamePassItem
-                            playground.addEntity(new StackEntity(x, y,
+                    case 'j' -> // FlamePassItem
+                            context.addEntity(new StackEntity(
+                                    new Coordinate(x, y),
                                     new Grass(x, y),
                                     new FlamepassItem(x, y),
                                     new Brick(x, y)
                             ));
-                    case "k" -> // WallPassItem
-                            playground.addEntity(new StackEntity(x, y,
+                    case 'k' -> // WallPassItem
+                            context.addEntity(new StackEntity(
+                                    new Coordinate(x, y),
                                     new Grass(x, y),
                                     new WallpassItem(x, y),
                                     new Brick(x, y)
                             ));
-                    case "d" -> // DetonatorItem
-                            playground.addEntity(new StackEntity(x, y,
+                    case 'd' -> // DetonatorItem
+                            context.addEntity(new StackEntity(
+                                    new Coordinate(x, y),
                                     new Grass(x, y),
                                     new DetonatorItem(x, y),
                                     new Brick(x, y)
                             ));
                     default -> // Default Grass
-                            playground.addEntity(new Grass(x, y));
+                            context.addEntity(new Grass(x, y));
                 }
             }
         }
