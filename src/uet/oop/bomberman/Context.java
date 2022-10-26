@@ -173,6 +173,17 @@ public class Context {
         return null;
     }
 
+    public Entity getBomber(Coordinate crd){
+        for (MovableEntity movableEntity : this.movableEntities) {
+            if (movableEntity instanceof Bomber) {
+                if (movableEntity.getCoordinate().equals(crd)) {
+                    return movableEntity;
+                }
+            }
+        }
+        return null;
+    }
+
     public Entity getEntity(Coordinate crd, boolean excludeEnemy) {
         Entity tile = getTile(crd);
         Entity bomb = getBomb(crd);

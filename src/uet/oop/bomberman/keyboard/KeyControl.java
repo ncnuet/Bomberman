@@ -42,7 +42,8 @@ public class KeyControl extends Keyboard {
     public Distance getDistance() {
         return new Distance(
                 x * GameValue.getBomberSpeed(),
-                y * GameValue.getBomberSpeed());
+                y * GameValue.getBomberSpeed(),
+                this.getDirection());
     }
 
     public boolean isSpacePressed() {

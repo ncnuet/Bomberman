@@ -3,6 +3,7 @@ package uet.oop.bomberman.utils;
 
 public final class Distance {
     private int x, y;
+    private Direction direction;
 
     public int getX() {
         return x;
@@ -20,8 +21,23 @@ public final class Distance {
         this.y = y;
     }
 
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
     public Distance(int x, int y) {
         this.x = x;
         this.y = y;
+        this.direction = null;
+    }
+
+    public Distance(int x, int y,Direction direction) {
+        this.x = x;
+        this.y = y;
+        this.direction = direction;
     }
 }

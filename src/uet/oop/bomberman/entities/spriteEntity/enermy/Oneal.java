@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.spriteEntity.enermy;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.AI.AIHigh;
 import uet.oop.bomberman.AI.AILow;
 import uet.oop.bomberman.Context;
 import uet.oop.bomberman.graphics.Sprite;
@@ -34,6 +35,6 @@ public final class Oneal extends Enemy {
         this.setRightSprites(right_sprites);
 
         this.setSpeed(1);
-        this.setAI(new AILow(this, context));
+        this.setAI(new AIHigh(this, context));
     }
 }

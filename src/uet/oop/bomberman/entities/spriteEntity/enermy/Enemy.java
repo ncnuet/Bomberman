@@ -72,12 +72,16 @@ public abstract class Enemy extends MovableEntity {
      * @param direction direction
      */
     private void moveByDirection(Direction direction) {
-        switch (direction) {
-            case UP -> this.setYAsPixel(this.getYAsPixel() - this.speed);
-            case DOWN -> this.setYAsPixel(this.getYAsPixel() + this.speed);
-            case LEFT -> this.setXAsPixel(this.getXAsPixel() - this.speed);
-            case RIGHT -> this.setXAsPixel(this.getXAsPixel() + this.speed);
-            default -> this.setXAsPixel(this.getXAsPixel());
+        if (direction != null) {
+            switch (direction) {
+                case UP -> this.setYAsPixel(this.getYAsPixel() - this.speed);
+                case DOWN -> this.setYAsPixel(this.getYAsPixel() + this.speed);
+                case LEFT -> this.setXAsPixel(this.getXAsPixel() - this.speed);
+                case RIGHT -> this.setXAsPixel(this.getXAsPixel() + this.speed);
+                default -> this.setXAsPixel(this.getXAsPixel());
+            }
+        } else {
+            this.setXAsPixel(this.getXAsPixel());
         }
     }
 
@@ -98,9 +102,9 @@ public abstract class Enemy extends MovableEntity {
     @Override
     public void update() {
         super.update();
-        if (this.isAlive()){
+        if (this.isAlive()) {
             moveEntity(new Distance(0, 0));
-            collide(new Distance(0,0));
+            collide(new Distance(0, 0));
         }
     }
 
@@ -113,7 +117,7 @@ public abstract class Enemy extends MovableEntity {
     protected void collide(Distance distance) {
         Entity entity = this.context.getEntity(this.getCoordinate(), true);
 
-        if (entity instanceof FlameSegment){
+        if (entity instanceof FlameSegment) {
             this.kill();
         }
     }
