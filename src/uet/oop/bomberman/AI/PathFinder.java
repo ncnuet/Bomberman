@@ -5,6 +5,7 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.spriteEntity.bomber.Bomber;
 import uet.oop.bomberman.entities.spriteEntity.enermy.Enemy;
 import uet.oop.bomberman.entities.tile.Grass;
+import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.utils.Coordinate;
 import uet.oop.bomberman.utils.Direction;
 
@@ -17,10 +18,11 @@ public class PathFinder {
     private static final int[] DIR_Y = new int[]{-1, 0, 1, 0};
     private static final Direction[] DIR = new Direction[]{
             Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT};
-    private final Context context;
-    private final boolean[][] visited;
+    private Context context;
+    private final boolean wallPass;
+    private boolean[][] visited;
     private int height, width;
-    private final Queue<Item> queue;
+    private Queue<Item> queue;
 
     /**
      * Constructor.
@@ -29,6 +31,22 @@ public class PathFinder {
      * @param enemy   enemy
      */
     public PathFinder(Enemy enemy, Context context) {
+        this.init(enemy, context);
+        this.wallPass = false;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param context context
+     * @param enemy   enemy
+     */
+    public PathFinder(Enemy enemy, Context context, boolean wallPass) {
+        this.init(enemy, context);
+        this.wallPass = wallPass;
+    }
+
+    private void init(Enemy enemy, Context context) {
         this.context = context;
         Item source = new Item(enemy.getX(), enemy.getY(), 0, new LinkedList<>());
         int width = this.context.getWidth();
@@ -56,7 +74,7 @@ public class PathFinder {
                 break;
             }
 
-            if (item.distance > 25){
+            if (item.distance > 25) {
                 break;
             }
 
@@ -80,7 +98,7 @@ public class PathFinder {
             if (!visited[crdY][crdX]) {
                 Entity entity = this.context.getEntity(
                         Coordinate.createCrdByTile(crdX, crdY), false);
-                return (entity instanceof Grass);
+                return (entity instanceof Grass || (wallPass && entity instanceof Wall));
             }
         }
 

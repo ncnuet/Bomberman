@@ -8,9 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.spriteEntity.enermy.Balloon;
-import uet.oop.bomberman.entities.spriteEntity.enermy.Enemy;
-import uet.oop.bomberman.entities.spriteEntity.enermy.Oneal;
+import uet.oop.bomberman.entities.spriteEntity.enermy.*;
 import uet.oop.bomberman.entities.spriteEntity.bomb.Flame;
 import uet.oop.bomberman.utils.Coordinate;
 import uet.oop.bomberman.entities.spriteEntity.CharacterType;
@@ -139,6 +137,12 @@ public class Context {
             case BOMBER -> this.movableEntities.add(new Bomber(x, y, keyboard, this));
             case BALLOON -> this.movableEntities.add(new Balloon(x, y, this));
             case ONEAL -> this.movableEntities.add(new Oneal(x, y, this));
+            case DOLL -> this.movableEntities.add(new Doll(x, y, this));
+            case KONDRARIA -> this.movableEntities.add(new Kondaria(x, y, this));
+            case MINVO -> this.movableEntities.add(new Minvo(x, y, this));
+            case OVAPI -> this.movableEntities.add(new Ovapi(x, y, this));
+            case PASS -> this.movableEntities.add(new Pass(x, y, this));
+            case PONTAN -> this.movableEntities.add(new PontanOrange(x, y, this));
         }
     }
 

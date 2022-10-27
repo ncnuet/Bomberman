@@ -168,6 +168,30 @@ public class FileMapLoader extends MapLoader {
                         context.addEntity(new Grass(x, y));
                         context.addCharacter(x, y, CharacterType.ONEAL);
                     }
+                    case '3' -> {
+                        context.addEntity(new Grass(x, y));
+                        context.addCharacter(x, y, CharacterType.DOLL);
+                    }
+                    case '4' -> {
+                        context.addEntity(new Grass(x, y));
+                        context.addCharacter(x, y, CharacterType.MINVO);
+                    }
+                    case '5' -> {
+                        context.addEntity(new Grass(x, y));
+                        context.addCharacter(x, y, CharacterType.KONDRARIA);
+                    }
+                    case '6' -> {
+                        context.addEntity(new Grass(x, y));
+                        context.addCharacter(x, y, CharacterType.OVAPI);
+                    }
+                    case '7' -> {
+                        context.addEntity(new Grass(x, y));
+                        context.addCharacter(x, y, CharacterType.PASS);
+                    }
+                    case '8' -> {
+                        context.addEntity(new Grass(x, y));
+                        context.addCharacter(x, y, CharacterType.PONTAN);
+                    }
 
                     /*
                      * Power-up Item

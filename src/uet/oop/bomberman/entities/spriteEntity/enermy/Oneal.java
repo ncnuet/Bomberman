@@ -34,7 +34,8 @@ public final class Oneal extends Enemy {
         this.setLeftSprites(left_sprites);
         this.setRightSprites(right_sprites);
 
-        this.setSpeed(1);
+        this.setSpeed(3);
         this.setAI(new AIHigh(this, context));
+        this.setScore(200);
     }
 }

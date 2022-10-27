@@ -3,9 +3,9 @@ package uet.oop.bomberman.entities.spriteEntity.enermy;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.AI.AI;
 import uet.oop.bomberman.Context;
+import uet.oop.bomberman.GameValue;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.spriteEntity.MovableEntity;
-import uet.oop.bomberman.entities.spriteEntity.bomb.Flame;
 import uet.oop.bomberman.entities.spriteEntity.bomb.FlameSegment;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
@@ -21,8 +21,17 @@ public abstract class Enemy extends MovableEntity {
     private Image[] left_sprite;
     private Image[] right_sprite;
 
+    private int score = 0;
     private int speed = 2;
     private AI ai;
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 
     public int getSpeed() {
         return speed;
@@ -87,6 +96,7 @@ public abstract class Enemy extends MovableEntity {
 
     @Override
     public void kill() {
+        GameValue.setScore(GameValue.getScore() + this.score);
         Sound.dead.start();
         this.setAlive(false);
     }
