@@ -37,7 +37,10 @@ public class Context {
     private GraphicsContext graphicsContext;
     private Canvas canvas;
     private Scene scene;
+    public BorderPane borderPane;
+    public Canvas menu;
     private Statusbar status;
+    private Group root;
     private int offsetX = 0;
     private int offsetY = 0;
 
@@ -97,14 +100,17 @@ public class Context {
 
             // Load status
             this.status = new Statusbar();
-
-            BorderPane borderPane = new BorderPane();
+            this.borderPane = new BorderPane();
             borderPane.setTop(status.getCanvas());
             borderPane.setCenter(canvas);
 
+            // Welcome page
+            Welcome welcome = new Welcome(this);
+            this.menu = welcome.getCanvas();
+
             // Create root container wrap canvas
-            Group root = new Group();
-            root.getChildren().add(borderPane);
+            this.root = new Group();
+            root.getChildren().add(menu);
 
             // Start draw
             this.scene = new Scene(root);
@@ -120,6 +126,12 @@ public class Context {
         }
     }
 
+    public void setGamePlay(){
+        this.root.getChildren().clear();
+        this.root.getChildren().add(borderPane);
+
+        System.out.println("aa");
+    }
     public void addEntity(Entity entity) {
         this.entities.add(entity);
     }

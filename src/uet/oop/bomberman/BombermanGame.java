@@ -11,6 +11,7 @@ import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.utils.PathFile;
 import uet.oop.bomberman.utils.Size;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class BombermanGame extends Application {
@@ -20,6 +21,9 @@ public class BombermanGame extends Application {
     private static final Size MAP_VIEW_SIZE = new Size(25, 15);
     public static final int SCENE_WIDTH = MAP_VIEW_SIZE.getWidthAsPixel();
     public static final int SCENE_HEIGHT = MAP_VIEW_SIZE.getHeightAsPixel();
+
+    public static boolean IS_MENU = true;
+
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -31,12 +35,11 @@ public class BombermanGame extends Application {
      * @param stage stage
      */
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws FileNotFoundException {
         //Start background sound
         Sound.bg_sound.start();
 
         Context context = new Context();
-
         // Add scene into stage
         stage.setScene(context.getScene());
         stage.show();
@@ -75,19 +78,24 @@ public class BombermanGame extends Application {
             @Override
 
             public void handle(long now) {
-                if (now - updateTimestamp > refreshUpdateTime) {
-                    context.render();
-                    context.update();
+                // linux filter
+                if (BombermanGame.IS_MENU) {
+                    // TODO:
+                } else {
+                    if (now - updateTimestamp > refreshUpdateTime) {
+                        context.render();
+                        context.update();
 
-                    updateTimestamp = System.nanoTime();
-                    frameCount++;
-                }
+                        updateTimestamp = System.nanoTime();
+                        frameCount++;
+                    }
 
-                if (now - titleUpdateTimestamp > refreshTitleTime) {
-                    stage.setTitle(BombermanGame.TITLE + " | " + frameCount + " " + "fps");
-                    GameValue.setTime(GameValue.getTime() - 1);
-                    titleUpdateTimestamp = System.nanoTime();
-                    frameCount = 0;
+                    if (now - titleUpdateTimestamp > refreshTitleTime) {
+                        stage.setTitle(BombermanGame.TITLE + " | " + frameCount + " " + "fps");
+                        GameValue.setTime(GameValue.getTime() - 1);
+                        titleUpdateTimestamp = System.nanoTime();
+                        frameCount = 0;
+                    }
                 }
             }
         };
