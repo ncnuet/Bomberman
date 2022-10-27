@@ -50,6 +50,9 @@ public class Welcome {
             if (menu[0].rect.contains(e.getX(), e.getY())) {
                 this.context.setGamePlay();
             }
+            if (menu[2].rect.contains(e.getX(), e.getY())) {
+                this.context.showVolumeControl();
+            }
             if (menu[3].rect.contains(e.getX(), e.getY())) {
                 System.exit(0);
             }

@@ -4,22 +4,22 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.spriteEntity.enermy.*;
-import uet.oop.bomberman.entities.spriteEntity.bomb.Flame;
-import uet.oop.bomberman.utils.Coordinate;
+import uet.oop.bomberman.entities.StackEntity;
 import uet.oop.bomberman.entities.spriteEntity.CharacterType;
 import uet.oop.bomberman.entities.spriteEntity.MovableEntity;
-import uet.oop.bomberman.keyboard.KeyControl;
-import uet.oop.bomberman.entities.spriteEntity.bomber.Bomber;
-import uet.oop.bomberman.entities.StackEntity;
 import uet.oop.bomberman.entities.spriteEntity.bomb.Bomb;
+import uet.oop.bomberman.entities.spriteEntity.bomb.Flame;
+import uet.oop.bomberman.entities.spriteEntity.bomber.Bomber;
+import uet.oop.bomberman.entities.spriteEntity.enermy.*;
+import uet.oop.bomberman.keyboard.KeyControl;
 import uet.oop.bomberman.map.FileMapLoader;
 import uet.oop.bomberman.map.MapLoader;
-import uet.oop.bomberman.utils.Point;
+import uet.oop.bomberman.utils.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +41,7 @@ public class Context {
     public Canvas menu;
     private Statusbar status;
     private Group root;
+    VolumeControl volumeControlView;
     private int offsetX = 0;
     private int offsetY = 0;
 
@@ -84,7 +85,7 @@ public class Context {
         return this.scene;
     }
 
-    public Context() {
+    public Context(Stage stage) {
         try {
             // Initial list
             this.entities = new ArrayList<>();
@@ -107,6 +108,9 @@ public class Context {
             // Welcome page
             Welcome welcome = new Welcome(this);
             this.menu = welcome.getCanvas();
+
+            //Popup
+            this.volumeControlView = new VolumeControl(stage);
 
             // Create root container wrap canvas
             this.root = new Group();
@@ -136,6 +140,10 @@ public class Context {
         BombermanGame.IS_MENU = true;
         this.root.getChildren().clear();
         this.root.getChildren().add(menu);
+    }
+
+    public void showVolumeControl() {
+        this.volumeControlView.show();
     }
 
     public void showMenu() {

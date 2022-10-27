@@ -47,6 +47,9 @@ public class MenuInGame {
                 this.canvas.setOnMouseMoved(v -> {
                 });
             }
+            if (menu[1].rect.contains(e.getX(), e.getY())) {
+                this.context.showVolumeControl();
+            }
             if (menu[2].rect.contains(e.getX(), e.getY())) {
                 this.context.setGameMenu();
                 this.canvas.setOnMouseMoved(v -> {

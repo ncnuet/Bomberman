@@ -3,7 +3,11 @@ package uet.oop.bomberman;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
+import javafx.stage.Popup;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import uet.oop.bomberman.graphics.Sprite;
@@ -40,7 +44,7 @@ public class BombermanGame extends Application {
         //Start background sound
         Sound.bg_sound.start();
 
-        Context context = new Context();
+        Context context = new Context(stage);
         // Add scene into stage
         stage.setScene(context.getScene());
         stage.show();
