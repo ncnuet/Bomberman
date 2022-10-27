@@ -35,7 +35,7 @@ public class AIHigh extends AI {
                 || !isCanMoveWithDirection(preDirection)) {
             List<Direction> dirsToBomber = this.getDirectionsToBomber();
 
-            System.out.println(dirsToBomber); // Log
+//            System.out.println(dirsToBomber); // Log
 
             if (!dirsToBomber.isEmpty()) {
                 preDirection = dirsToBomber.get(0);

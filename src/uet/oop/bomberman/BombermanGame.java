@@ -23,6 +23,7 @@ public class BombermanGame extends Application {
     public static final int SCENE_HEIGHT = MAP_VIEW_SIZE.getHeightAsPixel();
 
     public static boolean IS_MENU = true;
+    public static boolean IS_PAUSE = false;
 
 
     public static void main(String[] args) {
@@ -80,6 +81,8 @@ public class BombermanGame extends Application {
             public void handle(long now) {
                 // linux filter
                 if (BombermanGame.IS_MENU) {
+                    // TODO:
+                } else if (BombermanGame.IS_PAUSE) {
                     // TODO:
                 } else {
                     if (now - updateTimestamp > refreshUpdateTime) {

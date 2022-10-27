@@ -126,12 +126,23 @@ public class Context {
         }
     }
 
-    public void setGamePlay(){
+    public void setGamePlay() {
+        BombermanGame.IS_MENU = false;
         this.root.getChildren().clear();
         this.root.getChildren().add(borderPane);
-
-        System.out.println("aa");
     }
+
+    public void setGameMenu() {
+        BombermanGame.IS_MENU = true;
+        this.root.getChildren().clear();
+        this.root.getChildren().add(menu);
+    }
+
+    public void showMenu() {
+        MenuInGame menuInGame = new MenuInGame(this.canvas, this);
+        BombermanGame.IS_PAUSE = true;
+    }
+
     public void addEntity(Entity entity) {
         this.entities.add(entity);
     }

@@ -68,6 +68,13 @@ public final class Bomber extends MovableEntity {
         }
     }
 
+    private void listenPauseGame(){
+        if (this.keyboard.isEscapePressed()){
+            this.context.showMenu();
+
+        }
+    }
+
     private void setBomb() {
         int offsetX = Sprite.SCALED_SIZE / 2;
         int offsetY = Sprite.SCALED_SIZE / 2;
@@ -205,6 +212,7 @@ public final class Bomber extends MovableEntity {
 
         // Listen press space key to set bomb
         listenSetBomb();
+        listenPauseGame();
         this.timeBetweenPutBomb++;
         super.update();
     }

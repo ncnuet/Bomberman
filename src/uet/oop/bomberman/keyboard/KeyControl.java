@@ -49,4 +49,8 @@ public class KeyControl extends Keyboard {
     public boolean isSpacePressed() {
         return keyFlags.get(KeyCode.SPACE) || keyFlags.get(KeyCode.X);
     }
+
+    public boolean isEscapePressed() {
+        return keyFlags.get(KeyCode.ESCAPE);
+    }
 }
