@@ -43,6 +43,7 @@ public class PathFinder {
     }
 
     // implement bfs algorithm
+    // if distance > 25 => no path
     public List<Direction> find() {
         List<Direction> path = new LinkedList<>();
 
@@ -52,6 +53,10 @@ public class PathFinder {
             // Destination found
             if (isBomber(item)) {
                 path = item.direction;
+                break;
+            }
+
+            if (item.distance > 25){
                 break;
             }
 

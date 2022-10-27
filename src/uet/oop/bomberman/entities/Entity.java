@@ -4,8 +4,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Context;
+import uet.oop.bomberman.entities.spriteEntity.MovableEntity;
 import uet.oop.bomberman.entities.spriteEntity.bomber.Bomber;
 import uet.oop.bomberman.entities.tile.item.*;
+import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.utils.Coordinate;
 
 /*

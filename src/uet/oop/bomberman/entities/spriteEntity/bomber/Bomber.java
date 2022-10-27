@@ -198,6 +198,7 @@ public final class Bomber extends MovableEntity {
             collide(distance);
 
             updateSpriteOnRunning();
+            if (GameValue.getTime() - 1 < 0) this.kill();
         } else {
             this.updateOnExploded();
         }
@@ -211,6 +212,9 @@ public final class Bomber extends MovableEntity {
     @Override
     public void kill() {
         Sound.end_game.start();
+        if (GameValue.getHeart() - 1 >= 0) {
+            GameValue.setHeart(GameValue.getHeart() - 1);
+        }
         this.setAlive(false);
     }
 

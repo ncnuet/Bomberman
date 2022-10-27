@@ -171,4 +171,11 @@ public interface SpritePack {
     Sprite powerup_detonator = new Sprite(4, 10);
     Sprite powerup_bombpass = new Sprite(5, 10);
     Sprite powerup_flamepass = new Sprite(6, 10);
+
+    /*
+     * Item
+     */
+
+    Sprite heart = new Sprite(5,1);
+    Sprite clock = new Sprite(6,1);
 }

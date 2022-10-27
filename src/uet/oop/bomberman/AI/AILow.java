@@ -21,6 +21,10 @@ public class AILow extends AI {
         this.resetStepAvailable(6);
     }
 
+    public void reset(){
+        this.preAnsDirection = null;
+    }
+
     private List<Direction> getAllDirectionsCanMove() {
         List<Direction> directionsCanMove = new ArrayList<>();
 
@@ -44,6 +48,8 @@ public class AILow extends AI {
                 int rand = AI.random.nextInt(size);
                 preAnsDirection = directionsCanMove.get(rand);
                 this.resetStepAvailable(6);
+            } else {
+                preAnsDirection = null;
             }
         }
         this.stepAvailable -= speed;

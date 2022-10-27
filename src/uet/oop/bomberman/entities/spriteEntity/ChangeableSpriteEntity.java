@@ -1,7 +1,9 @@
 package uet.oop.bomberman.entities.spriteEntity;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.GameValue;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.spriteEntity.bomber.Bomber;
 import uet.oop.bomberman.utils.Coordinate;
 import uet.oop.bomberman.utils.Counter;
 
@@ -83,7 +85,19 @@ public abstract class ChangeableSpriteEntity extends Entity {
      */
     protected void updateOnExploded() {
         if (this.getFrame() > this.getTimeToExplode()) {
-            this.setRemoved(true);
+            if (this instanceof Bomber) {
+                if (GameValue.getHeart() > 0) {
+                    this.setXAsPixel(32);
+                    this.setYAsPixel(32);
+                    this.setAlive(true);
+                    ((Bomber) this).context.setOffsetX(0);
+                    ((Bomber) this).context.setOffsetY(0);
+                } else {
+                    this.setRemoved(true);
+                }
+            } else {
+                this.setRemoved(true);
+            }
         } else {
             updateSpriteOnDead();
         }

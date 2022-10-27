@@ -8,6 +8,7 @@ import java.util.List;
 
 public class AIHigh extends AI {
     private Direction preDirection;
+    private final AILow ai_low;
 
     /**
      * Constructor.
@@ -17,6 +18,8 @@ public class AIHigh extends AI {
      */
     public AIHigh(Enemy enemy, Context context) {
         super(enemy, context);
+        this.ai_low = new AILow(enemy, context);
+
         this.resetStepAvailable(2);
     }
 
@@ -32,10 +35,17 @@ public class AIHigh extends AI {
                 || !isCanMoveWithDirection(preDirection)) {
             List<Direction> dirsToBomber = this.getDirectionsToBomber();
 
+            System.out.println(dirsToBomber); // Log
+
             if (!dirsToBomber.isEmpty()) {
                 preDirection = dirsToBomber.get(0);
                 this.resetStepAvailable(2);
-            } else preDirection = null;
+            } else {
+                preDirection = ai_low.getDirection();
+                ai_low.reset();
+                this.resetStepAvailable(2);
+//                preDirection = null;
+            }
         }
         this.stepAvailable -= speed;
         return preDirection;

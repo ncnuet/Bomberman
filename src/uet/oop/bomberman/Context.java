@@ -4,6 +4,9 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.spriteEntity.enermy.Balloon;
 import uet.oop.bomberman.entities.spriteEntity.enermy.Enemy;
@@ -36,6 +39,7 @@ public class Context {
     private GraphicsContext graphicsContext;
     private Canvas canvas;
     private Scene scene;
+    private Statusbar status;
     private int offsetX = 0;
     private int offsetY = 0;
 
@@ -91,10 +95,18 @@ public class Context {
             this.map = new FileMapLoader("Level1");
             this.canvas = new Canvas(this.map.getHeightByPixel(), this.map.getWidthByPixel());
             this.graphicsContext = canvas.getGraphicsContext2D();
+            GameValue.setTime(this.map.getTime());
+
+            // Load status
+            this.status = new Statusbar();
+
+            BorderPane borderPane = new BorderPane();
+            borderPane.setTop(status.getCanvas());
+            borderPane.setCenter(canvas);
 
             // Create root container wrap canvas
             Group root = new Group();
-            root.getChildren().add(canvas);
+            root.getChildren().add(borderPane);
 
             // Start draw
             this.scene = new Scene(root);
@@ -103,7 +115,7 @@ public class Context {
 
             // Define boundary
             this.MIN_OFFSET_X = BombermanGame.SCENE_WIDTH - this.map.getWidthByPixel();
-            this.MIN_OFFSET_Y = BombermanGame.SCENE_WIDTH - this.map.getHeightByPixel();
+            this.MIN_OFFSET_Y = BombermanGame.SCENE_HEIGHT - this.map.getHeightByPixel();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -173,7 +185,7 @@ public class Context {
         return null;
     }
 
-    public Entity getBomber(Coordinate crd){
+    public Entity getBomber(Coordinate crd) {
         for (MovableEntity movableEntity : this.movableEntities) {
             if (movableEntity instanceof Bomber) {
                 if (movableEntity.getCoordinate().equals(crd)) {
@@ -203,6 +215,8 @@ public class Context {
      * Update all entities.
      */
     public void update() {
+        this.status.render();
+
         // Update entities
         this.entities.forEach(Entity::update);
         this.movableEntities.forEach(Entity::update);
