@@ -23,6 +23,8 @@ public final class Sound implements AudioControl<Integer>, AudioFileName {
     private final boolean continuous;
     private PlaySound playSound;
 
+    public static int VOLUME = 50;
+
     /**
      * Return volume value after converted.
      *
@@ -76,7 +78,7 @@ public final class Sound implements AudioControl<Integer>, AudioFileName {
     public void start() {
         try {
             this.playSound = new PlaySound(relativePath, this.continuous);
-            this.setVolume(50);
+            this.setVolume(VOLUME);
             playSound.start();
         } catch (Exception e) {
             System.out.println(e.getMessage());

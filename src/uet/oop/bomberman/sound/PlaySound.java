@@ -33,7 +33,7 @@ public final class PlaySound extends Thread implements AudioControl<Float> {
     public void setVolume(Float volume) throws Exception {
         this.volume = volume;
         try {
-            if (this.getState().equals(State.RUNNABLE)) this.applyVolume();
+            this.applyVolume();
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
             throw new Exception("Loi phat audio");

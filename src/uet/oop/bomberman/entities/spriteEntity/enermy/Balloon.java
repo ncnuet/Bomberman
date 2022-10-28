@@ -38,7 +38,8 @@ public final class Balloon extends Enemy {
         this.setLeftSprites(left_sprites);
         this.setRightSprites(right_sprites);
 
-        this.setSpeed(1);
+        this.setSpeed(2);
         this.setAI(new AILow(this, context));
+        this.setScore(100);
     }
 }

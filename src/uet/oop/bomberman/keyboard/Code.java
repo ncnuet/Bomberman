@@ -11,5 +11,5 @@ public interface Code {
             Arrays.asList(
                     KeyCode.A, KeyCode.S, KeyCode.W, KeyCode.D,
                     KeyCode.LEFT, KeyCode.RIGHT, KeyCode.UP, KeyCode.DOWN,
-                    KeyCode.X, KeyCode.SPACE));
+                    KeyCode.X, KeyCode.SPACE, KeyCode.ESCAPE));
 }

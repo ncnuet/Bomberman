@@ -47,9 +47,21 @@ public class Coordinate {
         this.tileCrd = Convert.pixelToTile(this.pixelCrd);
     }
 
+    public void setXAsPixel(int x, int offsetX, int offsetY) {
+        this.pixelCrd.setX(x);
+        this.tileCrd = Convert.pixelToTile(
+                new Point(x + offsetX, this.getPixelCrd().getY() + offsetY));
+    }
+
     public void setYAsPixel(int y) {
         this.pixelCrd.setY(y);
         this.tileCrd = Convert.pixelToTile(this.pixelCrd);
+    }
+
+    public void setYAsPixel(int y, int offsetX, int offsetY) {
+        this.pixelCrd.setY(y);
+        this.tileCrd = Convert.pixelToTile(
+                new Point(this.getPixelCrd().getX() + offsetX, y + offsetY));
     }
 
     public Coordinate(int x, int y) {

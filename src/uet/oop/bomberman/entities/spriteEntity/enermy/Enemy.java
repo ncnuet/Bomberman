@@ -3,9 +3,9 @@ package uet.oop.bomberman.entities.spriteEntity.enermy;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.AI.AI;
 import uet.oop.bomberman.Context;
+import uet.oop.bomberman.GameValue;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.spriteEntity.MovableEntity;
-import uet.oop.bomberman.entities.spriteEntity.bomb.Flame;
 import uet.oop.bomberman.entities.spriteEntity.bomb.FlameSegment;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
@@ -21,8 +21,17 @@ public abstract class Enemy extends MovableEntity {
     private Image[] left_sprite;
     private Image[] right_sprite;
 
+    private int score = 0;
     private int speed = 2;
     private AI ai;
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 
     public int getSpeed() {
         return speed;
@@ -72,17 +81,22 @@ public abstract class Enemy extends MovableEntity {
      * @param direction direction
      */
     private void moveByDirection(Direction direction) {
-        switch (direction) {
-            case UP -> this.setYAsPixel(this.getYAsPixel() - this.speed);
-            case DOWN -> this.setYAsPixel(this.getYAsPixel() + this.speed);
-            case LEFT -> this.setXAsPixel(this.getXAsPixel() - this.speed);
-            case RIGHT -> this.setXAsPixel(this.getXAsPixel() + this.speed);
-            default -> this.setXAsPixel(this.getXAsPixel());
+        if (direction != null) {
+            switch (direction) {
+                case UP -> this.setYAsPixel(this.getYAsPixel() - this.speed);
+                case DOWN -> this.setYAsPixel(this.getYAsPixel() + this.speed);
+                case LEFT -> this.setXAsPixel(this.getXAsPixel() - this.speed);
+                case RIGHT -> this.setXAsPixel(this.getXAsPixel() + this.speed);
+                default -> this.setXAsPixel(this.getXAsPixel());
+            }
+        } else {
+            this.setXAsPixel(this.getXAsPixel());
         }
     }
 
     @Override
     public void kill() {
+        GameValue.setScore(GameValue.getScore() + this.score);
         Sound.dead.start();
         this.setAlive(false);
     }
@@ -98,9 +112,9 @@ public abstract class Enemy extends MovableEntity {
     @Override
     public void update() {
         super.update();
-        if (this.isAlive()){
+        if (this.isAlive()) {
             moveEntity(new Distance(0, 0));
-            collide(new Distance(0,0));
+            collide(new Distance(0, 0));
         }
     }
 
@@ -113,7 +127,7 @@ public abstract class Enemy extends MovableEntity {
     protected void collide(Distance distance) {
         Entity entity = this.context.getEntity(this.getCoordinate(), true);
 
-        if (entity instanceof FlameSegment){
+        if (entity instanceof FlameSegment) {
             this.kill();
         }
     }

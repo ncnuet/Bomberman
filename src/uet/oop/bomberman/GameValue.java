@@ -10,6 +10,9 @@ public class GameValue {
     private static boolean CAN_MYSTERY = false;
     private static int BOMB_CAPACITY = 1;
     private static int CURRENT_BOMB_CAPACITY = 1;
+    private static int HEART = 3;
+    private static int TIME = 100;
+    private static int SCORE = 0;
 
     /**
      * Increase the maximum of bomb that can put at time.
@@ -161,6 +164,36 @@ public class GameValue {
      */
     public static boolean isCanDetonate() {
         return CAN_DETONATE;
+    }
+
+    public static int getHeart() {
+        return HEART;
+    }
+
+    public static void setHeart(int heart) {
+        if (heart >= 0) {
+            HEART = heart;
+        }
+    }
+
+    public static int getTime() {
+        return TIME;
+    }
+
+    public static void setTime(int time) {
+        if (time >= 0) {
+            TIME = time;
+        }
+    }
+
+    public static int getScore() {
+        return SCORE;
+    }
+
+    public static void setScore(int score) {
+        if (score >= 0) {
+            SCORE = score;
+        }
     }
 
 }

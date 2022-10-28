@@ -37,10 +37,6 @@ public class FileMapLoader extends MapLoader {
      * This function used to test only
      */
     private void logFile() {
-        System.out.println(this.getMapID());
-        System.out.println(this.getTime());
-        System.out.println(this.getSize().getWidth() + " " + this.getSize().getHeight());
-
         for (List<Character> row : map) {
             for (Character c : row) {
                 System.out.print(c);
@@ -171,6 +167,30 @@ public class FileMapLoader extends MapLoader {
                     case '2' -> {
                         context.addEntity(new Grass(x, y));
                         context.addCharacter(x, y, CharacterType.ONEAL);
+                    }
+                    case '3' -> {
+                        context.addEntity(new Grass(x, y));
+                        context.addCharacter(x, y, CharacterType.DOLL);
+                    }
+                    case '4' -> {
+                        context.addEntity(new Grass(x, y));
+                        context.addCharacter(x, y, CharacterType.MINVO);
+                    }
+                    case '5' -> {
+                        context.addEntity(new Grass(x, y));
+                        context.addCharacter(x, y, CharacterType.KONDRARIA);
+                    }
+                    case '6' -> {
+                        context.addEntity(new Grass(x, y));
+                        context.addCharacter(x, y, CharacterType.OVAPI);
+                    }
+                    case '7' -> {
+                        context.addEntity(new Grass(x, y));
+                        context.addCharacter(x, y, CharacterType.PASS);
+                    }
+                    case '8' -> {
+                        context.addEntity(new Grass(x, y));
+                        context.addCharacter(x, y, CharacterType.PONTAN);
                     }
 
                     /*

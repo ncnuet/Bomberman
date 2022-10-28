@@ -4,21 +4,22 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.spriteEntity.enermy.Balloon;
-import uet.oop.bomberman.entities.spriteEntity.enermy.Enemy;
-import uet.oop.bomberman.entities.spriteEntity.enermy.Oneal;
-import uet.oop.bomberman.entities.spriteEntity.bomb.Flame;
-import uet.oop.bomberman.utils.Coordinate;
+import uet.oop.bomberman.entities.StackEntity;
 import uet.oop.bomberman.entities.spriteEntity.CharacterType;
 import uet.oop.bomberman.entities.spriteEntity.MovableEntity;
-import uet.oop.bomberman.keyboard.KeyControl;
-import uet.oop.bomberman.entities.spriteEntity.bomber.Bomber;
-import uet.oop.bomberman.entities.StackEntity;
 import uet.oop.bomberman.entities.spriteEntity.bomb.Bomb;
+import uet.oop.bomberman.entities.spriteEntity.bomb.Flame;
+import uet.oop.bomberman.entities.spriteEntity.bomber.Bomber;
+import uet.oop.bomberman.entities.spriteEntity.enermy.*;
+import uet.oop.bomberman.keyboard.KeyControl;
 import uet.oop.bomberman.map.FileMapLoader;
 import uet.oop.bomberman.map.MapLoader;
-import uet.oop.bomberman.utils.Point;
+import uet.oop.bomberman.utils.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,11 @@ public class Context {
     private GraphicsContext graphicsContext;
     private Canvas canvas;
     private Scene scene;
+    public BorderPane borderPane;
+    public Canvas menu;
+    private Statusbar status;
+    private Group root;
+    VolumeControl volumeControlView;
     private int offsetX = 0;
     private int offsetY = 0;
 
@@ -79,7 +85,7 @@ public class Context {
         return this.scene;
     }
 
-    public Context() {
+    public Context(Stage stage) {
         try {
             // Initial list
             this.entities = new ArrayList<>();
@@ -91,10 +97,24 @@ public class Context {
             this.map = new FileMapLoader("Level1");
             this.canvas = new Canvas(this.map.getHeightByPixel(), this.map.getWidthByPixel());
             this.graphicsContext = canvas.getGraphicsContext2D();
+            GameValue.setTime(this.map.getTime());
+
+            // Load status
+            this.status = new Statusbar();
+            this.borderPane = new BorderPane();
+            borderPane.setTop(status.getCanvas());
+            borderPane.setCenter(canvas);
+
+            // Welcome page
+            Welcome welcome = new Welcome(this);
+            this.menu = welcome.getCanvas();
+
+            //Popup
+            this.volumeControlView = new VolumeControl(stage);
 
             // Create root container wrap canvas
-            Group root = new Group();
-            root.getChildren().add(canvas);
+            this.root = new Group();
+            root.getChildren().add(menu);
 
             // Start draw
             this.scene = new Scene(root);
@@ -103,11 +123,32 @@ public class Context {
 
             // Define boundary
             this.MIN_OFFSET_X = BombermanGame.SCENE_WIDTH - this.map.getWidthByPixel();
-            this.MIN_OFFSET_Y = BombermanGame.SCENE_WIDTH - this.map.getHeightByPixel();
+            this.MIN_OFFSET_Y = BombermanGame.SCENE_HEIGHT - this.map.getHeightByPixel();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void setGamePlay() {
+        BombermanGame.IS_MENU = false;
+        this.root.getChildren().clear();
+        this.root.getChildren().add(borderPane);
+    }
+
+    public void setGameMenu() {
+        BombermanGame.IS_MENU = true;
+        this.root.getChildren().clear();
+        this.root.getChildren().add(menu);
+    }
+
+    public void showVolumeControl() {
+        this.volumeControlView.show();
+    }
+
+    public void showMenu() {
+        MenuInGame menuInGame = new MenuInGame(this.canvas, this);
+        BombermanGame.IS_PAUSE = true;
     }
 
     public void addEntity(Entity entity) {
@@ -127,6 +168,12 @@ public class Context {
             case BOMBER -> this.movableEntities.add(new Bomber(x, y, keyboard, this));
             case BALLOON -> this.movableEntities.add(new Balloon(x, y, this));
             case ONEAL -> this.movableEntities.add(new Oneal(x, y, this));
+            case DOLL -> this.movableEntities.add(new Doll(x, y, this));
+            case KONDRARIA -> this.movableEntities.add(new Kondaria(x, y, this));
+            case MINVO -> this.movableEntities.add(new Minvo(x, y, this));
+            case OVAPI -> this.movableEntities.add(new Ovapi(x, y, this));
+            case PASS -> this.movableEntities.add(new Pass(x, y, this));
+            case PONTAN -> this.movableEntities.add(new PontanOrange(x, y, this));
         }
     }
 
@@ -173,6 +220,17 @@ public class Context {
         return null;
     }
 
+    public Entity getBomber(Coordinate crd) {
+        for (MovableEntity movableEntity : this.movableEntities) {
+            if (movableEntity instanceof Bomber) {
+                if (movableEntity.getCoordinate().equals(crd)) {
+                    return movableEntity;
+                }
+            }
+        }
+        return null;
+    }
+
     public Entity getEntity(Coordinate crd, boolean excludeEnemy) {
         Entity tile = getTile(crd);
         Entity bomb = getBomb(crd);
@@ -192,6 +250,8 @@ public class Context {
      * Update all entities.
      */
     public void update() {
+        this.status.render();
+
         // Update entities
         this.entities.forEach(Entity::update);
         this.movableEntities.forEach(Entity::update);

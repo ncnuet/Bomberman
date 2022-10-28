@@ -16,6 +16,7 @@ import uet.oop.bomberman.entities.tile.item.*;
 import uet.oop.bomberman.entities.EntityType;
 import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.utils.Direction;
 import uet.oop.bomberman.utils.Distance;
 import uet.oop.bomberman.utils.Coordinate;
 
@@ -67,6 +68,13 @@ public final class Bomber extends MovableEntity {
         }
     }
 
+    private void listenPauseGame(){
+        if (this.keyboard.isEscapePressed()){
+            this.context.showMenu();
+
+        }
+    }
+
     private void setBomb() {
         int offsetX = Sprite.SCALED_SIZE / 2;
         int offsetY = Sprite.SCALED_SIZE / 2;
@@ -108,7 +116,7 @@ public final class Bomber extends MovableEntity {
         // Xét tọa độ mới từ 4 đỉnh
         for (int i = 0; i < 4; i++) {
             int x = this.getXAsPixel() + distance.getX() + (i % 2) * size + (i % 2 == 0 ? 4 : -10);
-            int y = this.getYAsPixel() + distance.getY() + (i / 2) * size + (i / 2 == 0 ? 5 : -5);
+            int y = this.getYAsPixel() + distance.getY() + (i / 2) * size + (i / 2 == 0 ? 3 : -3);
 
             entity = this.context.getEntity(Coordinate.createCrdByPixel(x, y), false);
 
@@ -197,12 +205,14 @@ public final class Bomber extends MovableEntity {
             collide(distance);
 
             updateSpriteOnRunning();
+            if (GameValue.getTime() - 1 < 0) this.kill();
         } else {
             this.updateOnExploded();
         }
 
         // Listen press space key to set bomb
         listenSetBomb();
+        listenPauseGame();
         this.timeBetweenPutBomb++;
         super.update();
     }
@@ -210,13 +220,26 @@ public final class Bomber extends MovableEntity {
     @Override
     public void kill() {
         Sound.end_game.start();
+        if (GameValue.getHeart() - 1 >= 0) {
+            GameValue.setHeart(GameValue.getHeart() - 1);
+        }
         this.setAlive(false);
     }
 
     @Override
     protected void moveEntity(Distance distance) {
-        this.setXAsPixel(this.getXAsPixel() + distance.getX());
-        this.setYAsPixel(this.getYAsPixel() + distance.getY());
+        int offsetX = 0;
+        int offsetY = 0;
+
+        if (this.getXAsPixel() % Sprite.SCALED_SIZE >= Sprite.SCALED_SIZE - 4) offsetX = 4;
+        else if (this.getXAsPixel() % Sprite.SCALED_SIZE <= 10) offsetX = -10;
+        if (this.getYAsPixel() % Sprite.SCALED_SIZE >= Sprite.SCALED_SIZE - 3) offsetY = 3;
+        else if (this.getYAsPixel() % Sprite.SCALED_SIZE <= 3) offsetY = -3;
+
+        if (distance.getDirection() != null) {
+            this.setXAsPixel(this.getXAsPixel() + distance.getX(), offsetX, offsetY);
+            this.setYAsPixel(this.getYAsPixel() + distance.getY(), offsetX, offsetY);
+        }
     }
 
     @Override

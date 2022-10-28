@@ -4,8 +4,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Context;
+import uet.oop.bomberman.entities.spriteEntity.MovableEntity;
 import uet.oop.bomberman.entities.spriteEntity.bomber.Bomber;
 import uet.oop.bomberman.entities.tile.item.*;
+import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.utils.Coordinate;
 
 /*
@@ -33,12 +35,28 @@ public abstract class Entity {
         this.coordinate.setXAsPixel(x);
     }
 
+    protected void setXAsPixel(int x, int offsetX, int offsetY) {
+        this.coordinate.setXAsPixel(x, offsetX, offsetY);
+    }
+
     public int getYAsPixel() {
         return this.coordinate.getPixelCrd().getY();
     }
 
     protected void setYAsPixel(int y) {
         this.coordinate.setYAsPixel(y);
+    }
+
+    protected void setYAsPixel(int y, int offsetX, int offsetY) {
+        this.coordinate.setYAsPixel(y, offsetX, offsetY);
+    }
+
+    public int getX() {
+        return this.coordinate.getX();
+    }
+
+    public int getY() {
+        return this.coordinate.getY();
     }
 
     public Coordinate getCoordinate() {
@@ -106,6 +124,7 @@ public abstract class Entity {
 
     /**
      * Classify the Item type
+     *
      * @param entity Item entity
      * @return type of item or tile
      */

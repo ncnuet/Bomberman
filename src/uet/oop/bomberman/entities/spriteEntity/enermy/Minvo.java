@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.spriteEntity.enermy;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.AI.AIHigh;
 import uet.oop.bomberman.Context;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.utils.Coordinate;
@@ -30,5 +31,9 @@ public final class Minvo extends Enemy {
         this.setDeadSprite(left_sprites[0]);
         this.setLeftSprites(left_sprites);
         this.setRightSprites(right_sprites);
+
+        this.setSpeed(4);
+        this.setAI(new AIHigh(this, context));
+        this.setScore(800);
     }
 }
