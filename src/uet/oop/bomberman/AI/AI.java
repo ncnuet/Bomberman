@@ -15,7 +15,11 @@ import java.util.Random;
 
 public abstract class AI {
 
-
+    protected final Enemy enemy;
+    protected final Context context;
+    protected final int speed;
+    protected int stepAvailable;
+    protected static final Random random = new Random();
     /**
      * Constructor.
      */
@@ -31,6 +35,11 @@ public abstract class AI {
         this.stepAvailable = Sprite.SCALED_SIZE + random.nextInt(length) * Sprite.SCALED_SIZE;
     }
 
+    /**
+     * Check if entity can pass.
+     * @param entity
+     * @return ability
+     */
     private boolean isCanPass(Entity entity) {
         return entity == enemy
                 || entity instanceof FlameSegment
@@ -38,6 +47,11 @@ public abstract class AI {
                 || entity instanceof Bomber;
     }
 
+    /**
+     * Check moving ability .
+     * @param direction
+     * @return boolean moving or not
+     */
     protected boolean isCanMoveWithDirection(Direction direction) {
         final int size = Sprite.SCALED_SIZE - 1;
         if (direction == null) return false;
