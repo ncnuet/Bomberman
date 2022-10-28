@@ -94,6 +94,7 @@ public abstract class ChangeableSpriteEntity extends Entity {
                     ((Bomber) this).context.setOffsetY(0);
                 } else {
                     this.setRemoved(true);
+                    ((Bomber) this).context.setEndGameScreen();
                 }
             } else {
                 this.setRemoved(true);

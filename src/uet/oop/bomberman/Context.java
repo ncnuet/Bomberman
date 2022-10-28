@@ -4,9 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.StackEntity;
@@ -39,6 +37,7 @@ public class Context {
     private Scene scene;
     public BorderPane borderPane;
     public Canvas menu;
+    public Canvas endgame_sc;
     private Statusbar status;
     private Group root;
     VolumeControl volumeControlView;
@@ -107,13 +106,15 @@ public class Context {
             // Welcome page
             Welcome welcome = new Welcome(this);
             this.menu = welcome.getCanvas();
+            EndGameScreen endgameScreen = new EndGameScreen(this);
+            this.endgame_sc = endgameScreen.getCanvas();
 
             //Popup
             this.volumeControlView = new VolumeControl(stage);
 
             // Create root container wrap canvas
             this.root = new Group();
-            root.getChildren().add(menu);
+            root.getChildren().add(endgame_sc);
 
             // Start draw
             this.scene = new Scene(root);
@@ -130,15 +131,21 @@ public class Context {
     }
 
     public void setGamePlay() {
-        BombermanGame.IS_MENU = false;
+        BombermanGame.SCREEN_TYPE = ScreenType.PLAYING_SCREEN;
         this.root.getChildren().clear();
         this.root.getChildren().add(borderPane);
     }
 
     public void setGameMenu() {
-        BombermanGame.IS_MENU = true;
+        BombermanGame.SCREEN_TYPE = ScreenType.MENU_GAME_SCREEN;
         this.root.getChildren().clear();
         this.root.getChildren().add(menu);
+    }
+
+    public void setEndGameScreen() {
+        BombermanGame.SCREEN_TYPE = ScreenType.END_GAME_SCREEN;
+        this.root.getChildren().clear();
+        this.root.getChildren().add(endgame_sc);
     }
 
     public void showVolumeControl() {
