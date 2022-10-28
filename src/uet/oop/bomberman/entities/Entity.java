@@ -31,7 +31,7 @@ public abstract class Entity {
         return this.coordinate.getPixelCrd().getX();
     }
 
-    protected void setXAsPixel(int x) {
+    public void setXAsPixel(int x) {
         this.coordinate.setXAsPixel(x);
     }
 
@@ -43,7 +43,7 @@ public abstract class Entity {
         return this.coordinate.getPixelCrd().getY();
     }
 
-    protected void setYAsPixel(int y) {
+    public void setYAsPixel(int y) {
         this.coordinate.setYAsPixel(y);
     }
 

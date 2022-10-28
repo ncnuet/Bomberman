@@ -103,6 +103,8 @@ public class FileMapLoader extends MapLoader {
                 if (!row.equals("")) readEntity(row);
             } while (!row.equals(""));
 
+            logFile();
+
         } catch (IOException | ParseMapException e) {
             e.printStackTrace();
         } catch (Exception e) {

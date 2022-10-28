@@ -99,7 +99,6 @@ public class Context {
             this.graphicsContext = canvas.getGraphicsContext2D();
             GameValue.setTime(this.map.getTime());
 
-            // Load status
             this.status = new Statusbar();
             this.borderPane = new BorderPane();
             borderPane.setTop(status.getCanvas());
@@ -151,6 +150,29 @@ public class Context {
         BombermanGame.IS_PAUSE = true;
     }
 
+    public void nextLevel() {
+        try {
+            this.map = new FileMapLoader("Level2");
+            this.canvas = new Canvas(this.map.getHeightByPixel(), this.map.getWidthByPixel());
+            GameValue.setTime(this.map.getTime());
+
+            entities.clear();
+            movableEntities.removeIf((Entity entity) -> {
+                return !(entity instanceof Bomber);
+            });
+            bombs.clear();
+            flames.clear();
+
+            this.map.generateMap(this);
+
+            this.MIN_OFFSET_X = BombermanGame.SCENE_WIDTH - this.map.getWidthByPixel();
+            this.MIN_OFFSET_Y = BombermanGame.SCENE_HEIGHT - this.map.getHeightByPixel();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
     public void addEntity(Entity entity) {
         this.entities.add(entity);
     }
@@ -163,9 +185,26 @@ public class Context {
         this.flames.add(flame);
     }
 
+    public Entity getBomber() {
+        for (Entity entity : this.movableEntities) {
+            if (entity instanceof Bomber) return entity;
+        }
+        return null;
+    }
+
     public void addCharacter(int x, int y, CharacterType characterType) {
         switch (characterType) {
-            case BOMBER -> this.movableEntities.add(new Bomber(x, y, keyboard, this));
+            case BOMBER -> {
+                Entity bomber = this.getBomber();
+                if (bomber != null) {
+                    bomber.setXAsPixel(32);
+                    bomber.setYAsPixel(32);
+                    this.setOffsetX(0);
+                    this.setOffsetY(0);
+                } else {
+                    this.movableEntities.add(new Bomber(x, y, keyboard, this));
+                }
+            }
             case BALLOON -> this.movableEntities.add(new Balloon(x, y, this));
             case ONEAL -> this.movableEntities.add(new Oneal(x, y, this));
             case DOLL -> this.movableEntities.add(new Doll(x, y, this));
