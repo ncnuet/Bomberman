@@ -14,11 +14,7 @@ import uet.oop.bomberman.utils.Distance;
 import java.util.Random;
 
 public abstract class AI {
-    protected final Enemy enemy;
-    protected final Context context;
-    protected final int speed;
-    protected int stepAvailable;
-    protected static final Random random = new Random();
+
 
     /**
      * Constructor.

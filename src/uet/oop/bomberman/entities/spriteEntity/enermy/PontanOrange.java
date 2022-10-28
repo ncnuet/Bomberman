@@ -8,7 +8,7 @@ import uet.oop.bomberman.utils.Coordinate;
 
 public final class PontanOrange extends Enemy {
     //TODO:
-    private static final Image img = Sprite.balloon_left1.getFxImage();
+    private static final Image img = Sprite.PontanOrange.getFxImage();
 
     /**
      * Constructor.

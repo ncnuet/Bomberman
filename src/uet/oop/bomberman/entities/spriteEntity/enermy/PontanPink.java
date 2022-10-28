@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.spriteEntity.enermy;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.AI.AIHigh;
 import uet.oop.bomberman.Context;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.utils.Coordinate;
@@ -22,5 +23,8 @@ public final class PontanPink extends Enemy {
                 img, context);
 
         this.setDeadSprite(img);
+        this.setSpeed(4);
+        this.setAI(new AIHigh(this, context));
+        this.setScore(800);
     }
 }
