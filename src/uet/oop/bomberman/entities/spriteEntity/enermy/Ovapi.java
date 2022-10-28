@@ -24,7 +24,7 @@ public final class Ovapi extends Enemy {
                 img, context);
 
         this.setDeadSprite(img);
-        this.setSpeed(3);
+        this.setSpeed(4);
         this.setAI(new AIHigh(this,context));
         this.setScore(30);
     }

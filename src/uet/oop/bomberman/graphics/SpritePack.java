@@ -178,6 +178,6 @@ public interface SpritePack {
 
     Sprite heart = new Sprite(5,1);
     Sprite clock = new Sprite(6,1);
-    Sprite ovapi = new Sprite(5,6);
+    Sprite ovapi = new Sprite(5,5);
 
 }
