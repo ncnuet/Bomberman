@@ -181,5 +181,6 @@ public interface SpritePack {
     Sprite ovapi = new Sprite(5,5);
 
     Sprite pass = new Sprite(8,12);
+    Sprite PontanOrange = new Sprite(5,12);
 
 }
