@@ -8,7 +8,7 @@ import uet.oop.bomberman.utils.Coordinate;
 
 public final class Pass extends Enemy { //TODO: create this
 
-    private static final Image img = Sprite.balloon_left1.getFxImage();
+    private static final Image img = Sprite.pass.getFxImage();
 
     /**
      * Constructor.

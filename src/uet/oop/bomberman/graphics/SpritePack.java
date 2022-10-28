@@ -180,4 +180,6 @@ public interface SpritePack {
     Sprite clock = new Sprite(6,1);
     Sprite ovapi = new Sprite(5,5);
 
+    Sprite pass = new Sprite(8,12);
+
 }
