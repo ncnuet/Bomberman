@@ -23,3 +23,39 @@ public class AIHigh extends AI {
         this.resetStepAvailable(2);
     }
 
+    /**
+     * Find the path to Bomber.
+     *
+     * @return the path
+     */
+    private List<Direction> getDirectionsToBomber() {
+        PathFinder finder = new PathFinder(enemy, context);
+        return finder.find();
+    }
+
+    @Override
+    /**
+     * Constructor.
+     */
+    public Direction getDirection() {
+        if (this.stepAvailable - speed < 0
+                || preDirection == null
+                || !isCanMoveWithDirection(preDirection)) {
+            List<Direction> dirsToBomber = this.getDirectionsToBomber();
+
+
+
+            if (!dirsToBomber.isEmpty()) {
+                preDirection = dirsToBomber.get(0);
+                this.resetStepAvailable(2);
+            } else {
+                preDirection = ai_low.getDirection();
+                ai_low.reset();
+                this.resetStepAvailable(2);
+
+            }
+        }
+        this.stepAvailable -= speed;
+        return preDirection;
+    }
+}
