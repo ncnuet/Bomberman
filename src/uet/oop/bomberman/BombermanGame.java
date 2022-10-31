@@ -3,11 +3,7 @@ package uet.oop.bomberman;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
-import javafx.stage.Popup;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import uet.oop.bomberman.graphics.Sprite;
@@ -26,7 +22,7 @@ public class BombermanGame extends Application {
     public static final int SCENE_WIDTH = MAP_VIEW_SIZE.getWidthAsPixel();
     public static final int SCENE_HEIGHT = MAP_VIEW_SIZE.getHeightAsPixel();
 
-    public static boolean IS_MENU = true;
+    public static ScreenType SCREEN_TYPE = ScreenType.END_GAME_SCREEN;
     public static boolean IS_PAUSE = false;
 
 
@@ -84,7 +80,9 @@ public class BombermanGame extends Application {
 
             public void handle(long now) {
                 // linux filter
-                if (BombermanGame.IS_MENU) {
+                if (BombermanGame.SCREEN_TYPE == ScreenType.MENU_GAME_SCREEN) {
+                    // TODO:
+                } else if (BombermanGame.SCREEN_TYPE == ScreenType.END_GAME_SCREEN) {
                     // TODO:
                 } else if (BombermanGame.IS_PAUSE) {
                     // TODO:

@@ -20,7 +20,7 @@ public class Welcome {
     private Image image;
     private final MenuItem[] menu;
 
-    private Context context;
+    private final Context context;
 
     public Canvas getCanvas() {
         return canvas;
@@ -35,7 +35,6 @@ public class Welcome {
 
         this.menu = new MenuItem[]{
                 new MenuItem("Play", new Rectangle(40, 295, 200, 40)),
-                new MenuItem("Play on Lan", new Rectangle(40, 335, 200, 40)),
                 new MenuItem("Sound", new Rectangle(40, 375, 200, 40)),
                 new MenuItem("Exit", new Rectangle(40, 415, 200, 40))
         };
@@ -48,12 +47,13 @@ public class Welcome {
 
         this.canvas.setOnMouseClicked(e -> {
             if (menu[0].rect.contains(e.getX(), e.getY())) {
+//                this.canvas.setOnMouseClicked(v->{});
                 this.context.setGamePlay();
             }
-            if (menu[2].rect.contains(e.getX(), e.getY())) {
+            if (menu[1].rect.contains(e.getX(), e.getY())) {
                 this.context.showVolumeControl();
             }
-            if (menu[3].rect.contains(e.getX(), e.getY())) {
+            if (menu[2].rect.contains(e.getX(), e.getY())) {
                 System.exit(0);
             }
         });

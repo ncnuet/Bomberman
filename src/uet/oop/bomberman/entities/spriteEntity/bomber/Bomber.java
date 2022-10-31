@@ -68,8 +68,8 @@ public final class Bomber extends MovableEntity {
         }
     }
 
-    private void listenPauseGame(){
-        if (this.keyboard.isEscapePressed()){
+    private void listenPauseGame() {
+        if (this.keyboard.isEscapePressed()) {
             this.context.showMenu();
 
         }
@@ -170,7 +170,9 @@ public final class Bomber extends MovableEntity {
                 case ITEM_SPEED -> GameValue.updateBomberSpeed(); // done
                 case ITEM_DETONATOR -> GameValue.updateCanDetonate(); // TODO:
                 case ITEM_MYSTERY -> GameValue.updateMystery(); // TODO:
-                case PORTAL -> this.setAlive(false);
+                case PORTAL -> {
+                    this.context.nextLevel();
+                }
                 // TODO: Mystery item.
             }
         }
