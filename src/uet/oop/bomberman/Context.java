@@ -114,7 +114,7 @@ public class Context {
 
             // Create root container wrap canvas
             this.root = new Group();
-            root.getChildren().add(endgame_sc);
+            root.getChildren().add(menu);
 
             // Start draw
             this.scene = new Scene(root);
@@ -297,19 +297,22 @@ public class Context {
      */
     public void update() {
         this.status.render();
+        try {
+            // Update entities
+            this.entities.forEach(Entity::update);
+            this.movableEntities.forEach(Entity::update);
+            this.bombs.forEach(Entity::update);
+            this.flames.forEach(Entity::update);
 
-        // Update entities
-        this.entities.forEach(Entity::update);
-        this.movableEntities.forEach(Entity::update);
-        this.bombs.forEach(Entity::update);
-        this.flames.forEach(Entity::update);
+            // Remove out date entities
+            this.bombs.removeIf(Bomb::isRemoved);
+            this.flames.removeIf(Flame::isRemoved);
+            this.movableEntities.removeIf(MovableEntity::isRemoved);
 
-        // Remove out date entities
-        this.bombs.removeIf(Bomb::isRemoved);
-        this.flames.removeIf(Flame::isRemoved);
-        this.movableEntities.removeIf(MovableEntity::isRemoved);
-
-        keyboard.update();
+            keyboard.update();
+        } catch (Exception e) {
+            System.out.println("Say hello");
+        }
     }
 
     public void render() {
