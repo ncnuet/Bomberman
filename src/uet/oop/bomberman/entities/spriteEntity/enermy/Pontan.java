@@ -6,17 +6,17 @@ import uet.oop.bomberman.Context;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.utils.Coordinate;
 
-public final class Pass extends Enemy { //TODO: create this
+public final class Pontan extends Enemy {
     private static final Image[] left_sprites = new Image[]{
-            Sprite.pass_lef1.getFxImage(),
-            Sprite.pass_lef2.getFxImage(),
-            Sprite.pass_lef3.getFxImage()};
+            Sprite.pontan_left1.getFxImage(),
+            Sprite.pontan_left2.getFxImage(),
+            Sprite.pontan_left3.getFxImage()};
     private static final Image[] right_sprites = new Image[]{
-            Sprite.pass_right1.getFxImage(),
-            Sprite.pass_right2.getFxImage(),
-            Sprite.pass_right3.getFxImage()};
+            Sprite.pontan_right1.getFxImage(),
+            Sprite.pontan_right2.getFxImage(),
+            Sprite.pontan_right3.getFxImage()};
 
-    private static final Image pass_dead = Sprite.pass_dead.getFxImage();
+    private static final Image pontan_dead = Sprite.pontan_dead.getFxImage();
 
     /**
      * Constructor.
@@ -25,17 +25,17 @@ public final class Pass extends Enemy { //TODO: create this
      * @param crdX position in predefined
      * @param crdY position in predefined
      */
-    public Pass(int crdX, int crdY, Context context) {
+    public Pontan(int crdX, int crdY, Context context) {
         super(
                 new Coordinate(crdX, crdY),
                 left_sprites[0], context);
 
-        this.setDeadSprite(pass_dead);
+        this.setDeadSprite(pontan_dead);
         this.setLeftSprites(left_sprites);
         this.setRightSprites(right_sprites);
 
-        this.setSpeed(4);
+        this.setSpeed(2);
         this.setAI(new AIHigh(this, context));
-        this.setScore(800);
+        this.setScore(200);
     }
 }

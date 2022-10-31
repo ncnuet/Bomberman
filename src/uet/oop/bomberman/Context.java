@@ -219,7 +219,7 @@ public class Context {
             case MINVO -> this.movableEntities.add(new Minvo(x, y, this));
             case OVAPI -> this.movableEntities.add(new Ovapi(x, y, this));
             case PASS -> this.movableEntities.add(new Pass(x, y, this));
-            case PONTAN -> this.movableEntities.add(new PontanOrange(x, y, this));
+            case PONTAN -> this.movableEntities.add(new Pontan(x, y, this));
         }
     }
 

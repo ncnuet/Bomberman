@@ -103,6 +103,33 @@ public interface SpritePack {
 
     Sprite kondoria_dead = new Sprite(10, 8);
 
+    // Ovapi
+    Sprite ovapi_left1 = new Sprite(6, 5);
+    Sprite ovapi_left2 = new Sprite(6, 6);
+    Sprite ovapi_left3 = new Sprite(6, 7);
+    Sprite ovapi_right1 = new Sprite(7, 5);
+    Sprite ovapi_right2 = new Sprite(7, 6);
+    Sprite ovapi_right3 = new Sprite(7, 7);
+    Sprite ovapi_dead = new Sprite(6, 8);
+
+    // Pass
+    Sprite pass_lef1 = new Sprite(4, 5);
+    Sprite pass_lef2 = new Sprite(4, 6);
+    Sprite pass_lef3 = new Sprite(4, 7);
+    Sprite pass_right1 = new Sprite(5, 5);
+    Sprite pass_right2 = new Sprite(5, 6);
+    Sprite pass_right3 = new Sprite(5, 7);
+    Sprite pass_dead = new Sprite(4, 8);
+
+    // Pontan
+    Sprite pontan_left1 = new Sprite(12, 5);
+    Sprite pontan_left2 = new Sprite(12, 6);
+    Sprite pontan_left3 = new Sprite(12, 7);
+    Sprite pontan_right1 = new Sprite(13, 5);
+    Sprite pontan_right2 = new Sprite(13, 6);
+    Sprite pontan_right3 = new Sprite(13, 7);
+    Sprite pontan_dead = new Sprite(12, 8);
+
     //ALL
     Sprite mob_dead1 = new Sprite(15, 0);
     Sprite mob_dead2 = new Sprite(15, 1);
@@ -176,11 +203,8 @@ public interface SpritePack {
      * Item
      */
 
-    Sprite heart = new Sprite(5,1);
-    Sprite clock = new Sprite(6,1);
-    Sprite ovapi = new Sprite(5,5);
+    Sprite heart = new Sprite(5, 1);
+    Sprite clock = new Sprite(6, 1);
 
-    Sprite pass = new Sprite(8,12);
-    Sprite PontanOrange = new Sprite(5,12);
 
 }

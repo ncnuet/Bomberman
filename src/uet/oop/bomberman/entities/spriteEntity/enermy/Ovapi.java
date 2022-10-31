@@ -7,9 +7,16 @@ import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.utils.Coordinate;
 
 public final class Ovapi extends Enemy {
-    //TODO: create this
-    private static final Image img = Sprite.ovapi.getFxImage();
+    private static final Image[] left_sprites = new Image[]{
+            Sprite.ovapi_left1.getFxImage(),
+            Sprite.ovapi_left2.getFxImage(),
+            Sprite.ovapi_left3.getFxImage()};
+    private static final Image[] right_sprites = new Image[]{
+            Sprite.ovapi_right1.getFxImage(),
+            Sprite.ovapi_right2.getFxImage(),
+            Sprite.ovapi_right3.getFxImage()};
 
+    private static final Image ovapi_dead = Sprite.ovapi_dead.getFxImage();
 
     /**
      * Constructor.
@@ -21,11 +28,14 @@ public final class Ovapi extends Enemy {
     public Ovapi(int crdX, int crdY, Context context) {
         super(
                 new Coordinate(crdX, crdY),
-                img, context);
+                left_sprites[0], context);
 
-        this.setDeadSprite(img);
+        this.setDeadSprite(ovapi_dead);
+        this.setLeftSprites(left_sprites);
+        this.setRightSprites(right_sprites);
+
         this.setSpeed(4);
-        this.setAI(new AIHigh(this,context));
+        this.setAI(new AIHigh(this, context));
         this.setScore(30);
     }
 }
