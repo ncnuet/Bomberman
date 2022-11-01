@@ -42,7 +42,7 @@ public class EndGameScreen {
         this.canvas.setOnMouseClicked(e -> {
             if (rect.contains(e.getX(),e.getY())){
                 this.canvas.setOnMouseClicked(v->{});
-                this.context.setGameMenu();
+                System.exit(0);
             }
         });
     }

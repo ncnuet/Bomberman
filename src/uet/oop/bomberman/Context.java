@@ -14,6 +14,7 @@ import uet.oop.bomberman.entities.spriteEntity.bomb.Bomb;
 import uet.oop.bomberman.entities.spriteEntity.bomb.Flame;
 import uet.oop.bomberman.entities.spriteEntity.bomber.Bomber;
 import uet.oop.bomberman.entities.spriteEntity.enermy.*;
+import uet.oop.bomberman.exceptions.LoadMapException;
 import uet.oop.bomberman.keyboard.KeyControl;
 import uet.oop.bomberman.map.FileMapLoader;
 import uet.oop.bomberman.map.MapLoader;
@@ -163,12 +164,12 @@ public class Context {
             this.canvas = new Canvas(this.map.getHeightByPixel(), this.map.getWidthByPixel());
             GameValue.setTime(this.map.getTime());
 
-            entities.clear();
-            movableEntities.removeIf((Entity entity) -> {
-                return !(entity instanceof Bomber);
+            entities.forEach((Entity entity) -> entity.setRemoved(true));
+            movableEntities.forEach((Entity entity) -> {
+                if (entity instanceof Bomber) entity.setRemoved(true);
             });
-            bombs.clear();
-            flames.clear();
+            bombs.forEach((Entity entity) -> entity.setRemoved(true));
+            flames.forEach((Entity entity) -> entity.setRemoved(true));
 
             this.map.generateMap(this);
 
@@ -177,7 +178,24 @@ public class Context {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
 
+    public void resetLevel() throws LoadMapException {
+        this.map = new FileMapLoader("Level1");
+        this.canvas = new Canvas(this.map.getHeightByPixel(), this.map.getWidthByPixel());
+        GameValue.setTime(this.map.getTime());
+
+        entities.forEach((Entity entity) -> entity.setRemoved(true));
+        movableEntities.forEach((Entity entity) -> {
+            if (entity instanceof Bomber) entity.setRemoved(true);
+        });
+        bombs.forEach((Entity entity) -> entity.setRemoved(true));
+        flames.forEach((Entity entity) -> entity.setRemoved(true));
+
+        this.map.generateMap(this);
+
+        this.MIN_OFFSET_X = BombermanGame.SCENE_WIDTH - this.map.getWidthByPixel();
+        this.MIN_OFFSET_Y = BombermanGame.SCENE_HEIGHT - this.map.getHeightByPixel();
     }
 
     public void addEntity(Entity entity) {
@@ -311,8 +329,10 @@ public class Context {
 
             keyboard.update();
         } catch (Exception e) {
-            System.out.println("Say hello");
+            System.out.println();
         }
+
+
     }
 
     public void render() {

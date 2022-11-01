@@ -75,7 +75,7 @@ public abstract class Entity {
         return isRemoved;
     }
 
-    protected void setRemoved(boolean removed) {
+    public void setRemoved(boolean removed) {
         this.isRemoved = removed;
     }
 
